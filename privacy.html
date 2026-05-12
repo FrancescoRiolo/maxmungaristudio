@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Privacy Policy — Max Mungari Studio</title>
+  <meta name="description" content="Informativa Cookie e Privacy di Max Mungari Studio. Trattamento dei dati personali e utilizzo dei cookie." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://maxmungaristudio.com/privacy.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Privacy Policy — Max Mungari Studio" />
+  <meta property="og:description" content="Informativa Cookie e Privacy di Max Mungari Studio." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://maxmungaristudio.com/privacy.html" />
+  <meta property="og:image" content="https://maxmungaristudio.com/newassets/og-image.jpg" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:site_name" content="Max Mungari Studio" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="newassets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="newassets/favicon.png" />
+  <link rel="apple-touch-icon" href="newassets/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=Playfair+Display:wght@700&family=Oswald:wght@600&family=Montserrat:wght@800&family=Raleway:wght@800&family=Anton&family=Barlow+Condensed:wght@700&family=Archivo+Black&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── Privacy page specifica ── */
+    #privacy-hero {
+      background: var(--studio-black);
+      padding-top: calc(var(--nav-h) + 2.5rem);
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    @media (min-width: 768px) {
+      #privacy-hero {
+        padding-top: calc(var(--nav-h) + 3rem);
+        padding-bottom: 3rem;
+      }
+    }
+    .privacy-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .privacy-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .privacy-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+    #privacy-content {
+      background: var(--off-white);
+      padding-block: clamp(2rem, 4vw, 3.5rem);
+    }
+    .privacy-body {
+      max-width: 100%;
+      color: var(--text-body);
+    }
+    .privacy-body h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      text-transform: uppercase;
+      color: var(--studio-black);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--orange);
+    }
+    .privacy-body p {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-body);
+      margin-bottom: 1.25rem;
+    }
+    .privacy-body strong {
+      color: var(--studio-black);
+      font-weight: 600;
+    }
+    .privacy-body a {
+      color: var(--orange);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .privacy-body a:hover { opacity: 0.75; }
+    .privacy-titolare {
+      background: var(--light-surface);
+      border-left: 3px solid var(--orange);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .privacy-titolare p { margin: 0; font-size: 0.9rem; line-height: 1.7; }
+    .privacy-last-update {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .privacy-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-top: 2.5rem;
+      transition: gap var(--dur-fast);
+    }
+    .privacy-back:hover { gap: 0.8rem; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==============================
+       NAVBAR
+  ============================== -->
+  <nav id="navbar" role="navigation" aria-label="Navigazione principale">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Max Mungari Studio — torna in cima">
+        <div class="logo-flip-wrap">
+          <div class="logo-flip-inner">
+            <img src="newassets/logo1MM.png" alt="Max Mungari Studio" class="logo-front" width="6440" height="3600" />
+            <img src="newassets/logo2MM.png" alt="" class="logo-back" aria-hidden="true" width="6440" height="3600" />
+          </div>
+        </div>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="index.html#bio">Max Mungari</a></li>
+        <li><a href="index.html#studio">Studio</a></li>
+        <li><a href="index.html#lavori">Lavori</a></li>
+        <li><a href="index.html#contatti">Servizi</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="index.html#contatti" class="nav-cta">Contattami</a></li>
+      </ul>
+
+      <button class="nav-hamburger" id="hamburger" aria-label="Apri menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile overlay -->
+  <div class="nav-mobile" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Menu di navigazione">
+    <a href="index.html#bio"      onclick="closeMobile()">Max Mungari</a>
+    <a href="index.html#studio"   onclick="closeMobile()">Studio</a>
+    <a href="index.html#lavori"   onclick="closeMobile()">Lavori</a>
+    <a href="index.html#contatti" onclick="closeMobile()">Servizi</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="index.html#contatti" onclick="closeMobile()">Contattami</a>
+  </div>
+
+  <!-- ==============================
+       HERO PRIVACY
+  ============================== -->
+  <section id="privacy-hero">
+    <div class="container">
+      <p class="privacy-eyebrow">Informativa</p>
+      <h1 class="privacy-title">Cookie &amp; <em>Privacy.</em></h1>
+    </div>
+  </section>
+
+  <!-- ==============================
+       CONTENUTO PRIVACY
+  ============================== -->
+  <section id="privacy-content">
+    <div class="container">
+      <div class="privacy-body">
+
+        <h2>Informativa Cookie &amp; Privacy</h2>
+
+        <p>Questo sito web raccoglie alcuni dati personali (nome, cognome, telefono, indirizzo email, ecc.) che sono necessari al fine di poter rispondere alle richieste inoltrate per mezzo del modulo contatti presente all'interno, dati che vengono comunque trattati nel pieno rispetto della legge sulla privacy, garantendo la massima riservatezza e sicurezza.</p>
+
+        <p>Il titolare del trattamento dei dati personali è:</p>
+
+        <div class="privacy-titolare">
+          <p>
+            <strong>Massimiliano Mungari</strong><br />
+            Via Lina Merlin n. 1<br />
+            88900 Crotone (KR) Italia<br />
+            Cod. Fisc. MNGMSM76C26D122H
+          </p>
+        </div>
+
+        <p>I dati vengono raccolti e trattati mediante strumenti informatici con modalità strettamente correlate alle specifiche finalità per cui vengono raccolti, sono conservati a cura del titolare presso la propria sede operativa e non saranno mai direttamente ceduti a terzi, né gratuitamente, né tanto meno a pagamento.</p>
+
+        <p>L'utente ha il diritto di conoscere quali sono i dati raccolti e di chiederne la rettifica o la cancellazione, consapevole che, in mancanza però di alcuni di questi dati, non sarà possibile avere comunicazioni o aggiornamenti da parte di chi amministra il sito (es. informazioni sui nuovi contenuti, delucidazioni sui servizi offerti, newsletter, coupon, ecc.)</p>
+
+        <p>Visitando il sito, vengono inoltre raccolte automaticamente alcune informazioni di tracciamento utili per monitorare le visite (dispositivi e browser usati, indirizzo IP, fuso orario, link che hanno portato al sito, pagine visitate, ecc.). Queste informazioni sono raccolte attraverso i cookie, dei piccoli file che vengono memorizzati sul browser, sul disco del computer, sui server nei quali sono ospitate le pagine del sito.</p>
+
+        <p>I cookie non possono comunque identificare un preciso utente, ma vengono utilizzati, per esempio, per il buon funzionamento del sito, per facilitarne la navigazione e l'interattività, per capire e ricordare le nostre preferenze e creare dei profili utenti a scopi pubblicitari e di marketing. Alcuni di questi cookie possono essere necessari anche per poter denunciare eventuali casi di abuso, di copia non autorizzata o danneggiamento del sistema.</p>
+
+        <p>In qualunque momento l'utente può cancellare in modo autonomo i cookie installati utilizzando una funzione specifica del browser usato per navigare, tuttavia questo sito potrebbe non funzionare correttamente se tutti i cookie sono disabilitati.</p>
+
+        <p>È importante sapere che il sito contiene dei link a canali social (Facebook, Instagram, Youtube, ecc.) che potrebbero, una volta cliccati, trasmettere dati di tracciamento verso server esterni non direttamente controllabili dal titolare di questo sito, il quale non potrà essere ritenuto responsabile per come saranno trattati i dati da parte di siti terzi. Pertanto si invita l'utente a leggere sempre con attenzione le informative sulla privacy pubblicate dai rispettivi social network, per conoscere la loro politica sui cookie e sul trattamento dei dati personali.</p>
+
+        <p>La presente informativa potrà essere aggiornata in qualunque momento senza preavviso, si invita quindi l'utente a ritornare di tanto in tanto su questa pagina per informarsi su eventuali modifiche riportate, facendo riferimento alla data indicata in fondo.</p>
+
+        <p>Per qualunque informazione o delucidazione in merito agli argomenti trattati in questa pagina, si prega di inviare una e-mail al seguente indirizzo: <a href="mailto:info@maxmungaristudio.com">info@maxmungaristudio.com</a></p>
+
+        <p class="privacy-last-update">Ultima modifica: <em>1 giugno 2025</em></p>
+
+        <a href="index.html" class="privacy-back">
+          ← Torna al sito
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       FOOTER
+  ============================== -->
+  <footer class="footer-light">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo-wrap">
+          <a href="index.html" class="footer-logo" aria-label="Torna al sito">
+            <img src="newassets/logo1MM.png" alt="Max Mungari Studio" loading="lazy" />
+          </a>
+          <p class="footer-copy">&copy; 2025 Max Mungari Studio</p>
+          <p class="footer-copy footer-credit">Webdesign | <a href="https://francescoriolo.com" target="_blank" rel="noopener">francescoriolo.com</a></p>
+        </div>
+        <p class="footer-copy footer-privacy-link"><a href="privacy.html" class="footer-privacy">Privacy Policy</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Navbar scroll ── */
+    const navbar = document.getElementById('navbar');
+    const tickNav = () => navbar.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', tickNav, { passive: true });
+    tickNav();
+
+    /* ── Hamburger ── */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let menuOpen = false;
+    hamburger.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      hamburger.classList.toggle('open', menuOpen);
+      hamburger.setAttribute('aria-expanded', menuOpen);
+      mobileMenu.classList.toggle('open', menuOpen);
+      mobileMenu.setAttribute('aria-hidden', !menuOpen);
+      document.body.style.overflow = menuOpen ? 'hidden' : '';
+    });
+    function closeMobile() {
+      menuOpen = false;
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', true);
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMobile(); });
+  </script>
+
+</body>
+</html>
