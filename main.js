@@ -57,10 +57,7 @@ if ('IntersectionObserver' in window) {
      type: 'vimeo' → src: ID Vimeo, dura fino alla fine del video
   ════════════════════════════════════════════════ */
   var SLIDES_DESKTOP = [
-    { type: 'video', src: 'newassets/vid1.mp4' },
-    { type: 'video', src: 'newassets/Vid2.mp4' },
-    { type: 'video', src: 'newassets/vid3.mp4' },
-    { type: 'video', src: 'newassets/Vid4.mp4' },
+    { type: 'vimeo', src: '1190963009' },
     { type: 'image', src: 'newassets/hero1.jpeg', duration: 6000 },
     { type: 'image', src: 'newassets/hero2.jpg',  duration: 6000 },
     { type: 'image', src: 'newassets/hero3.jpg',  duration: 6000 },
@@ -73,6 +70,8 @@ if ('IntersectionObserver' in window) {
   var N = SLIDES.length;
   var current = 0;
   var timer = null;
+  var vimeoPlayers = {};
+  var vimeoReady   = {};
 
   /* ── Preload immagini hero in background ── */
   SLIDES.forEach(function(slide) {
@@ -98,16 +97,16 @@ if ('IntersectionObserver' in window) {
       img.decoding = 'async';
       el.appendChild(img);
 
-    } else if (slide.type === 'video') {
+    } else if (slide.type === 'vimeo') {
       el.classList.add('is-video');
-      var vid = document.createElement('video');
-      vid.id = 'video-' + i;
-      vid.src = slide.src;
-      vid.muted = true;
-      vid.playsInline = true;
-      vid.preload = 'auto';
-      vid.setAttribute('playsinline', '');
-      el.appendChild(vid);
+      var iframe = document.createElement('iframe');
+      iframe.id = 'vimeo-' + i;
+      iframe.src = 'https://player.vimeo.com/video/' + slide.src +
+        '?autoplay=0&muted=1&controls=0&loop=0&playsinline=1&background=1';
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.title = '';
+      el.appendChild(iframe);
     }
 
     carousel.appendChild(el);
@@ -115,32 +114,31 @@ if ('IntersectionObserver' in window) {
 
   var slideEls = Array.prototype.slice.call(carousel.querySelectorAll('.hero-slide'));
 
-  var CROSSFADE_MS = 1500; /* durata crossfade in ms */
+  var CROSSFADE_MS = 1500;
 
   function goTo(idx) {
     var next = ((idx % N) + N) % N;
     var leaving = current;
     current = next;
 
-    /* Slide entrante: parte subito (opacity 0 → 1) */
     slideEls[current].classList.add('active');
 
-    /* Reset heroZoom per le immagini entranti */
     var img = slideEls[current].querySelector('img');
     if (img) { img.style.animation = 'none'; img.offsetHeight; img.style.animation = ''; }
 
-    /* Avvia video entrante subito così è visibile durante il crossfade */
-    if (SLIDES[current].type === 'video') {
-      var vidIn = document.getElementById('video-' + current);
-      if (vidIn) { vidIn.currentTime = 0; vidIn.play().catch(function() {}); }
+    if (SLIDES[current].type === 'vimeo') {
+      var player = vimeoPlayers[current];
+      if (player && vimeoReady[current]) {
+        player.setCurrentTime(0).then(function() { player.play(); });
+      }
     }
 
-    /* Slide uscente: lasciala visibile durante il crossfade, poi rimuovi active */
     setTimeout(function() {
       slideEls[leaving].classList.remove('active');
-      /* Pausa video uscente solo dopo che è scomparso */
-      var vidOut = slideEls[leaving].querySelector('video');
-      if (vidOut) { vidOut.pause(); vidOut.currentTime = 0; }
+      if (SLIDES[leaving].type === 'vimeo') {
+        var p = vimeoPlayers[leaving];
+        if (p) { p.pause(); p.setCurrentTime(0); }
+      }
     }, CROSSFADE_MS);
 
     clearTimeout(timer);
@@ -149,30 +147,46 @@ if ('IntersectionObserver' in window) {
       var c = current;
       timer = setTimeout(function() { goTo(c + 1); }, SLIDES[current].duration);
     }
-    /* Per i video il timer è gestito dall'evento 'ended' */
   }
 
-  /* ── Inizializza video HTML5 ── */
-  SLIDES.forEach(function(slide, i) {
-    if (slide.type !== 'video') return;
-    (function(idx) {
-      var vid = document.getElementById('video-' + idx);
-      if (!vid) return;
-      /* Quando finisce passa alla slide successiva */
-      vid.addEventListener('ended', function() {
-        clearTimeout(timer);
-        goTo(idx + 1);
-      });
-      /* Se è il primo slide, avvia subito */
-      if (idx === 0) {
-        vid.play().catch(function() {});
-      }
-    })(i);
-  });
+  /* ── Inizializza player Vimeo ── */
+  var hasVimeo = SLIDES.some(function(s) { return s.type === 'vimeo'; });
+  if (hasVimeo) {
+    function initVimeoPlayers() {
+      SLIDES.forEach(function(slide, i) {
+        if (slide.type !== 'vimeo') return;
+        var iframe = document.getElementById('vimeo-' + i);
+        var player = new Vimeo.Player(iframe);
+        vimeoPlayers[i] = player;
 
-  /* Avvia il carosello */
-  if (SLIDES[0].type === 'video') {
-    /* niente timer — aspetta evento 'ended'. Fallback 60s */
+        player.ready().then(function() {
+          vimeoReady[i] = true;
+          /* Avvia subito in mute — anche durante l'intro screen.
+             Il video gira in background così quando l'utente entra è già bufferizzato.
+             Se non è la slide attiva verrà riportato a 0 quando toccherà a lui. */
+          player.play().catch(function() {});
+        });
+
+        (function(idx) {
+          player.on('ended', function() {
+            /* Ignora se l'intro è ancora visibile */
+            if (document.getElementById('intro-screen')) return;
+            clearTimeout(timer);
+            goTo(idx + 1);
+          });
+        })(i);
+      });
+    }
+
+    if (typeof Vimeo !== 'undefined') {
+      initVimeoPlayers();
+    } else {
+      document.addEventListener('DOMContentLoaded', initVimeoPlayers);
+    }
+  }
+
+  /* Avvia carosello */
+  if (SLIDES[0].type === 'vimeo') {
     timer = setTimeout(function() { if (current === 0) goTo(1); }, 60000);
   } else if (SLIDES[0].type === 'image') {
     if (N > 1) timer = setTimeout(function() { goTo(1); }, SLIDES[0].duration);

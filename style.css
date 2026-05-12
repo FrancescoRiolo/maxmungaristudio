@@ -517,9 +517,8 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   transform: scale(1.06);
   animation: heroZoom 14s var(--ease-expo) forwards;
 }
-/* Slide video — iframe e video HTML5 coprono tutta la hero */
-.hero-slide iframe,
-.hero-slide video {
+/* Slide video — iframe Vimeo copre tutta la hero */
+.hero-slide iframe {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -527,7 +526,6 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   height: max(100vh, calc(100vw * 9 / 16));
   border: none;
   pointer-events: none;
-  object-fit: cover;
 }
 /* overlay scuro su ogni slide */
 .hero-slide::after {
