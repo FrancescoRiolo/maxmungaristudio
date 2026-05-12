@@ -57,7 +57,10 @@ if ('IntersectionObserver' in window) {
      type: 'vimeo' → src: ID Vimeo, dura fino alla fine del video
   ════════════════════════════════════════════════ */
   var SLIDES_DESKTOP = [
-    { type: 'vimeo', src: '1190963009' },
+    { type: 'video', src: 'newassets/vid1.mp4' },
+    { type: 'video', src: 'newassets/Vid2.mp4' },
+    { type: 'video', src: 'newassets/vid3.mp4' },
+    { type: 'video', src: 'newassets/Vid4.mp4' },
     { type: 'image', src: 'newassets/hero1.jpeg', duration: 6000 },
     { type: 'image', src: 'newassets/hero2.jpg',  duration: 6000 },
     { type: 'image', src: 'newassets/hero3.jpg',  duration: 6000 },
@@ -70,8 +73,6 @@ if ('IntersectionObserver' in window) {
   var N = SLIDES.length;
   var current = 0;
   var timer = null;
-  var vimeoPlayers = {}; /* idx → Vimeo.Player */
-  var vimeoReady = {};   /* idx → bool: player pronto a giocare */
 
   /* ── Preload immagini hero in background ── */
   SLIDES.forEach(function(slide) {
@@ -97,18 +98,16 @@ if ('IntersectionObserver' in window) {
       img.decoding = 'async';
       el.appendChild(img);
 
-    } else if (slide.type === 'vimeo') {
+    } else if (slide.type === 'video') {
       el.classList.add('is-video');
-      /* L'iframe viene creato subito così il browser fa preconnect e buffering */
-      var iframe = document.createElement('iframe');
-      iframe.id = 'vimeo-' + i;
-      /* Autoplay=0 finché non è il momento — il player API gestirà il play */
-      iframe.src = 'https://player.vimeo.com/video/' + slide.src +
-        '?autoplay=0&muted=1&controls=0&loop=0&playsinline=1&background=1';
-      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.title = '';
-      el.appendChild(iframe);
+      var vid = document.createElement('video');
+      vid.id = 'video-' + i;
+      vid.src = slide.src;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.preload = 'auto';
+      vid.setAttribute('playsinline', '');
+      el.appendChild(vid);
     }
 
     carousel.appendChild(el);
@@ -116,83 +115,66 @@ if ('IntersectionObserver' in window) {
 
   var slideEls = Array.prototype.slice.call(carousel.querySelectorAll('.hero-slide'));
 
+  var CROSSFADE_MS = 1500; /* durata crossfade in ms */
+
   function goTo(idx) {
     var next = ((idx % N) + N) % N;
-    slideEls[current].classList.remove('active');
+    var leaving = current;
     current = next;
+
+    /* Slide entrante: parte subito (opacity 0 → 1) */
     slideEls[current].classList.add('active');
 
-    /* Reset heroZoom per le immagini */
+    /* Reset heroZoom per le immagini entranti */
     var img = slideEls[current].querySelector('img');
     if (img) { img.style.animation = 'none'; img.offsetHeight; img.style.animation = ''; }
+
+    /* Avvia video entrante subito così è visibile durante il crossfade */
+    if (SLIDES[current].type === 'video') {
+      var vidIn = document.getElementById('video-' + current);
+      if (vidIn) { vidIn.currentTime = 0; vidIn.play().catch(function() {}); }
+    }
+
+    /* Slide uscente: lasciala visibile durante il crossfade, poi rimuovi active */
+    setTimeout(function() {
+      slideEls[leaving].classList.remove('active');
+      /* Pausa video uscente solo dopo che è scomparso */
+      var vidOut = slideEls[leaving].querySelector('video');
+      if (vidOut) { vidOut.pause(); vidOut.currentTime = 0; }
+    }, CROSSFADE_MS);
 
     clearTimeout(timer);
 
     if (SLIDES[current].type === 'image') {
       var c = current;
       timer = setTimeout(function() { goTo(c + 1); }, SLIDES[current].duration);
-
-    } else if (SLIDES[current].type === 'vimeo') {
-      /* Video: riavvia dall'inizio e aspetta evento ended */
-      var player = vimeoPlayers[current];
-      if (player) {
-        player.setCurrentTime(0).then(function() { player.play(); });
-      }
     }
+    /* Per i video il timer è gestito dall'evento 'ended' */
   }
 
-  /* ── Inizializza player Vimeo — API già disponibile (caricata nell'<head>) ── */
-  var hasVimeo = SLIDES.some(function(s) { return s.type === 'vimeo'; });
-  if (hasVimeo) {
-    function initVimeoPlayers() {
-      SLIDES.forEach(function(slide, i) {
-        if (slide.type !== 'vimeo') return;
-        var iframe = document.getElementById('vimeo-' + i);
-        var player = new Vimeo.Player(iframe);
-        vimeoPlayers[i] = player;
-
-        /* Avvia subito il buffering in background:
-           play() funziona perché muted=1 (no user gesture needed).
-           Se NON è la slide attiva, pausa subito dopo — il browser
-           ha già scaricato i primi secondi e li tiene in cache. */
-        player.ready().then(function() {
-          player.play().then(function() {
-            if (current !== i) {
-              player.setCurrentTime(0);
-              player.pause();
-            }
-          }).catch(function() { /* autoplay bloccato — gestito da goTo */ });
-        });
-
-        /* Quando il video finisce, passa alla slide successiva */
-        (function(idx) {
-          player.on('ended', function() {
-            clearTimeout(timer);
-            goTo(idx + 1);
-          });
-        })(i);
+  /* ── Inizializza video HTML5 ── */
+  SLIDES.forEach(function(slide, i) {
+    if (slide.type !== 'video') return;
+    (function(idx) {
+      var vid = document.getElementById('video-' + idx);
+      if (!vid) return;
+      /* Quando finisce passa alla slide successiva */
+      vid.addEventListener('ended', function() {
+        clearTimeout(timer);
+        goTo(idx + 1);
       });
-    }
+      /* Se è il primo slide, avvia subito */
+      if (idx === 0) {
+        vid.play().catch(function() {});
+      }
+    })(i);
+  });
 
-    /* Se Vimeo è già pronto (script sincrono nell'head), inizializza subito.
-       Altrimenti aspetta il DOMContentLoaded come fallback. */
-    if (typeof Vimeo !== 'undefined') {
-      initVimeoPlayers();
-    } else {
-      document.addEventListener('DOMContentLoaded', initVimeoPlayers);
-    }
-  }
-
-  /* Avvia il carosello:
-     - Se la prima slide è un video: niente timer, aspetta evento 'ended'
-       (fallback: se dopo 60s il video non è partito/finito, forza avanzamento)
-     - Se è un'immagine: timer normale */
-  if (SLIDES[0].type === 'vimeo') {
-    timer = setTimeout(function() {
-      if (current === 0) goTo(1);
-    }, 60000); /* fallback di sicurezza — 60s */
+  /* Avvia il carosello */
+  if (SLIDES[0].type === 'video') {
+    /* niente timer — aspetta evento 'ended'. Fallback 60s */
+    timer = setTimeout(function() { if (current === 0) goTo(1); }, 60000);
   } else if (SLIDES[0].type === 'image') {
-    /* Mobile: immagine statica fissa, nessun timer */
     if (N > 1) timer = setTimeout(function() { goTo(1); }, SLIDES[0].duration);
   }
 
@@ -211,8 +193,7 @@ if ('IntersectionObserver' in window) {
 
 })();
 
-/* ── Intro screen — attivata dal click utente ── */
-/* ── Intro: particelle di dispersione ── */
+/* ── Intro: dispersione logo + particelle ── */
 function launchParticles(logoEl) {
   var canvas = document.createElement('canvas');
   canvas.id = 'intro-particles';
