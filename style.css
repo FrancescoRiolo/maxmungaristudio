@@ -213,6 +213,8 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   width: auto;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  shape-rendering: geometricPrecision;
+  image-rendering: high-quality;
 }
 .logo-front {
   position: relative;
@@ -389,6 +391,8 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   height: auto;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  shape-rendering: geometricPrecision;
+  image-rendering: high-quality;
 }
 .intro-logo-back {
   position: absolute;
@@ -406,6 +410,20 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   74%  { transform: scale(6.0) rotateY(180deg); opacity: 0.25; }
   88%  { transform: scale(7.2) rotateY(180deg); opacity: 0.05; }
   100% { transform: scale(8.0) rotateY(180deg); opacity: 0; }
+}
+
+@keyframes introDisperse {
+  0%   { transform: scale(1);   opacity: 1; filter: blur(0px); }
+  30%  { transform: scale(1.6); opacity: 0.8; filter: blur(1px); }
+  65%  { transform: scale(2.8); opacity: 0.3; filter: blur(6px); }
+  100% { transform: scale(4.2); opacity: 0;   filter: blur(18px); }
+}
+
+#intro-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 #intro-enter-btn {
@@ -2346,6 +2364,8 @@ footer.footer-light {
   height: 28px;
   width: auto;
   filter: brightness(0); /* logo nero su sfondo beige */
+  shape-rendering: geometricPrecision;
+  image-rendering: high-quality;
 }
 .footer-light .footer-copy {
   font-family: var(--font-ui);

@@ -212,6 +212,83 @@ if ('IntersectionObserver' in window) {
 })();
 
 /* ── Intro screen — attivata dal click utente ── */
+/* ── Intro: particelle di dispersione ── */
+function launchParticles(logoEl) {
+  var canvas = document.createElement('canvas');
+  canvas.id = 'intro-particles';
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+  var ctx = canvas.getContext('2d');
+
+  /* Centro del logo */
+  var rect = logoEl.getBoundingClientRect();
+  var cx = rect.left + rect.width  / 2;
+  var cy = rect.top  + rect.height / 2;
+
+  /* Colori dal design system */
+  var COLORS = ['#e8871a', '#ffffff', '#c4a882', '#d4956a', '#f5f0ea'];
+
+  /* Genera particelle */
+  var COUNT = 80;
+  var particles = [];
+  for (var i = 0; i < COUNT; i++) {
+    var angle  = Math.random() * Math.PI * 2;
+    var speed  = 1.5 + Math.random() * 5.5;
+    var size   = 2 + Math.random() * 6;
+    var life   = 0.6 + Math.random() * 0.4; /* durata relativa 0–1 */
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - (Math.random() * 1.5), /* leggero drift in su */
+      size: size,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      alpha: 1,
+      life: life,
+      decay: 0.012 + Math.random() * 0.018
+    });
+  }
+
+  var startTime = null;
+  var DURATION  = 1400; /* ms totali animazione particelle */
+
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var elapsed = ts - startTime;
+    var progress = Math.min(elapsed / DURATION, 1);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(function(p) {
+      if (p.alpha <= 0) return;
+
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy += 0.06; /* gravità leggera */
+      p.vx *= 0.98; /* attrito aria */
+      p.alpha -= p.decay;
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.fillStyle   = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur  = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * (1 - progress * 0.4), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      canvas.remove();
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
 (function() {
   var screen = document.getElementById('intro-screen');
   var inner  = document.getElementById('introLogoInner');
@@ -264,28 +341,31 @@ if ('IntersectionObserver' in window) {
       }, T_MOBILE_FADE + 50);
 
     } else {
-      /* ── Desktop: zoom + flip in simultanea ── */
-      inner.style.animation = 'none';
-      inner.offsetHeight;
-      inner.style.animation = 'introZoomFlip ' + T_LOGO + 'ms cubic-bezier(0.4,0,1,1) forwards';
+      /* ── Desktop: dispersione + particelle ── */
+      var T_DISPERSE = 900;  /* durata animazione logo */
+      var T_BGFADE2  = 1200; /* fade schermo dopo dispersione */
 
-      /* Schermo: inizia a sparire dopo T_BGDELAY */
+      /* 1. Lancia le particelle dal logo */
+      // launchParticles(inner);
+
+      /* 2. Anima il logo: scala + blur + fade */
+      inner.style.transition = 'none';
+      inner.offsetHeight;
+      inner.style.animation = 'introDisperse ' + T_DISPERSE + 'ms cubic-bezier(0.2,0,0.8,1) forwards';
+
+      /* 3. Fade schermo */
       setTimeout(function() {
-        screen.style.transition = 'opacity ' + T_BGFADE + 'ms ease';
+        screen.style.transition = 'opacity ' + T_BGFADE2 + 'ms ease';
         screen.style.opacity = '0';
         screen.style.pointerEvents = 'none';
-      }, T_BGDELAY);
-
-      /* Scrollbar appare quando lo zoom è terminato */
-      setTimeout(function() {
         document.body.style.overflow = '';
-      }, T_LOGO);
+      }, T_DISPERSE * 0.4);
 
-      /* Rimozione dal DOM al termine del fade */
+      /* 4. Rimozione DOM */
       setTimeout(function() {
         screen.remove();
         sessionStorage.setItem('introPlayed', '1');
-      }, T_BGDELAY + T_BGFADE + 100);
+      }, T_DISPERSE + T_BGFADE2 + 100);
     }
   }
 
