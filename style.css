@@ -1181,18 +1181,16 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 }
 
 .studio-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
   margin-bottom: var(--space-lg);
   position: relative;
   z-index: 1;
 }
 .studio-desc {
-  max-width: 38ch;
-  color: var(--text-body);
-  font-size: 0.93rem;
-  line-height: 1.8;
+  color: var(--mid-gray);
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.7;
+  max-width: 52ch;
+  margin-top: 1.5rem;
 }
 /* Mobile: hide desktop desc, show mobile desc below gallery */
 .studio-desc-mobile { display: none; }
@@ -1204,6 +1202,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     margin-top: 1.5rem;
     position: relative;
     z-index: 1;
+    font-size: 0.95rem;
   }
 }
 
