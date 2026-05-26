@@ -46,164 +46,145 @@ if ('IntersectionObserver' in window) {
   var carousel = document.getElementById('heroCarousel');
   if (!carousel) return;
 
-  var MOBILE_BP = 768; /* breakpoint mobile/tablet */
-  var isMobile = window.innerWidth < MOBILE_BP;
+  var MOBILE_BP   = 768;
+  var CROSSFADE   = 800;   /* ms crossfade tra slide */
+  var isMobile    = window.innerWidth < MOBILE_BP;
 
   /* ═══════════════════════════════════════════════
-     MODIFICARE QUESTO COMPONENTE PER AGGIUNGERE VIDEO O IMMAGINI
-     ─────────────────────────────────────────────
-     Ordine desktop: video → hero1 → hero2 → hero3 → (loop)
-     type: 'image' → src: percorso, duration: ms di pausa
-     type: 'vimeo' → src: ID Vimeo, dura fino alla fine del video
+     SLIDES — aggiungi/rimuovi qui
+     type:'vimeo'  src: ID Vimeo  (dura fino a ended)
+     type:'image'  src: path      duration: ms
   ════════════════════════════════════════════════ */
-  var SLIDES_DESKTOP = [
-    { type: 'vimeo', src: '1190963009' },
-    { type: 'image', src: 'newassets/hero1.jpeg', duration: 6000 },
-    { type: 'image', src: 'newassets/hero2.jpg',  duration: 6000 },
-    { type: 'image', src: 'newassets/hero3.jpg',  duration: 6000 },
-    { type: 'image', src: 'newassets/hero4.jpg',  duration: 6000 }
-  ];
+  var SLIDES = isMobile
+    ? [{ type: 'image', src: 'newassets/heromobile.jpg', duration: 999999 }]
+    : [
+        { type: 'vimeo', src: '1190963009' },
+        { type: 'image', src: 'newassets/hero1.jpeg', duration: 6000 },
+        { type: 'image', src: 'newassets/hero2.jpg',  duration: 6000 },
+        { type: 'image', src: 'newassets/hero3.jpg',  duration: 6000 },
+        { type: 'image', src: 'newassets/hero4.jpg',  duration: 6000 }
+      ];
 
-  var SLIDES = isMobile ? [
-    { type: 'image', src: 'newassets/heromobile.jpg', duration: 999999 }
-  ] : SLIDES_DESKTOP;
-  var N = SLIDES.length;
-  var current = 0;
-  var timer = null;
-  var vimeoPlayers = {};
-  var vimeoReady   = {};
+  var N       = SLIDES.length;
+  var cur     = 0;
+  var timer   = null;
+  var player  = null;   /* unico player Vimeo */
+  var ready   = false;  /* player pronto */
 
-  /* ── Preload immagini hero in background ── */
-  SLIDES.forEach(function(slide) {
-    if (slide.type !== 'image') return;
-    var link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = slide.src;
-    document.head.appendChild(link);
-  });
-
-  /* Costruisce tutte le slide nel DOM */
-  SLIDES.forEach(function(slide, i) {
+  /* ── Costruisce DOM ── */
+  SLIDES.forEach(function(s, i) {
     var el = document.createElement('div');
     el.className = 'hero-slide' + (i === 0 ? ' active' : '');
     el.id = 'slide-' + i;
 
-    if (slide.type === 'image') {
+    if (s.type === 'image') {
       var img = document.createElement('img');
-      img.src = slide.src;
-      img.alt = '';
-      img.fetchPriority = 'low';
+      img.src = s.src; img.alt = '';
       img.decoding = 'async';
       el.appendChild(img);
 
-    } else if (slide.type === 'vimeo') {
+    } else if (s.type === 'vimeo') {
       el.classList.add('is-video');
-      var iframe = document.createElement('iframe');
-      iframe.id = 'vimeo-' + i;
-      iframe.src = 'https://player.vimeo.com/video/' + slide.src +
-        '?autoplay=0&muted=1&controls=0&loop=0&playsinline=1&background=1';
-      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.title = '';
-      el.appendChild(iframe);
+      var ifr = document.createElement('iframe');
+      ifr.id  = 'vimeo-hero';
+      ifr.src = 'https://player.vimeo.com/video/' + s.src +
+                '?autoplay=0&muted=1&controls=0&loop=0&playsinline=1&background=1';
+      ifr.allow = 'autoplay; fullscreen; picture-in-picture';
+      ifr.setAttribute('allowfullscreen', '');
+      ifr.title = '';
+      el.appendChild(ifr);
     }
-
     carousel.appendChild(el);
   });
 
-  var slideEls = Array.prototype.slice.call(carousel.querySelectorAll('.hero-slide'));
+  var els = Array.prototype.slice.call(carousel.querySelectorAll('.hero-slide'));
 
-  var CROSSFADE_MS = 1500;
-
+  /* ── goTo: crossfade tra slide ── */
   function goTo(idx) {
-    var next = ((idx % N) + N) % N;
-    var leaving = current;
-    current = next;
+    var next    = ((idx % N) + N) % N;
+    var leaving = cur;
+    cur = next;
 
-    slideEls[current].classList.add('active');
+    /* Slide entrante visibile */
+    els[cur].classList.add('active');
 
-    var img = slideEls[current].querySelector('img');
+    /* Reset zoom immagine entrante */
+    var img = els[cur].querySelector('img');
     if (img) { img.style.animation = 'none'; img.offsetHeight; img.style.animation = ''; }
 
-    if (SLIDES[current].type === 'vimeo') {
-      var player = vimeoPlayers[current];
-      if (player && vimeoReady[current]) {
-        player.setCurrentTime(0).then(function() { player.play(); });
-      }
+    /* Avvia video se è un vimeo */
+    if (SLIDES[cur].type === 'vimeo' && player && ready) {
+      player.setCurrentTime(0).then(function() { player.play(); });
     }
 
+    /* Dopo crossfade: togli la slide uscente */
     setTimeout(function() {
-      slideEls[leaving].classList.remove('active');
-      if (SLIDES[leaving].type === 'vimeo') {
-        var p = vimeoPlayers[leaving];
-        if (p) { p.pause(); p.setCurrentTime(0); }
-      }
-    }, CROSSFADE_MS);
+      els[leaving].classList.remove('active');
+    }, CROSSFADE);
 
+    /* Timer per immagini */
     clearTimeout(timer);
-
-    if (SLIDES[current].type === 'image') {
-      var c = current;
-      timer = setTimeout(function() { goTo(c + 1); }, SLIDES[current].duration);
+    if (SLIDES[cur].type === 'image') {
+      var c = cur;
+      timer = setTimeout(function() { goTo(c + 1); }, SLIDES[cur].duration);
     }
   }
 
-  /* ── Inizializza player Vimeo ── */
-  var hasVimeo = SLIDES.some(function(s) { return s.type === 'vimeo'; });
-  if (hasVimeo) {
-    function initVimeoPlayers() {
-      SLIDES.forEach(function(slide, i) {
-        if (slide.type !== 'vimeo') return;
-        var iframe = document.getElementById('vimeo-' + i);
-        var player = new Vimeo.Player(iframe);
-        vimeoPlayers[i] = player;
+  /* ── Inizializza Vimeo se presente ── */
+  var vimeoIdx = -1;
+  SLIDES.forEach(function(s, i) { if (s.type === 'vimeo') vimeoIdx = i; });
 
-        player.ready().then(function() {
-          vimeoReady[i] = true;
-          /* Avvia subito in mute — anche durante l'intro screen.
-             Il video gira in background così quando l'utente entra è già bufferizzato.
-             Se non è la slide attiva verrà riportato a 0 quando toccherà a lui. */
-          player.play().catch(function() {});
+  if (vimeoIdx >= 0) {
+    function initPlayer() {
+      var ifr = document.getElementById('vimeo-hero');
+      if (!ifr || typeof Vimeo === 'undefined') return;
+      player = new Vimeo.Player(ifr);
+
+      player.ready().then(function() {
+        ready = true;
+        /* Avvia subito per bufferizzare (anche sotto l'intro) */
+        player.play().catch(function() {});
+        /* Preload immagini mentre il video carica */
+        SLIDES.forEach(function(s) {
+          if (s.type === 'image') { var x = new Image(); x.src = s.src; }
         });
+      });
 
-        (function(idx) {
-          player.on('ended', function() {
-            /* Ignora se l'intro è ancora visibile */
-            if (document.getElementById('intro-screen')) return;
-            clearTimeout(timer);
-            goTo(idx + 1);
-          });
-        })(i);
+      player.on('ended', function() {
+        if (document.getElementById('intro-screen')) {
+          /* Intro ancora aperta: riparti da 0 in loop finché non entra */
+          player.setCurrentTime(0).then(function() { player.play(); });
+          return;
+        }
+        clearTimeout(timer);
+        goTo(vimeoIdx + 1);
       });
     }
 
     if (typeof Vimeo !== 'undefined') {
-      initVimeoPlayers();
+      initPlayer();
     } else {
-      document.addEventListener('DOMContentLoaded', initVimeoPlayers);
+      document.addEventListener('DOMContentLoaded', initPlayer);
     }
   }
 
-  /* Avvia carosello */
-  if (SLIDES[0].type === 'vimeo') {
-    timer = setTimeout(function() { if (current === 0) goTo(1); }, 60000);
-  } else if (SLIDES[0].type === 'image') {
-    if (N > 1) timer = setTimeout(function() { goTo(1); }, SLIDES[0].duration);
+  /* ── Avvio carosello ── */
+  if (SLIDES[0].type === 'image') {
+    timer = setTimeout(function() { goTo(1); }, SLIDES[0].duration);
   }
+  /* Per vimeo: il timer parte dall'evento ended */
 
-  /* ── Resize: se si passa da mobile a desktop (o viceversa) ricarica la pagina
-     così il carosello viene reinizializzato con le slide corrette ── */
-  var _resizeTO;
+  /* ── Resize reload ── */
+  var _rt;
   window.addEventListener('resize', function() {
-    clearTimeout(_resizeTO);
-    _resizeTO = setTimeout(function() {
-      var nowMobile = window.innerWidth < MOBILE_BP;
-      if (nowMobile !== isMobile) {
-        window.location.reload();
-      }
+    clearTimeout(_rt);
+    _rt = setTimeout(function() {
+      if ((window.innerWidth < MOBILE_BP) !== isMobile) window.location.reload();
     }, 300);
   });
+
+  /* ── Esponi player per l'intro ── */
+  window.__heroVimeoPlayer = function() { return player; };
 
 })();
 
@@ -296,7 +277,9 @@ function launchParticles(logoEl) {
     return;
   }
 
-  /* Blocca scroll mentre l'intro è visibile */
+  /* Blocca scroll e nasconde scrollbar mentre l'intro è visibile */
+  document.documentElement.classList.add('intro-visible');
+  document.body.classList.add('intro-visible');
   document.body.style.overflow = 'hidden';
 
   /* Rileva dispositivi touch / mobile-tablet (< 1024px o touchscreen) */
@@ -331,6 +314,8 @@ function launchParticles(logoEl) {
       screen.style.pointerEvents = 'none';
       setTimeout(function() {
         screen.remove();
+        document.documentElement.classList.remove('intro-visible');
+        document.body.classList.remove('intro-visible');
         document.body.style.overflow = '';
         sessionStorage.setItem('introPlayed', '1');
       }, T_MOBILE_FADE + 50);
@@ -353,7 +338,13 @@ function launchParticles(logoEl) {
         screen.style.transition = 'opacity ' + T_BGFADE2 + 'ms ease';
         screen.style.opacity = '0';
         screen.style.pointerEvents = 'none';
+        document.documentElement.classList.remove('intro-visible');
+        document.body.classList.remove('intro-visible');
         document.body.style.overflow = '';
+
+        /* Riavvia il video Vimeo dall'inizio quando l'intro scompare */
+        var p0 = window.__heroVimeoPlayer && window.__heroVimeoPlayer();
+        if (p0) { p0.setCurrentTime(0).then(function() { p0.play(); }); }
       }, T_DISPERSE * 0.4);
 
       /* 4. Rimozione DOM */
@@ -364,6 +355,74 @@ function launchParticles(logoEl) {
     }
   }
 
+  /* ── Neon reveal: stroke dashoffset lettera per lettera, in loop ── */
+  (function() {
+    var strokeGroup = document.getElementById('studio-neon-stroke');
+    var fillOn      = document.getElementById('studio-fill-on');
+    if (!strokeGroup || !fillOn) return;
+
+    var paths = Array.prototype.slice.call(strokeGroup.querySelectorAll('.neon-path'));
+    if (!paths.length) return;
+
+    var LETTER_DUR   = 160;
+    var OVERLAP      = 40;
+    var FIRST_DELAY  = 400;
+    var LIT_DURATION = 6000;
+    var DARK_PAUSE   = 800;
+    var LOOP_DELAY   = 500;
+
+    var revealTime = paths.length * (LETTER_DUR - OVERLAP) + LETTER_DUR;
+    var lengths = paths.map(function(p) { return p.getTotalLength(); });
+
+    function resetPaths() {
+      paths.forEach(function(p, i) {
+        p.style.transition       = 'none';
+        p.style.strokeDasharray  = lengths[i] + ' ' + lengths[i];
+        p.style.strokeDashoffset = lengths[i];
+      });
+    }
+
+    function runReveal(onComplete) {
+      strokeGroup.style.transition = 'none';
+      strokeGroup.style.opacity    = '1';
+      paths.forEach(function(p, i) {
+        var delay = i * (LETTER_DUR - OVERLAP);
+        setTimeout(function() {
+          p.style.transition       = 'stroke-dashoffset ' + LETTER_DUR + 'ms ease-in-out';
+          p.style.strokeDashoffset = '0';
+        }, delay);
+      });
+      setTimeout(onComplete, revealTime + 80);
+    }
+
+    function runLit(onComplete) {
+      fillOn.style.transition      = 'opacity 300ms ease';
+      fillOn.style.opacity         = '1';
+      strokeGroup.style.transition = 'opacity 300ms ease';
+      strokeGroup.style.opacity    = '0';
+      setTimeout(onComplete, LIT_DURATION);
+    }
+
+    function runDark(onComplete) {
+      fillOn.style.transition = 'opacity 400ms ease';
+      fillOn.style.opacity    = '0';
+      setTimeout(onComplete, 400 + DARK_PAUSE);
+    }
+
+    function cycle() {
+      resetPaths();
+      runReveal(function() {
+        runLit(function() {
+          runDark(function() {
+            setTimeout(cycle, LOOP_DELAY);
+          });
+        });
+      });
+    }
+
+    setTimeout(cycle, FIRST_DELAY);
+  })();
+
   btn.addEventListener('click', startTransition);
 
   /* Consenti anche la pressione di Invio/Spazio da tastiera */
@@ -373,6 +432,68 @@ function launchParticles(logoEl) {
       startTransition();
     }
   });
+})();
+
+/* ── Showcase paginato ── */
+(function() {
+  var wrap     = document.querySelector('.showcase-wrap');
+  var viewport = document.querySelector('.showcase-viewport');
+  var grid     = document.querySelector('.showcase-grid');
+  var btnPrev  = document.querySelector('.showcase-prev');
+  var btnNext  = document.querySelector('.showcase-next');
+  if (!wrap || !grid || !btnPrev || !btnNext) return;
+
+  var W = window.innerWidth;
+  var COLS, ROWS = 2;
+
+  if (W >= 1920)      COLS = 10;
+  else if (W >= 768)  COLS = 6;
+  else if (W >= 481)  COLS = 4;
+  else return; /* smartphone: CSS scroll touch, niente JS */
+
+  var items      = Array.prototype.slice.call(grid.querySelectorAll('.showcase-item'));
+  var perPage    = COLS * ROWS;
+  var totalPages = Math.ceil(items.length / perPage);
+  var curPage    = 0;
+
+  /* Layout: griglia larga totalPages pagine affiancate */
+  grid.style.gridTemplateColumns = 'repeat(' + (COLS * totalPages) + ', 1fr)';
+  grid.style.width = (totalPages * 100) + '%';
+
+  /* Ogni item occupa 1 colonna della griglia espansa */
+  /* Raggruppa items in pagine: riordina per colonna-pagina */
+  /* La griglia CSS naturalmente dispone left-to-right, dobbiamo
+     assicurarci che dopo COLS item per riga si vada alla riga successiva
+     DENTRO la stessa pagina. Usiamo CSS grid-column per forzare. */
+  items.forEach(function(item, i) {
+    var page    = Math.floor(i / perPage);
+    var posInPage = i % perPage;
+    var col     = page * COLS + (posInPage % COLS) + 1;
+    var row     = Math.floor(posInPage / COLS) + 1;
+    item.style.gridColumn = col;
+    item.style.gridRow    = row;
+  });
+
+  function goTo(page) {
+    curPage = Math.max(0, Math.min(page, totalPages - 1));
+    var offset = curPage * (100 / totalPages);
+    grid.style.transform = 'translateX(-' + offset + '%)';
+    btnPrev.disabled = curPage === 0;
+    btnNext.disabled = curPage === totalPages - 1;
+  }
+
+  btnPrev.addEventListener('click', function() { goTo(curPage - 1); });
+  btnNext.addEventListener('click', function() { goTo(curPage + 1); });
+
+  /* Swipe touch */
+  var touchStartX = 0;
+  viewport.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  viewport.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? curPage + 1 : curPage - 1);
+  }, { passive: true });
+
+  goTo(0);
 })();
 
 /* ── Studio gallery carousel (solo mobile) ── */
