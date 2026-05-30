@@ -56,7 +56,10 @@ if ('IntersectionObserver' in window) {
      type:'image'  src: path      duration: ms
   ════════════════════════════════════════════════ */
   var SLIDES = isMobile
-    ? [{ type: 'image', src: 'newassets/heromobile.jpg', duration: 999999 }]
+    ? [
+        { type: 'vimeo', src: '1190963009' },
+        { type: 'image', src: 'newassets/heromobile.jpg', duration: 6000 }
+      ]
     : [
         { type: 'vimeo', src: '1190963009' },
         { type: 'image', src: 'newassets/hero1.jpeg', duration: 6000 },
@@ -318,6 +321,7 @@ function launchParticles(logoEl) {
         document.body.classList.remove('intro-visible');
         document.body.style.overflow = '';
         sessionStorage.setItem('introPlayed', '1');
+        if (window.__startSocialHover) window.__startSocialHover();
       }, T_MOBILE_FADE + 50);
 
     } else {
@@ -351,77 +355,12 @@ function launchParticles(logoEl) {
       setTimeout(function() {
         screen.remove();
         sessionStorage.setItem('introPlayed', '1');
+        if (window.__startSocialHover) window.__startSocialHover();
       }, T_DISPERSE + T_BGFADE2 + 100);
     }
   }
 
-  /* ── Neon reveal: stroke dashoffset lettera per lettera, in loop ── */
-  (function() {
-    var strokeGroup = document.getElementById('studio-neon-stroke');
-    var fillOn      = document.getElementById('studio-fill-on');
-    if (!strokeGroup || !fillOn) return;
-
-    var paths = Array.prototype.slice.call(strokeGroup.querySelectorAll('.neon-path'));
-    if (!paths.length) return;
-
-    var LETTER_DUR   = 160;
-    var OVERLAP      = 40;
-    var FIRST_DELAY  = 400;
-    var LIT_DURATION = 6000;
-    var DARK_PAUSE   = 800;
-    var LOOP_DELAY   = 500;
-
-    var revealTime = paths.length * (LETTER_DUR - OVERLAP) + LETTER_DUR;
-    var lengths = paths.map(function(p) { return p.getTotalLength(); });
-
-    function resetPaths() {
-      paths.forEach(function(p, i) {
-        p.style.transition       = 'none';
-        p.style.strokeDasharray  = lengths[i] + ' ' + lengths[i];
-        p.style.strokeDashoffset = lengths[i];
-      });
-    }
-
-    function runReveal(onComplete) {
-      strokeGroup.style.transition = 'none';
-      strokeGroup.style.opacity    = '1';
-      paths.forEach(function(p, i) {
-        var delay = i * (LETTER_DUR - OVERLAP);
-        setTimeout(function() {
-          p.style.transition       = 'stroke-dashoffset ' + LETTER_DUR + 'ms ease-in-out';
-          p.style.strokeDashoffset = '0';
-        }, delay);
-      });
-      setTimeout(onComplete, revealTime + 80);
-    }
-
-    function runLit(onComplete) {
-      fillOn.style.transition      = 'opacity 300ms ease';
-      fillOn.style.opacity         = '1';
-      strokeGroup.style.transition = 'opacity 300ms ease';
-      strokeGroup.style.opacity    = '0';
-      setTimeout(onComplete, LIT_DURATION);
-    }
-
-    function runDark(onComplete) {
-      fillOn.style.transition = 'opacity 400ms ease';
-      fillOn.style.opacity    = '0';
-      setTimeout(onComplete, 400 + DARK_PAUSE);
-    }
-
-    function cycle() {
-      resetPaths();
-      runReveal(function() {
-        runLit(function() {
-          runDark(function() {
-            setTimeout(cycle, LOOP_DELAY);
-          });
-        });
-      });
-    }
-
-    setTimeout(cycle, FIRST_DELAY);
-  })();
+  /* ── Logo landing: SVG esterno via <img>, nessuna animazione DOM necessaria ── */
 
   btn.addEventListener('click', startTransition);
 
@@ -444,20 +383,17 @@ function launchParticles(logoEl) {
   if (!wrap || !grid || !btnPrev || !btnNext) return;
 
   var W = window.innerWidth;
-  var COLS, ROWS = 2;
-
-  if (W >= 1920)      COLS = 10;
-  else if (W >= 768)  COLS = 6;
-  else if (W >= 481)  COLS = 4;
-  else return; /* smartphone: CSS scroll touch, niente JS */
+  var COLS = W >= 1920 ? 4 : 4;
+  var ROWS = 2;
 
   var items      = Array.prototype.slice.call(grid.querySelectorAll('.showcase-item'));
   var perPage    = COLS * ROWS;
   var totalPages = Math.ceil(items.length / perPage);
   var curPage    = 0;
 
-  /* Layout: griglia larga totalPages pagine affiancate */
+  /* Layout: griglia larga totalPages pagine affiancate, ROWS righe fisse */
   grid.style.gridTemplateColumns = 'repeat(' + (COLS * totalPages) + ', 1fr)';
+  grid.style.gridTemplateRows = 'repeat(' + ROWS + ', 1fr)';
   grid.style.width = (totalPages * 100) + '%';
 
   /* Ogni item occupa 1 colonna della griglia espansa */
@@ -482,18 +418,30 @@ function launchParticles(logoEl) {
     btnNext.disabled = curPage === totalPages - 1;
   }
 
-  btnPrev.addEventListener('click', function() { goTo(curPage - 1); });
-  btnNext.addEventListener('click', function() { goTo(curPage + 1); });
+  btnPrev.addEventListener('click', function() { stopAuto(); goTo(curPage - 1); setTimeout(startAuto, 4000); });
+  btnNext.addEventListener('click', function() { stopAuto(); goTo(curPage + 1); setTimeout(startAuto, 4000); });
 
   /* Swipe touch */
   var touchStartX = 0;
   viewport.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
   viewport.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) goTo(dx < 0 ? curPage + 1 : curPage - 1);
+    if (Math.abs(dx) > 50) { stopAuto(); goTo(dx < 0 ? curPage + 1 : curPage - 1); setTimeout(startAuto, 4000); }
   }, { passive: true });
 
+  /* Autoscroll desktop */
+  var autoTimer = null;
+  function startAuto() {
+    autoTimer = setInterval(function() {
+      goTo(curPage < totalPages - 1 ? curPage + 1 : 0);
+    }, 7000);
+  }
+  function stopAuto() { clearInterval(autoTimer); }
+  wrap.addEventListener('mouseenter', stopAuto);
+  wrap.addEventListener('mouseleave', startAuto);
+
   goTo(0);
+  startAuto();
 })();
 
 /* ── Studio gallery carousel (solo mobile) ── */
@@ -518,27 +466,126 @@ document.querySelectorAll('.yt-lazy').forEach(function(el) {
   });
 });
 
-/* ── Avid logo carousel ── */
+/* ── Avid + Eko logo carousel (sincronizzati) ── */
 (function() {
-  /* Gestisce tutti i contenitori avid (bio + hero) in sincronia */
-  var containers = ['#avidCarousel', '#avidCarouselHero'];
-  var allSlides = containers.map(function(sel) {
+  var avidContainers = ['#avidCarousel', '#avidCarouselHero'];
+  var allAvid = avidContainers.map(function(sel) {
     var el = document.querySelector(sel);
     return el ? Array.prototype.slice.call(el.querySelectorAll('.avid-slide')) : [];
   }).filter(function(arr) { return arr.length > 0; });
-  if (!allSlides.length) return;
-  var n = allSlides[0].length;
+
+  var ekoEl = document.querySelector('#ekoCarousel');
+  var ekoSlides = ekoEl ? Array.prototype.slice.call(ekoEl.querySelectorAll('.avid-slide')) : [];
+
+  if (!allAvid.length && !ekoSlides.length) return;
+
+  var avidN = allAvid.length ? allAvid[0].length : 0;
+  var ekoN  = ekoSlides.length;
   var cur = 0;
+
   setInterval(function() {
-    allSlides.forEach(function(slides) {
-      slides[cur].classList.remove('active');
-    });
-    cur = (cur + 1) % n;
-    allSlides.forEach(function(slides) {
-      slides[cur].classList.add('active');
-    });
+    /* Avid */
+    if (avidN) {
+      allAvid.forEach(function(slides) { slides[cur % avidN].classList.remove('active'); });
+    }
+    /* Eko */
+    if (ekoN) {
+      ekoSlides[cur % ekoN].classList.remove('active');
+    }
+
+    cur++;
+
+    /* Avid */
+    if (avidN) {
+      allAvid.forEach(function(slides) { slides[cur % avidN].classList.add('active'); });
+    }
+    /* Eko */
+    if (ekoN) {
+      ekoSlides[cur % ekoN].classList.add('active');
+    }
   }, 2500);
 })();
+
+/* ── Hero social strip coin-flip ── */
+window.__startSocialHover = (function() {
+  var started = false;
+
+  /* Colori brand per ogni social */
+  var BRAND = {
+    'Instagram': { bg: 'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', border: 'transparent' },
+    'Facebook':  { bg: '#1877f2', border: '#1877f2' },
+    'YouTube':   { bg: '#ff0000', border: '#ff0000' }
+  };
+
+  function flipIcon(el, toBrand, cb) {
+    /* Prima metà del flip: nascondi */
+    el.style.transition = 'transform 0.2s ease-in';
+    el.style.transform  = 'rotateY(90deg)';
+    setTimeout(function() {
+      /* A metà flip: cambia colore */
+      if (toBrand) {
+        var label = el.getAttribute('aria-label');
+        var brand = BRAND[label] || { bg: 'rgba(255,255,255,0.2)', border: 'rgba(255,255,255,0.8)' };
+        el.style.background   = brand.bg;
+        el.style.borderColor  = brand.border;
+        el.style.color        = '#fff';
+      } else {
+        el.style.background   = '';
+        el.style.borderColor  = '';
+        el.style.color        = '';
+      }
+      /* Seconda metà del flip: mostra */
+      el.style.transition = 'transform 0.2s ease-out';
+      el.style.transform  = 'rotateY(0deg)';
+      setTimeout(cb, 200);
+    }, 200);
+  }
+
+  function runSequence(icons) {
+    var i = 0;
+    function flipNext() {
+      if (i >= icons.length) {
+        /* Tutti flippati a brand — aspetta 1.5s poi riflippa a ghost */
+        setTimeout(function() {
+          var j = 0;
+          function unflipNext() {
+            if (j >= icons.length) {
+              /* Pausa 10s poi ricomincia */
+              setTimeout(function() { runSequence(icons); }, 10000);
+              return;
+            }
+            flipIcon(icons[j++], false, function() {
+              setTimeout(unflipNext, 150);
+            });
+          }
+          unflipNext();
+        }, 1500);
+        return;
+      }
+      flipIcon(icons[i++], true, function() {
+        setTimeout(flipNext, 150);
+      });
+    }
+    flipNext();
+  }
+
+  return function() {
+    if (started) return;
+    started = true;
+    var icons = Array.prototype.slice.call(
+      document.querySelectorAll('.hero-social-strip .social-icon')
+    );
+    if (!icons.length) return;
+    runSequence(icons);
+  };
+})();
+
+/* Fallback: parte 3s dopo il load se l'intro è già stata saltata */
+window.addEventListener('load', function() {
+  if (sessionStorage.getItem('introPlayed')) {
+    setTimeout(window.__startSocialHover, 3000);
+  }
+});
 
 /* ── Video carousel (Lavori) ── */
 (function() {
@@ -672,3 +719,22 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
+
+
+
+/* ── WhatsApp button visibility ── */
+(function() {
+  var btn = document.getElementById('wa-btn');
+  if (!btn) return;
+  function update() {
+    if (window.scrollY >= 440) {
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    } else {
+      btn.style.opacity = '0';
+      btn.style.pointerEvents = 'none';
+    }
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
