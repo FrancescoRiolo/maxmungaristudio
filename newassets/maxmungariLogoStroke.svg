@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 715 760">
+  <defs>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title{font-family:&quot;Arial Narrow&quot;,Arial,,sans-serif;font-weight:700;letter-spacing:3.5px;text-anchor:middle}
+    </style>
+  </defs>
+  <text x="356.5" y="55" style="font-family:&quot;Arial Narrow&quot;,Arial,sans-serif;font-weight:900;font-size:50px;letter-spacing:36px;text-anchor:middle;fill:#ffff">MAXMUNGARI</text>
+  <path d="M116.96 88.2 30.24 377.48H66.4l52.48-184.64 9.6-31.68 1.92 1.6 96.64 141.76 96-140.8 2.56-2.56 53.44 185.92-19.52 34.24 17.6 31.68 37.44-64.96v-1.6L337.12 88.52 227.04 252.68Z" fill="#e8871a" stroke="#111" stroke-width=".32"/>
+  <path d="m334.88 218.76-38.4 128.64 58.88 100.8 17.28-28.8L332 347.08l20.48-71.04-16.96-56.96Zm39.04-130.88-15.04 50.24 16.32 55.36h.64l8.96-32 .96-.96L484 303.88l95.68-140.16 2.88-3.2 2.24 6.08 59.52 209.92.64.64 35.84-.32-79.68-264.64-6.72-24.32h-.64L484.32 252.04l-1.6-1.28Z" fill="#e6e6e6" stroke="#111" stroke-width=".32"/>
+  <text x="356.5" y="560" class="title" font-size="98" fill="#ffad4d" stroke="#111" filter="url(#glowOrange)">STUDIO 1976</text>
+  <text x="356.5" y="640" class="title" font-size="60" stroke="#111" fill="#b8b8b8">MUSIC PRODUCTION</text>
+  <text x="356.5" y="710" class="title" font-size="49" stroke="#111" fill="#fff">MIXING and MASTERING</text>
+</svg>
