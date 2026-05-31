@@ -519,7 +519,7 @@ window.__startSocialHover = (function() {
 
   function flipIcon(el, toBrand, cb) {
     /* Prima metà del flip: nascondi */
-    el.style.transition = 'transform 0.2s ease-in';
+    el.style.transition = 'transform 0.1s ease-in';
     el.style.transform  = 'rotateY(90deg)';
     setTimeout(function() {
       /* A metà flip: cambia colore */
@@ -535,35 +535,35 @@ window.__startSocialHover = (function() {
         el.style.color        = '';
       }
       /* Seconda metà del flip: mostra */
-      el.style.transition = 'transform 0.2s ease-out';
+      el.style.transition = 'transform 0.1s ease-out';
       el.style.transform  = 'rotateY(0deg)';
-      setTimeout(cb, 200);
-    }, 200);
+      setTimeout(cb, 100);
+    }, 100);
   }
 
   function runSequence(icons) {
     var i = 0;
     function flipNext() {
       if (i >= icons.length) {
-        /* Tutti flippati a brand — aspetta 1.5s poi riflippa a ghost */
+        /* Tutti flippati a brand — aspetta 750ms poi riflippa a ghost */
         setTimeout(function() {
           var j = 0;
           function unflipNext() {
             if (j >= icons.length) {
-              /* Pausa 10s poi ricomincia */
-              setTimeout(function() { runSequence(icons); }, 10000);
+              /* Pausa 5s poi ricomincia */
+              setTimeout(function() { runSequence(icons); }, 2500);
               return;
             }
             flipIcon(icons[j++], false, function() {
-              setTimeout(unflipNext, 150);
+              setTimeout(unflipNext, 75);
             });
           }
           unflipNext();
-        }, 1500);
+        }, 750);
         return;
       }
       flipIcon(icons[i++], true, function() {
-        setTimeout(flipNext, 150);
+        setTimeout(flipNext, 75);
       });
     }
     flipNext();
