@@ -130,8 +130,8 @@
       title:  'Coffin Dance',
       artist: 'Francesco Riolo',
       dur:    '1:27',
-      a: 'https://dl.dropboxusercontent.com/scl/fi/42qvkx5xh64zfk6esu0l5/MixA.m4a?rlkey=uw72j1r8xhlh9e13wkt6qkefz',
-      b: 'https://dl.dropboxusercontent.com/scl/fi/jhfeq86ct6ma6drpnyziv/MixB.m4a?rlkey=jp9710ribn2e1r3uo81b38pn1'
+      a: 'https://dl.dropboxusercontent.com/scl/fi/5ejd3bhgw7wpfoerlltjn/MixingA.m4a?rlkey=hj46swf1nh798cinyti3hlsi9',
+      b: 'https://dl.dropboxusercontent.com/scl/fi/56mk6zmq3tve27wiv7qrn/MixingB.m4a?rlkey=f037zb6pq8egk1j0jw5ta08t8'
     }
   ];
   window.ABC_TRACKS_MASTERING = [
@@ -139,8 +139,17 @@
       title:  'We are The Souls',
       artist: 'Francesco Riolo',
       dur:    '5:21',
-      a: 'https://dl.dropboxusercontent.com/scl/fi/q1epd3102ur9vxn8hzvkf/MasterA.mp3?rlkey=5bb5wfuqu345b6rwsev8gvc91',
-      b: 'https://dl.dropboxusercontent.com/scl/fi/ltzwv8tbpj1mk69n3pkv4/MasterB.m4a?rlkey=6c21syjfa7ulgh3v7ph58x7bs'
+      a: 'https://dl.dropboxusercontent.com/scl/fi/y6lnyigg3e3iqx62c4ech/MasteringStandardA.m4a?rlkey=nr5r2jdr1hlyxp4brq5l7p0g7',
+      b: 'https://dl.dropboxusercontent.com/scl/fi/qdrq6ghhx5u4fx8ey4rcb/MasteringStandardB.m4a?rlkey=a5ax4h1pyozwk2q8exzn5sc5h'
+    }
+  ];
+  window.ABC_TRACKS_PRODUCTION = [
+    {
+      title:  'Music Production Showcase',
+      artist: 'Max Mungari Studio',
+      dur:    '--:--',
+      a: 'https://dl.dropboxusercontent.com/scl/fi/1278flbihe9b1ma8bpfp2/MusicProductionA.m4a?rlkey=ucccuctyn8vlxol63t918llrr',
+      b: 'https://dl.dropboxusercontent.com/scl/fi/3ox6a5ec10b7z16oclw0z/MusicProductionB.m4a?rlkey=ea91qxn146u5e3i90m604efkg'
     }
   ];
   /* Card generica (vecchia sezione) — usa Mastering come default */
@@ -828,7 +837,8 @@
   .abc-play {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 4;
+    z-index: 10;
+    pointer-events: all;
     width: 34px; height: 34px; border-radius: 50%;
     background: rgba(240,237,232,0.1);
     border: 1px solid rgba(240,237,232,0.18);
@@ -841,9 +851,8 @@
   .abc-play:disabled { opacity: 0.3; cursor: not-allowed; }
   .abc-play svg { width: 13px; height: 13px; fill: var(--abc-text); }
 
-  /* Nasconde il play quando sta suonando, lo rimostra all'hover come pausa */
-  .abc-wave-body.is-playing .abc-play { opacity: 0; pointer-events: none; }
-  .abc-wave-body.is-playing:hover .abc-play { opacity: 1; pointer-events: all; }
+  /* Play sempre visibile */
+  .abc-wave-body.is-playing .abc-play { opacity: 1; pointer-events: all; }
 
   /* Loading bar */
   .abc-loader {
@@ -1126,7 +1135,19 @@
     }
   }
 
-  function redraw() { drawCv(cvA, bufA, '#5b8abf'); drawCv(cvB, bufB, '#ffad4d'); }
+  function redraw() {
+    requestAnimationFrame(function(){
+      if (waveBody.offsetWidth > 0) {
+        drawCv(cvA, bufA, '#5b8abf');
+        drawCv(cvB, bufB, '#ffad4d');
+      } else {
+        requestAnimationFrame(function(){
+          drawCv(cvA, bufA, '#5b8abf');
+          drawCv(cvB, bufB, '#ffad4d');
+        });
+      }
+    });
+  }
 
   // Graph
   function buildGraph(off) {
@@ -1200,10 +1221,10 @@
   btnA.addEventListener('click', () => { if (track !== 'A') setTrack('A'); });
   btnB.addEventListener('click', () => { if (track !== 'B') setTrack('B'); });
 
-  btnPlay.addEventListener('click', e => {
+  btnPlay.addEventListener('click', async e => {
     e.stopPropagation();
     if (!bufA || !bufB) return;
-    actx.resume();
+    await actx.resume();
     if (playing) {
       offset = actx.currentTime - t0;
       teardown(); playing = false; cancelAnimationFrame(raf);
@@ -1244,11 +1265,11 @@
       loaderFill.style.width = '100%';
       bufA = bA; bufB = bB;
       dur = Math.min(bA.duration, bB.duration);
-      redraw();
       timeEl.textContent = fmt(0) + ' / ' + fmt(dur);
       phLine.style.display = 'block';
       btnA.disabled = btnB.disabled = btnPlay.disabled = false;
       setTimeout(() => { loader.classList.remove('on'); loaderFill.style.width = '0%'; }, 400);
+      redraw();
     } catch(err) {
       loader.classList.remove('on'); loaderFill.style.width = '0%';
       console.error('ABC load error:', err);
@@ -1637,7 +1658,19 @@
     }
   }
 
-  function redraw() { drawCv(cvA, bufA, '#5b8abf'); drawCv(cvB, bufB, '#ffad4d'); }
+  function redraw() {
+    requestAnimationFrame(function(){
+      if (waveBody.offsetWidth > 0) {
+        drawCv(cvA, bufA, '#5b8abf');
+        drawCv(cvB, bufB, '#ffad4d');
+      } else {
+        requestAnimationFrame(function(){
+          drawCv(cvA, bufA, '#5b8abf');
+          drawCv(cvB, bufB, '#ffad4d');
+        });
+      }
+    });
+  }
 
   function buildGraph(off) {
     srcA = actx.createBufferSource(); srcB = actx.createBufferSource();
@@ -1709,10 +1742,10 @@
   btnA.addEventListener('click', () => { if (track !== 'A') setTrack('A'); });
   btnB.addEventListener('click', () => { if (track !== 'B') setTrack('B'); });
 
-  btnPlay.addEventListener('click', e => {
+  btnPlay.addEventListener('click', async e => {
     e.stopPropagation();
     if (!bufA || !bufB) return;
-    actx.resume();
+    await actx.resume();
     if (playing) {
       offset = actx.currentTime - t0;
       teardown(); playing = false; cancelAnimationFrame(raf);
@@ -1752,11 +1785,11 @@
       loaderFill.style.width = '100%';
       bufA = bA; bufB = bB;
       dur = Math.min(bA.duration, bB.duration);
-      redraw();
       timeEl.textContent = fmt(0) + ' / ' + fmt(dur);
       phLine.style.display = 'block';
       btnA.disabled = btnB.disabled = btnPlay.disabled = false;
       setTimeout(() => { loader.classList.remove('on'); loaderFill.style.width = '0%'; }, 400);
+      redraw();
     } catch(err) {
       loader.classList.remove('on'); loaderFill.style.width = '0%';
       console.error('ABC2 load error:', err);
@@ -1805,7 +1838,7 @@
     empty.style.display = 'flex';
     player.classList.remove('visible');
     buildRows(TRACKS2.current);
-    if (TRACKS2.current.length) loadTrack(0);
+    if (TRACKS2.current.length) requestAnimationFrame(function(){ loadTrack(0); });
   };
 
   /* Init */
@@ -1821,7 +1854,7 @@
     mastering:       { title:'MASTERING <em>STANDARD.</em>',       desc:'Mastering analogico e digitale integrati. Ottimizzato per Spotify, Apple Music, YouTube senza perdere l\'identità del brano.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo il Mastering.</em>',        tracks: window.ABC_TRACKS_MASTERING || [] },
     stemmastering:   { title:'STEM <em>MASTERING.</em>',           desc:'Lavoriamo su stem separati per un controllo chirurgico del suono finale, preservando dinamica e identità di ogni elemento.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo lo Stem Mastering.</em>',    tracks: window.ABC_TRACKS_MASTERING || [] },
     advstemmastering:{ title:'ADVANCED<br/><em>STEM MASTERING.</em>',desc:'Il livello più alto del mastering. Ogni stem processato individualmente con hardware analogico dedicato per un risultato definitivo.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo l\'Advanced Stem Mastering.</em>', tracks: window.ABC_TRACKS_MASTERING || [] },
-    production:      { title:'MUSIC <em>PRODUCTION.</em>',         desc:'Composizione, arrangiamento e produzione completa. Le chitarre di Max attraversano ogni strato del progetto, trasformando ogni collaborazione in una firma unica.',                                                    tracks: [] }
+    production:      { title:'MUSIC <em>PRODUCTION.</em>',         desc:'Composizione, arrangiamento e produzione completa. Le chitarre di Max attraversano ogni strato del progetto, trasformando ogni collaborazione in una firma unica.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo la Music Production.</em>', tracks: window.ABC_TRACKS_PRODUCTION || [] }
   };
   function render(id) {
     var d = DATA[id];
@@ -1839,14 +1872,15 @@
   }
   function renderAccordion(id, bodyEl) {
     var d = DATA[id];
-    var abcOriginal = document.getElementById('abcCard');
-    var abcClone = abcOriginal ? abcOriginal.cloneNode(true) : null;
-    if (abcClone) { abcClone.id = 'abcCard-acc-' + id; abcClone.style.marginTop = '1.5rem'; }
     bodyEl.innerHTML =
       '<div class="svi-detail-title">' + d.title + '</div>' +
       '<div class="svi-divider"></div>' +
       '<div class="svi-detail-desc">' + d.desc + '</div>';
-    if (abcClone) bodyEl.appendChild(abcClone);
+    /* Sposta fisicamente la card2 dentro questa accordion */
+    var card = document.getElementById('abcCard2');
+    if (card) bodyEl.appendChild(card);
+    /* Aggiorna i brani */
+    if (window.ABC2_updateTracks) window.ABC2_updateTracks(d.tracks || []);
   }
 
   var list = document.getElementById('svi-list');

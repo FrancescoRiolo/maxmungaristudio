@@ -1567,7 +1567,8 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 @media (max-width: 767px) {
   .svi-wrap { flex-direction: column; min-height: unset; }
   .svi-panel { width: 100%; }
-  .svi-detail { display: none; }
+  .svi-detail { display: flex; flex-direction: column; padding: 1.5rem 1rem; }
+  .svi-text-col { display: none; }
   .svi-accordion-body {
     display: none;
     padding: 1rem 0 1.25rem;
