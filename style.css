@@ -1231,6 +1231,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     justify-content: space-between;
     gap: 8px;
     width: 100%;
+    margin-top: 13px;
   }
   .hero-partners-logos a {
     flex: 1 1 0;
