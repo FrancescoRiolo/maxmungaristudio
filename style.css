@@ -1090,6 +1090,9 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     padding: 2rem 1.25rem;
     overflow-y: visible;
   }
+  .bio-overlay-panel .bio-badge {
+    white-space: normal;
+  }
 }
 
 /* ── Ultrawide (≥2000px) ── */
@@ -1649,6 +1652,11 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   object-fit: cover;
   object-position: center center;
   display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+.studio-fullimg > img.active {
+  opacity: 1;
 }
 
 /* ── Pannello nero opaco — sinistra ── */
@@ -1699,6 +1707,12 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 
 /* Mobile */
 @media (max-width: 767px) {
+  #studio .studio-cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
   .studio-fullimg {
     min-height: unset;
     display: flex;
@@ -1711,6 +1725,13 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     height: 56vw;
     object-fit: cover;
     flex-shrink: 0;
+    opacity: 0;
+    display: none;
+    transition: opacity 1.2s ease-in-out;
+  }
+  .studio-fullimg > img.active {
+    display: block;
+    opacity: 1;
   }
   .studio-overlay-panel {
     position: relative;
@@ -1778,6 +1799,281 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   scroll-margin-top: -24px;
 }
 #lavori > * { position: relative; z-index: 1; }
+
+/* ============================================================
+   SERVIZI — sezioni dedicate (Mix & Mastering / Produzioni)
+============================================================ */
+.svc-fullimg {
+  position: relative;
+  width: 100%;
+  min-height: clamp(640px, 90vw, 980px);
+  overflow: hidden;
+}
+.svc-fullimg > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.svc-overlay {
+  position: absolute;
+  top: 0;
+  width: clamp(323px, 44%, 612px);
+  height: 100%;
+  background: rgba(0,0,0,0.82);
+  padding: clamp(2rem, 3.5vw, 3.5rem) clamp(1.5rem, 3vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.svc-overlay-left  { left: 0; }
+.svc-overlay-right { right: 0; }
+
+
+/* Player card — centrato nella metà libera */
+.svc-player {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 2;
+}
+.svc-player .svc-player-label { padding: 0 1rem; }
+@media (min-width: 1920px) {
+  .svc-overlay-left ~ .svc-player {
+    left: 40%;
+    right: 0;
+    width: auto;
+  }
+  .svc-overlay-right ~ .svc-player {
+    left: 0;
+    right: 35%;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.svc-overlay-left  ~ .svc-player { left: clamp(323px, 49%, 920px); right: 0; width: auto; }
+.svc-overlay-right ~ .svc-player { right: clamp(323px, 44%, 612px); left: 0; width: auto; }
+.svc-player .abc-card { width: 90%; max-width: 648px; }
+.svc-player-label {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 0.85rem;
+  max-width: 480px;
+  width: 100%;
+}
+.svc-player-label em {
+  color: var(--orange);
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* FHD — riduci altezza sezioni servizi */
+@media (min-width: 768px) and (max-width: 1919px) {
+  #mix-mastering .svc-fullimg,
+  #produzioni    .svc-fullimg { min-height: clamp(544px, 76.5vw, 833px); }
+}
+
+/* IT only — overlay scuro + blur immagine */
+#mix-mastering .svc-fullimg > img,
+#produzioni    .svc-fullimg > img {
+  filter: blur(2px) brightness(0.72);
+  transform: scale(1.03);
+}
+@media (max-width: 767px) {
+  #mix-mastering .svc-fullimg > img,
+  #produzioni    .svc-fullimg > img {
+    filter: none;
+    transform: none;
+  }
+}
+#mix-mastering .svc-fullimg::after,
+#produzioni    .svc-fullimg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.28);
+  z-index: 0;
+  pointer-events: none;
+}
+#mix-mastering .svc-overlay,
+#produzioni    .svc-overlay { z-index: 1; }
+
+@media (max-width: 767px) {
+  .svc-player {
+    position: relative;
+    inset: unset;
+    transform: none;
+    width: 100%;
+    height: auto;
+    background: rgba(0,0,0,0.92);
+    padding: 1.5rem 1.25rem;
+    justify-content: flex-start;
+  }
+  .svc-overlay-left  ~ .svc-player,
+  .svc-overlay-right ~ .svc-player { left: unset; right: unset; width: 100%; position: relative; }
+  .svc-player .abc-card { max-width: 100%; }
+
+  /* Filigrana sui pannelli neri */
+  .bio-overlay-panel::after,
+  .studio-overlay-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('newassets/filigranaMobilebg.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+.svc-overlay .section-title     { color: var(--white); }
+.svc-overlay .section-title em  { color: var(--orange); font-style: normal; }
+.svc-overlay .bio-badge         { color: var(--orange); }
+.svc-overlay .divider           { background: var(--orange); opacity: 0.5; height: 2px; width: 48px; margin: 0; flex-shrink: 0; }
+#mix-mastering,
+#produzioni { background: var(--studio-black); }
+
+/* Pulsante preventivo fuori overlay — desktop: position absolute sopra overlay, mobile: dopo player */
+.svc-cta-mix,
+.svc-cta-prod {
+  position: absolute;
+  bottom: 2.5rem;
+  z-index: 2;
+  box-sizing: border-box;
+}
+.svc-cta-mix  { left: 2.5rem; }
+.svc-cta-prod { right: 2.5rem; }
+
+@media (max-width: 767px) {
+  .svc-cta-mix,
+  .svc-cta-prod {
+    position: relative;
+    display: block;
+    width: calc(100% - 2.5rem);
+    margin: 1.25rem auto 2rem;
+    text-align: center;
+    bottom: unset;
+    left: unset;
+    right: unset;
+  }
+  .svc-overlay .studio-cta {
+    display: none;
+  }
+  #mix-mastering .svc-player,
+  #produzioni    .svc-player { order: 2; }
+  .svc-cta-mix,
+  .svc-cta-prod { order: 3; }
+}
+
+/* Q&A blocks */
+.svc-qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.svc-qa {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.svc-qa:first-child { padding-top: 0; }
+.svc-qa:last-child  { border-bottom: none; }
+.svc-q {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0 0 0.35rem;
+}
+.svc-a {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 1vw, 0.9rem);
+  line-height: 1.75;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+}
+@media (min-width: 1920px) {
+  .svc-q { font-size: 1.4rem; }
+  .svc-a { font-size: 1.035rem; line-height: 1.78; }
+  .svc-player .abc-card { max-width: 907px; zoom: 1.725; }
+  #svcPlayer3 .abc-card { width: 679.7px; height: 308.2px; max-width: none; zoom: 1.725; margin-right: 15%; }
+  .svc-overlay { width: clamp(475px, 65%, 900px) !important; }
+}
+@media (max-width: 767px) {
+  .svc-fullimg {
+    min-height: unset;
+    display: flex;
+    flex-direction: column;
+  }
+  .svc-fullimg > img {
+    position: relative;
+    inset: unset;
+    width: 100%;
+    height: 56vw;
+    object-fit: cover;
+    flex-shrink: 0;
+    order: 0;
+  }
+
+  #mix-mastering .svc-overlay {
+    background-image: url('newassets/studio-bg2.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  #produzioni .svc-overlay {
+    background-image: url('newassets/studio-bg4.png');
+    background-size: cover;
+    background-position: center;
+  }
+  #mix-mastering .svc-overlay::before,
+  #produzioni    .svc-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #mix-mastering .svc-overlay > *,
+  #produzioni    .svc-overlay > * {
+    position: relative;
+    z-index: 1;
+  }
+  .svc-overlay {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background: rgba(0,0,0,0.92);
+    padding: 2rem 1.25rem;
+    overflow-y: visible;
+    justify-content: flex-start;
+    order: 1;
+  }
+}
 
 .lavori-fullimg {
   position: relative;
@@ -1853,9 +2149,47 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 /* Mobile */
 @media (max-width: 767px) {
   .lavori-fullimg { min-height: unset; display: flex; flex-direction: column; }
-  .lavori-fullimg > img { position: relative; inset: unset; width: 100%; height: 220px; }
-  .lavori-overlay-panel { position: relative; width: 100%; height: auto; }
-  .lavori-fullwrap { position: relative; width: 100%; height: auto; }
+  .lavori-fullimg > img { position: relative; inset: unset; width: 100%; height: 220px; filter: none; }
+  .lavori-overlay-panel {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-image: url('newassets/chitarrista-bg.png');
+    background-size: cover;
+    background-position: center;
+  }
+  .lavori-overlay-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .lavori-overlay-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+  .lavori-fullwrap {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-image: url('newassets/chitarrista-bg.png');
+    background-size: cover;
+    background-position: center;
+  }
+  .lavori-fullwrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .lavori-fullwrap > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* ── Showcase paginato ── */
@@ -2998,3 +3332,6 @@ footer.footer-light {
 .abc-ri-a { font-size: 0.72rem; color: var(--abc-text-2); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .abc-rd { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--abc-text-3); flex-shrink: 0; padding-left: 1rem; }
 
+
+br.mobile-only { display: none; }
+@media (max-width: 767px) { br.mobile-only { display: block; } }

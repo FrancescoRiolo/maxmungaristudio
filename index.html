@@ -239,7 +239,8 @@
         <li><a href="#bio">Max Mungari</a></li>
         <li><a href="#studio">Studio</a></li>
         <li><a href="#lavori" onclick="event.preventDefault();(function(){var el=document.getElementById('lavori');if(!el)return;var sTop=el.getBoundingClientRect().top+window.scrollY;var top=sTop;if(window.innerWidth>=1920){var sH=el.offsetHeight;var vH=window.innerHeight;var offset=Math.max(0,(vH-sH)/2);top=sTop-offset;}window.scrollTo({top:top,behavior:'smooth'});})()">Chitarrista</a></li>
-        <li><a href="#servizi">Servizi</a></li>
+        <li><a href="#mix-mastering">Mixing &amp; Mastering</a></li>
+        <li><a href="#produzioni">Produzioni Musicali</a></li>
         <li><a href="privacy.html">Privacy</a></li>
         <li><a href="#contatti" class="nav-cta">Contattami</a></li>
         <li class="lang-switch"><span class="lang-active">ITA</span><span class="lang-sep">/</span><a href="en/index.html" class="lang-other">ENG</a></li>
@@ -258,7 +259,8 @@
     <a href="#bio"            onclick="closeMobile()">Max Mungari</a>
     <a href="#studio"         onclick="closeMobile()">Studio</a>
     <a href="#lavori"         onclick="closeMobile();event.preventDefault();(function(){var el=document.getElementById('lavori');if(!el)return;var sTop=el.getBoundingClientRect().top+window.scrollY;var top=sTop;if(window.innerWidth>=1920){var sH=el.offsetHeight;var vH=window.innerHeight;var offset=Math.max(0,(vH-sH)/2);top=sTop-offset;}window.scrollTo({top:top,behavior:'smooth'});})()">Chitarrista</a>
-    <a href="#servizi"        onclick="closeMobile()">Servizi</a>
+    <a href="#mix-mastering"  onclick="closeMobile()">Mixing &amp; Mastering</a>
+    <a href="#produzioni"     onclick="closeMobile()">Produzioni Musicali</a>
     <a href="privacy.html">Privacy</a>
     <a href="#contatti"       onclick="closeMobile()">Contattami</a>
     <div class="lang-switch"><span class="lang-active">ITA</span><span class="lang-sep">/</span><a href="en/index.html" class="lang-other">ENG</a></div>
@@ -281,11 +283,11 @@
       </h1>
 
       <p class="hero-subtitle">
-        Chitarrista &nbsp;·&nbsp; Producer &nbsp;·&nbsp; Tecnico del Suono
+        Chitarrista &nbsp;·&nbsp; Produttore &nbsp;·&nbsp; Ingegnere del Suono
       </p>
 
       <div class="hero-actions">
-        <a href="#servizi" class="btn-primary">
+        <a href="#mix-mastering" class="btn-primary">
           Servizi
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
             <path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12"
@@ -331,12 +333,14 @@
             <img src="newassets/vanguard1.png" alt="Vanguard Audio Labs — partner ufficiale" loading="lazy" class="avid-slide active" width="200" height="150" />
             <img src="newassets/vanguard2.png" alt="Vanguard Audio Labs — partner ufficiale" loading="lazy" class="avid-slide" width="200" height="150" />
           </a>
+          <!-- Acustica Audio — nascosto temporaneamente (link non disponibile)
           <a href="#"
              target="_blank" rel="noopener" aria-label="Acustica Audio — partner ufficiale di Max Mungari Studio"
              id="acusticaCarouselHero">
             <img src="newassets/Acustica1.png" alt="Acustica Audio — partner ufficiale" loading="lazy" class="avid-slide active" width="200" height="150" />
             <img src="newassets/Acustica2.png" alt="Acustica Audio — partner ufficiale" loading="lazy" class="avid-slide" width="200" height="150" />
           </a>
+          -->
           </div><!-- /hero-partners-logos -->
         </div>
       </div>
@@ -383,10 +387,10 @@
 
       <!-- Pannello nero opaco con testo -->
       <div class="bio-overlay-panel reveal-left">
-        <span class="bio-badge">Chitarrista &amp; Tecnico del Suono</span>
+        <span class="bio-badge">Chitarrista — Produttore — Ingegnere del Suono</span>
         <h2 id="bio-title" class="section-title">MAX MUNGARI</h2>
         <p class="bio-intro">
-          Chitarrista, Producer e Tecnico del Suono specializzato in Mixing &amp; Mastering, nato a Crotone nel 1976.
+          Chitarrista, produttore musicale e ingegnere del suono specializzato in Mixing &amp; Mastering, nato a Crotone, classe 1976.
         </p>
         <div class="bio-text">
           <p>La Chitarra diventa subito il suo strumento musicale preferito, con il quale riesce facilmente ad esprimere tutto il suo potenziale creativo e la sua passione per il suono e per l'Arte delle Note.</p>
@@ -451,7 +455,8 @@
   ============================== -->
   <section id="studio" aria-labelledby="studio-title">
     <div class="studio-fullimg">
-      <img src="newassets/studio-main.webp" alt="Studio 1976 Crotone — sala principale di registrazione" loading="lazy" decoding="async" />
+      <img src="newassets/studio-main.webp" alt="Studio 1976 Crotone — sala principale di registrazione" decoding="async" class="studio-slide active" />
+      <img src="newassets/studio-bg3.png" alt="Studio 1976 Crotone — sala di registrazione" loading="lazy" decoding="async" class="studio-slide" />
 
       <!-- Pannello nero opaco — sinistra -->
       <div class="studio-overlay-panel reveal-left">
@@ -494,7 +499,7 @@
   <section id="lavori" aria-labelledby="lavori-title">
 
     <div class="lavori-fullimg">
-      <img src="newassets/studio-bg.webp" alt="Studio 1976 — Music Production" loading="lazy" decoding="async" />
+      <img src="newassets/chitarrista-bg.png" alt="Studio 1976 — Music Production" loading="lazy" decoding="async" />
 
       <!-- Pannello overlay destra -->
       <div class="lavori-overlay-panel reveal-right">
@@ -574,28 +579,33 @@
   <!-- ==============================
        SERVIZI INTERATTIVI
   ============================== -->
-  <section id="servizi" aria-label="Esplora i servizi">
-    <div class="svi-wrap">
-
-      <!-- Pannello sinistra: lista servizi -->
-      <div class="svi-panel">
-        <div class="label-row"><div class="divider"></div><p class="svi-badge">I Servizi</p></div>
-        <ul class="svi-list" id="svi-list" role="list">
-          <li><button class="svi-btn active" data-id="mixing">Mixing <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="mixing"></div></li>
-          <li><button class="svi-btn" data-id="stemming">Stem Mixing <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="stemming"></div></li>
-          <li><button class="svi-btn" data-id="advstemming">Advanced Stem Mixing <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="advstemming"></div></li>
-          <li><button class="svi-btn" data-id="mastering">Mastering Standard <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="mastering"></div></li>
-          <li><button class="svi-btn" data-id="stemmastering">Stem Mastering <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="stemmastering"></div></li>
-          <li><button class="svi-btn" data-id="advstemmastering">Advanced Stem Mastering <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="advstemmastering"></div></li>
-          <li><button class="svi-btn" data-id="production">Music Production <svg width="12" height="12" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1 6.5h11M6.5 1l5.5 5.5L6.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="svi-accordion-body" data-id="production"></div></li>
-        </ul>
-        <a href="#contatti" class="svi-cta">Richiedi un preventivo</a>
+  <!-- ==============================
+       MIX & MASTERING
+  ============================== -->
+  <section id="mix-mastering" aria-labelledby="mixmastering-title">
+    <div class="svc-fullimg">
+      <img src="newassets/studio-bg2.jpg" alt="Mix &amp; Mastering — Max Mungari Studio" loading="lazy" decoding="async" />
+      <div class="svc-overlay svc-overlay-left reveal-left">
+        <span class="bio-badge">Mixing &amp; Mastering</span>
+        <h2 id="mixmastering-title" class="section-title">MIXING &amp;<br /><em>MASTERING.</em></h2>
+        <div class="divider"></div>
+        <div class="svc-qa-list">
+          <div class="svc-qa">
+            <p class="svc-q">Cos'è il Mixing?</p>
+            <p class="svc-a">Il processo di bilanciamento, equalizzazione e trattamento dinamico delle singole tracce: ogni elemento trova il suo spazio per creare un suono cristallino, coeso e dall'impatto emotivo immediato.</p>
+          </div>
+          <div class="svc-qa">
+            <p class="svc-q">Cos'è il Mastering?</p>
+            <p class="svc-a">La fase finale della catena audio: ottimizza il mix per la massima traslatabilità su ogni supporto e piattaforma — streaming, radio, vinile, CD — preservando l'identità sonora del brano.</p>
+          </div>
+          <div class="svc-qa">
+            <p class="svc-q">Cosa include questo servizio?</p>
+            <p class="svc-a">Mixing Standard, Stem Mixing, Advanced Stem Mixing, Mastering Standard, Stem Mastering e Advanced Stem Mastering — ogni livello di lavorazione per soddisfare qualsiasi esigenza produttiva.</p>
+          </div>
+        </div>
       </div>
-
-      <!-- Pannello destra: dettaglio servizio -->
-      <div class="svi-detail" id="svi-detail">
-        <div class="svi-text-col" id="svi-text-col"></div>
-
+      <div class="svc-player" id="svcPlayer2">
+        <p class="svc-player-label">Ascolta la differenza <em>PRIMA</em> e <em>DOPO</em><br />il mixing e il mastering di questi brani</p>
         <div class="abc-card" id="abcCard2">
           <div class="abc-comparator">
             <div class="abc-empty" id="abcEmpty2">Seleziona un brano</div>
@@ -645,7 +655,83 @@
           </div>
         </div>
       </div>
+      <a href="#contatti" class="studio-cta svc-cta-mix">Richiedi un preventivo</a>
+    </div>
+  </section>
 
+  <!-- ==============================
+       PRODUZIONI MUSICALI
+  ============================== -->
+  <section id="produzioni" aria-labelledby="produzioni-title">
+    <div class="svc-fullimg">
+      <img src="newassets/studio-bg4.png" alt="Produzioni Musicali — Max Mungari Studio" loading="lazy" decoding="async" />
+      <div class="svc-overlay svc-overlay-right reveal-right">
+        <span class="bio-badge">Produzioni Musicali</span>
+        <h2 id="produzioni-title" class="section-title">PRODUZIONI<br /><em>MUSICALI.</em></h2>
+        <div class="divider"></div>
+        <div class="svc-qa-list">
+          <div class="svc-qa">
+            <p class="svc-q">Cos'è la Music Production?</p>
+            <p class="svc-a">La produzione musicale è il processo creativo che accompagna ogni artista dall'idea iniziale fino al master definitivo. Si parte da una bozza, un riferimento o anche solo un'atmosfera: Max costruisce l'arrangiamento, registra le parti strumentali e guida ogni scelta con istinto ed esperienza, dando al progetto una firma sonora unica e riconoscibile.</p>
+          </div>
+          <div class="svc-qa">
+            <p class="svc-q">Cosa include questo servizio?</p>
+            <p class="svc-a">Composizione, arrangiamento, registrazione professionale presso Studio 1976, editing, sound design e mixing — dalla prima nota al prodotto finito pronto per la distribuzione. Disponibile in studio a Crotone o interamente online.</p>
+          </div>
+        </div>
+      </div>
+      <div class="svc-player" id="svcPlayer3">
+        <p class="svc-player-label">Ascolta la differenza <em>PRIMA</em> e <em>DOPO</em> l'arrangiamento e la produzione completa di questi brani</p>
+        <div class="abc-card" id="abcCard3">
+          <div class="abc-comparator">
+            <div class="abc-empty" id="abcEmpty3">Seleziona un brano</div>
+            <div class="abc-player" id="abcPlayer3">
+              <div class="abc-switch">
+                <button class="abc-btn on-a" id="abcBtnA3" disabled>PRIMA</button>
+                <button class="abc-btn" id="abcBtnB3" disabled>DOPO</button>
+              </div>
+              <div class="abc-wave" id="abcWave3">
+                <div class="abc-wave-body">
+                  <canvas class="abc-canvas" id="abcCvA3"></canvas>
+                  <canvas class="abc-canvas hidden" id="abcCvB3"></canvas>
+                  <div class="abc-ph-layer">
+                    <div class="abc-ph-prog" id="abcPhProg3"></div>
+                    <div class="abc-ph-line" id="abcPhLine3"></div>
+                  </div>
+                  <div class="abc-np">
+                    <span class="abc-np-title" id="abcNpTitle3">—</span>
+                    <span class="abc-np-artist" id="abcNpArtist3"></span>
+                  </div>
+                  <button class="abc-play" id="abcPlay3" disabled>
+                    <svg id="abcIconPlay3" viewBox="0 0 16 16"><path d="M4 2.5l9 5.5-9 5.5V2.5z"/></svg>
+                    <svg id="abcIconPause3" viewBox="0 0 16 16" style="display:none"><rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/></svg>
+                  </button>
+                  <div class="abc-topbar">
+                    <div class="abc-badge a" id="abcBadge3">A</div>
+                    <div class="abc-time" id="abcTime3">0:00 / 0:00</div>
+                    <div class="abc-vol">
+                      <svg viewBox="0 0 16 16"><path d="M9 2.5v11a.5.5 0 0 1-.854.354L4.5 10H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h2.5l3.646-3.854A.5.5 0 0 1 9 2.5zm2.354 2.146a.5.5 0 0 1 .707 0A5.5 5.5 0 0 1 13.5 8a5.5 5.5 0 0 1-1.439 3.354.5.5 0 1 1-.707-.707A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-1.146-3.061.5.5 0 0 1 0-.707z"/></svg>
+                      <input type="range" id="abcVol3" min="0" max="100" value="80" step="1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="abc-loader" id="abcLoader3">
+                <div class="abc-loader-fill" id="abcLoaderFill3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="abc-list">
+            <div class="abc-list-head">
+              <div class="abc-lh-n">#</div>
+              <div class="abc-lh-t">Titolo</div>
+              <div class="abc-lh-d">Durata</div>
+            </div>
+            <div id="abcRows3"></div>
+          </div>
+        </div>
+      </div>
+      <a href="#contatti" class="studio-cta svc-cta-prod">Richiedi un preventivo</a>
     </div>
   </section>
 
@@ -1147,96 +1233,186 @@
 
   window.addEventListener('resize', () => { if (bufA || bufB) redraw(); });
 
-  /* API pubblica: aggiorna playlist al cambio servizio */
-  window.ABC2_updateTracks = function(newTracks) {
-    TRACKS2.current = newTracks || [];
-    if (playing) { teardown(); playing = false; cancelAnimationFrame(raf); updatePlayUI(); }
-    curIdx = -1; bufA = null; bufB = null; offset = 0;
-    empty.style.display = 'flex';
-    player.classList.remove('visible');
-    buildRows(TRACKS2.current);
-    if (TRACKS2.current.length) requestAnimationFrame(function() { showTrack(0); });
-    else { empty.style.display = 'flex'; player.classList.remove('visible'); }
-  };
-
-  /* Init */
-  buildRows([]);
+  /* Init — carica tracks mixing+mastering direttamente */
+  const initTracks2 = (window.ABC_TRACKS_MIXING || []).concat(window.ABC_TRACKS_MASTERING || []);
+  TRACKS2.current = initTracks2;
+  buildRows(initTracks2);
+  if (initTracks2.length) requestAnimationFrame(function() { showTrack(0); });
 })();
 
-/* ── Servizi interattivi ── */
+/* ── ABC Player 3 — Produzioni Musicali ── */
 (function(){
-  var DATA = {
-    mixing:          { title:'MIX<em>ING.</em>',                   desc:'Ogni elemento trova il suo spazio. Un processo chirurgico di bilanciamento, dinamica e spazialità per un suono coeso e potente.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo il Mixing.</em>',           tracks: window.ABC_TRACKS_MIXING || [] },
-    stemming:        { title:'STEM <em>MIXING.</em>',              desc:'Lavoriamo sui gruppi principali — drum, bass, guitars, keys, voices — per una gestione precisa di ogni sezione sonora.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo lo Stem Mixing.</em>',          tracks: window.ABC_TRACKS_MIXING || [] },
-    advstemming:     { title:'ADVANCED<br/><em>STEM MIXING.</em>', desc:'Il massimo controllo sul mix. Ogni stem trattato con processing dedicato e integrazione analogica per risultati di livello superiore.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo l\'Advanced Stem Mixing.</em>', tracks: window.ABC_TRACKS_MIXING || [] },
-    mastering:       { title:'MASTERING <em>STANDARD.</em>',       desc:'Mastering analogico e digitale integrati. Ottimizzato per Spotify, Apple Music, YouTube senza perdere l\'identità del brano.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo il Mastering.</em>',        tracks: window.ABC_TRACKS_MASTERING || [] },
-    stemmastering:   { title:'STEM <em>MASTERING.</em>',           desc:'Lavoriamo su stem separati per un controllo chirurgico del suono finale, preservando dinamica e identità di ogni elemento.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo lo Stem Mastering.</em>',    tracks: window.ABC_TRACKS_MASTERING || [] },
-    advstemmastering:{ title:'ADVANCED<br/><em>STEM MASTERING.</em>',desc:'Il livello più alto del mastering. Ogni stem processato individualmente con hardware analogico dedicato per un risultato definitivo.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo l\'Advanced Stem Mastering.</em>', tracks: window.ABC_TRACKS_MASTERING || [] },
-    production:      { title:'MUSIC <em>PRODUCTION.</em>',         desc:'Composizione, arrangiamento e produzione completa. Le chitarre di Max attraversano ogni strato del progetto, trasformando ogni collaborazione in una firma unica.<br><br>Ascolta la differenza prima e <em class="svi-hl">dopo la Music Production.</em>', tracks: window.ABC_TRACKS_PRODUCTION || [] }
-  };
-  function render(id) {
-    var d = DATA[id];
-    var el = document.getElementById('svi-detail');
-    if (!el) return;
-    var textCol = document.getElementById('svi-text-col');
-    if (textCol) {
-      textCol.innerHTML =
-        '<div class="svi-detail-title">' + d.title + '</div>' +
-        '<div class="svi-divider"></div>' +
-        '<div class="svi-detail-desc">' + d.desc + '</div>';
-    }
-    /* Aggiorna playlist card2 */
-    if (window.ABC2_updateTracks) window.ABC2_updateTracks(d.tracks || []);
-  }
-  function renderAccordion(id, bodyEl) {
-    var d = DATA[id];
-    bodyEl.innerHTML =
-      '<div class="svi-detail-title">' + d.title + '</div>' +
-      '<div class="svi-divider"></div>' +
-      '<div class="svi-detail-desc">' + d.desc + '</div>';
-    /* Sposta fisicamente la card2 dentro questa accordion */
-    var card = document.getElementById('abcCard2');
-    if (card) bodyEl.appendChild(card);
-    /* Aggiorna i brani */
-    if (window.ABC2_updateTracks) window.ABC2_updateTracks(d.tracks || []);
-  }
+  const TRACKS3 = { current: [] };
+  const $ = id => document.getElementById(id);
+  const audioBufferCache3 = new Map();
 
-  var list = document.getElementById('svi-list');
-  if (list) {
-    list.addEventListener('click', function(e) {
-      var btn = e.target.closest('.svi-btn');
-      if (!btn) return;
-      var isMobile = window.innerWidth < 768;
-      var id = btn.dataset.id;
-
-      if (isMobile) {
-        var body = btn.parentElement.querySelector('.svi-accordion-body');
-        var isOpen = body.classList.contains('open');
-        if (isOpen) return; /* già aperta, non fare nulla */
-        document.querySelectorAll('.svi-accordion-body').forEach(function(b){ b.classList.remove('open'); });
-        document.querySelectorAll('.svi-btn').forEach(function(b){ b.classList.remove('active'); });
-        renderAccordion(id, body);
-        body.classList.add('open');
-        btn.classList.add('active');
-      } else {
-        document.querySelectorAll('.svi-btn').forEach(function(b){ b.classList.remove('active'); });
-        btn.classList.add('active');
-        render(id);
-      }
+  function fetchAudio(url) {
+    return new Promise(function(resolve, reject) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.responseType = 'arraybuffer';
+      xhr.onload = function() { if (xhr.status >= 200 && xhr.status < 300) resolve(xhr.response); else reject(new Error('HTTP ' + xhr.status)); };
+      xhr.onerror = reject;
+      xhr.send();
     });
-    render('mixing');
-
-    /* Apri la prima accordion di default su mobile */
-    if (window.innerWidth < 768) {
-      var firstBody = list.querySelector('.svi-accordion-body');
-      var firstBtn = list.querySelector('.svi-btn');
-      if (firstBody && firstBtn) {
-        renderAccordion('mixing', firstBody);
-        firstBody.classList.add('open');
-        firstBtn.classList.add('active');
-      }
-    }
   }
+
+  async function getBuffer(url) {
+    if (audioBufferCache3.has(url)) return audioBufferCache3.get(url);
+    initCtx();
+    const raw = await fetchAudio(url);
+    const buf = await actx.decodeAudioData(raw);
+    audioBufferCache3.set(url, buf);
+    return buf;
+  }
+
+  const empty      = $('abcEmpty3');
+  const player     = $('abcPlayer3');
+  const npTitle    = $('abcNpTitle3');
+  const npArtist   = $('abcNpArtist3');
+  const btnA       = $('abcBtnA3');
+  const btnB       = $('abcBtnB3');
+  const wave       = $('abcWave3');
+  const waveBody   = wave ? wave.querySelector('.abc-wave-body') : null;
+  const badge      = $('abcBadge3');
+  const timeEl     = $('abcTime3');
+  const cvA        = $('abcCvA3');
+  const cvB        = $('abcCvB3');
+  const phProg     = $('abcPhProg3');
+  const phLine     = $('abcPhLine3');
+  const btnPlay    = $('abcPlay3');
+  const iconPlay   = $('abcIconPlay3');
+  const iconPause  = $('abcIconPause3');
+  const volSlider  = $('abcVol3');
+  const loader     = $('abcLoader3');
+  const loaderFill = $('abcLoaderFill3');
+  const rowsEl     = $('abcRows3');
+
+  if (!empty || !player || !waveBody) return;
+
+  let actx = null;
+  let bufA = null, bufB = null;
+  let srcA = null, srcB = null;
+  let gA = null, gB = null, gate = null;
+  let playing = false;
+  let t0 = 0, offset = 0, dur = 0;
+  let raf = null;
+  let track = 'A';
+  let curIdx = -1;
+
+  function initCtx() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); }
+
+  function analyze(buf, n) {
+    const d = buf.getChannelData(0), bs = Math.floor(d.length / n);
+    const pk = new Float32Array(n), rms = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      let max = 0, sum = 0, s = i * bs;
+      for (let j = 0; j < bs; j++) { const v = Math.abs(d[s+j]); if (v > max) max = v; sum += d[s+j]*d[s+j]; }
+      pk[i] = max; rms[i] = Math.sqrt(sum/bs);
+    }
+    return { pk, rms };
+  }
+
+  function drawCv(cv, buf, color) {
+    cv.width = waveBody.offsetWidth; cv.height = waveBody.offsetHeight;
+    const c = cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height);
+    if (!buf) return;
+    const w = cv.width, h = cv.height, mid = h/2, N = 400, { pk } = analyze(buf, N), gap = 1, barW = Math.max(1,(w/N)-gap);
+    for (let i = 0; i < N; i++) { const x=(i/N)*w, a=pk[i]*mid*0.88; c.fillStyle=color+'50'; c.fillRect(x,mid-a,barW,a); c.fillStyle=color+'30'; c.fillRect(x,mid,barW,a); c.fillStyle=color; c.fillRect(x,mid-a,barW,1.5); }
+  }
+
+  function drawFakeCv(cv) {
+    cv.width=waveBody.offsetWidth||300; cv.height=waveBody.offsetHeight||90;
+    const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height);
+    const w=cv.width,h=cv.height,mid=h/2,N=400,gap=1,barW=Math.max(1,(w/N)-gap);
+    let val=0.25+Math.random()*0.3;
+    for(let i=0;i<N;i++){val+=(Math.random()-0.5)*0.12;val=Math.max(0.04,Math.min(0.85,val));const x=(i/N)*w,a=val*mid*0.88;c.fillStyle='rgba(160,160,160,0.18)';c.fillRect(x,mid-a,barW,a);c.fillStyle='rgba(160,160,160,0.10)';c.fillRect(x,mid,barW,a);c.fillStyle='rgba(160,160,160,0.35)';c.fillRect(x,mid-a,barW,1.5);}
+  }
+
+  function showFakeWaveform() { requestAnimationFrame(function(){ drawFakeCv(cvA); drawFakeCv(cvB); }); }
+
+  function redraw() {
+    requestAnimationFrame(function(){
+      if(waveBody.offsetWidth>0){drawCv(cvA,bufA,'#5b8abf');drawCv(cvB,bufB,'#ffad4d');}
+      else requestAnimationFrame(function(){drawCv(cvA,bufA,'#5b8abf');drawCv(cvB,bufB,'#ffad4d');});
+    });
+  }
+
+  function buildGraph(off) {
+    srcA=actx.createBufferSource();srcB=actx.createBufferSource();srcA.buffer=bufA;srcB.buffer=bufB;
+    gA=actx.createGain();gB=actx.createGain();gate=actx.createGain();
+    gA.gain.value=track==='A'?1:0;gB.gain.value=track==='B'?1:0;gate.gain.value=volSlider.value/100;
+    srcA.connect(gA).connect(gate);srcB.connect(gB).connect(gate);gate.connect(actx.destination);
+    srcA.start(actx.currentTime,off);srcB.start(actx.currentTime,off);t0=actx.currentTime-off;
+    srcA.onended=()=>{if(playing)onEnd();};
+  }
+
+  function teardown(){try{srcA&&srcA.stop();}catch(e){}try{srcB&&srcB.stop();}catch(e){}srcA=srcB=gA=gB=gate=null;}
+  function onEnd(){playing=false;offset=0;cancelAnimationFrame(raf);updatePlayUI();setProgress(0);timeEl.textContent=fmt(0)+' / '+fmt(dur);updateRows();}
+  function updatePlayUI(){iconPlay.style.display=playing?'none':'block';iconPause.style.display=playing?'block':'none';waveBody.classList.toggle('is-playing',playing);}
+  function setProgress(r){const p=(r*100).toFixed(2)+'%';phProg.style.width=p;phLine.style.left=p;}
+  function tick(){if(!playing)return;const el=Math.min(actx.currentTime-t0,dur);setProgress(el/dur);timeEl.textContent=fmt(el)+' / '+fmt(dur);raf=requestAnimationFrame(tick);}
+  function fmt(s){return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');}
+
+  function setTrack(t){
+    track=t;btnA.className='abc-btn'+(t==='A'?' on-a':'');btnB.className='abc-btn'+(t==='B'?' on-b':'');
+    wave.className='abc-wave'+(t==='B'?' on-b':'');cvA.classList.toggle('hidden',t!=='A');cvB.classList.toggle('hidden',t!=='B');
+    badge.className='abc-badge '+(t==='A'?'a':'b');badge.textContent=t;
+    if(gA&&gB){gA.gain.setTargetAtTime(t==='A'?1:0,actx.currentTime,0.005);gB.gain.setTargetAtTime(t==='B'?1:0,actx.currentTime,0.005);}
+    updateRows();
+  }
+
+  btnA.addEventListener('click',()=>{if(track!=='A')setTrack('A');});
+  btnB.addEventListener('click',()=>{if(track!=='B')setTrack('B');});
+
+  btnPlay.addEventListener('click',async e=>{
+    e.stopPropagation();
+    if(!bufA||!bufB){await loadTrack(curIdx>=0?curIdx:0);if(!bufA||!bufB)return;initCtx();await actx.resume();buildGraph(offset);playing=true;tick();updatePlayUI();updateRows();return;}
+    await actx.resume();
+    if(playing){offset=actx.currentTime-t0;teardown();playing=false;cancelAnimationFrame(raf);}
+    else{buildGraph(offset);playing=true;tick();}
+    updatePlayUI();updateRows();
+  });
+
+  volSlider.addEventListener('input',()=>{if(gate)gate.gain.setTargetAtTime(volSlider.value/100,actx.currentTime,0.01);});
+
+  function showTrack(idx){
+    const tracks=TRACKS3.current;if(!tracks.length)return;
+    curIdx=idx;bufA=null;bufB=null;offset=0;setProgress(0);
+    const tr=tracks[idx];npTitle.textContent=tr.title;npArtist.textContent=tr.artist;
+    empty.style.display='none';player.classList.add('visible');btnA.disabled=btnB.disabled=false;btnPlay.disabled=false;
+    phLine.style.display='none';timeEl.textContent='0:00 / '+tr.dur;updateRows();showFakeWaveform();
+  }
+
+  async function loadTrack(idx){
+    const tracks=TRACKS3.current;if(!tracks.length)return;
+    initCtx();if(playing){teardown();playing=false;cancelAnimationFrame(raf);updatePlayUI();}
+    if(curIdx!==idx)showTrack(idx);
+    const tr=tracks[idx];const cached=audioBufferCache3.has(tr.a)&&audioBufferCache3.has(tr.b);
+    if(!cached){btnPlay.classList.add('loading');btnPlay.disabled=false;}
+    try{const[bA,bB]=await Promise.all([getBuffer(tr.a),getBuffer(tr.b)]);bufA=bA;bufB=bB;dur=Math.min(bA.duration,bB.duration);timeEl.textContent=fmt(0)+' / '+fmt(dur);phLine.style.display='block';btnPlay.classList.remove('loading');redraw();}
+    catch(err){btnPlay.classList.remove('loading');}
+    updateRows();
+  }
+
+  function updateRows(){rowsEl.querySelectorAll('.abc-row').forEach((r,i)=>{r.classList.toggle('active',i===curIdx);r.classList.toggle('on-b',i===curIdx&&track==='B');r.classList.toggle('is-playing',i===curIdx&&playing);});}
+
+  function buildRows(tracks){
+    if(!rowsEl)return;rowsEl.innerHTML='';
+    tracks.forEach((tr,i)=>{
+      const row=document.createElement('div');row.className='abc-row';
+      row.innerHTML=`<div class="abc-rn"><span class="n">${i+1}</span><span class="p"><svg viewBox="0 0 16 16"><path d="M4 2.5l9 5.5-9 5.5V2.5z"/></svg></span><span class="eq"><span></span><span></span><span></span></span></div><div class="abc-ri"><div class="abc-ri-t">${tr.title}<span class="abc-preview-tag">Anteprima</span></div><div class="abc-ri-a">${tr.artist}</div></div><div class="abc-rd">${tr.dur}</div>`;
+      row.addEventListener('click',()=>loadTrack(i));rowsEl.appendChild(row);
+    });
+  }
+
+  window.addEventListener('resize',()=>{if(bufA||bufB)redraw();});
+
+  /* Init — tracks produzione */
+  const initTracks3 = window.ABC_TRACKS_PRODUCTION || [];
+  TRACKS3.current = initTracks3;
+  buildRows(initTracks3);
+  if (initTracks3.length) requestAnimationFrame(function() { showTrack(0); });
 })();
 
 (function(){
