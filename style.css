@@ -1093,7 +1093,9 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     overflow-y: visible;
   }
   .bio-overlay-panel .bio-badge {
-    white-space: normal;
+    white-space: nowrap;
+    font-size: clamp(0.65em, 2.5vw, 0.72rem);
+    letter-spacing: 0.06em;
   }
 }
 
@@ -1884,6 +1886,10 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   margin-inline: auto;
   max-width: 480px;
   width: 100%;
+  text-wrap: balance;
+}
+@media (max-width: 767px) {
+  .svc-player-label { font-size: clamp(0.72rem, 3.8vw, 0.88rem); }
 }
 .svc-player-label em {
   color: var(--orange);
