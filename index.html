@@ -238,7 +238,7 @@
       <ul class="nav-links" role="list">
         <li><a href="#bio">Max Mungari</a></li>
         <li><a href="#studio">Studio</a></li>
-        <li><a href="#lavori" onclick="event.preventDefault();(function(){var el=document.getElementById('lavori');if(!el)return;var sTop=el.getBoundingClientRect().top+window.scrollY;var top=sTop;if(window.innerWidth>=1920){var sH=el.offsetHeight;var vH=window.innerHeight;var offset=Math.max(0,(vH-sH)/2);top=sTop-offset;}window.scrollTo({top:top,behavior:'smooth'});})()">Chitarrista</a></li>
+        <li><a href="#lavori" onclick="event.preventDefault();scrollToChitarrista()">Chitarrista</a></li>
         <li><a href="#mix-mastering">Mixing &amp; Mastering</a></li>
         <li><a href="#produzioni">Produzioni Musicali</a></li>
         <li><a href="privacy.html">Privacy</a></li>
@@ -258,7 +258,7 @@
        aria-hidden="true" role="dialog" aria-label="Menu di navigazione">
     <a href="#bio"            onclick="closeMobile()">Max Mungari</a>
     <a href="#studio"         onclick="closeMobile()">Studio</a>
-    <a href="#lavori"         onclick="closeMobile();event.preventDefault();(function(){var el=document.getElementById('lavori');if(!el)return;var sTop=el.getBoundingClientRect().top+window.scrollY;var top=sTop;if(window.innerWidth>=1920){var sH=el.offsetHeight;var vH=window.innerHeight;var offset=Math.max(0,(vH-sH)/2);top=sTop-offset;}window.scrollTo({top:top,behavior:'smooth'});})()">Chitarrista</a>
+    <a href="#lavori"         onclick="closeMobile();event.preventDefault();scrollToChitarrista()">Chitarrista</a>
     <a href="#mix-mastering"  onclick="closeMobile()">Mixing &amp; Mastering</a>
     <a href="#produzioni"     onclick="closeMobile()">Produzioni Musicali</a>
     <a href="privacy.html">Privacy</a>
@@ -383,19 +383,23 @@
     <div class="bio-fullimg">
       <img src="newassets/about-new.webp"
            alt="Max Mungari — Chitarrista, Producer e Tecnico del Suono"
-           loading="lazy" decoding="async" />
+           class="bio-img-main" loading="lazy" decoding="async" />
+      <img src="newassets/chitarrista-bg.png"
+           alt="Max Mungari — Chitarrista"
+           class="bio-img-alt" loading="lazy" decoding="async" />
 
       <!-- Pannello nero opaco con testo -->
       <div class="bio-overlay-panel reveal-left">
         <span class="bio-badge">Chitarrista — Produttore — Ingegnere del Suono</span>
         <h2 id="bio-title" class="section-title">MAX MUNGARI</h2>
         <p class="bio-intro">
-          Chitarrista, produttore musicale e ingegnere del suono specializzato in Mixing &amp; Mastering, nato a Crotone, classe 1976.
+          Chitarrista, produttore musicale e ingegnere del suono specializzato in Mixing &amp; Mastering.
         </p>
         <div class="bio-text">
-          <p>La Chitarra diventa subito il suo strumento musicale preferito, con il quale riesce facilmente ad esprimere tutto il suo potenziale creativo e la sua passione per il suono e per l'Arte delle Note.</p>
-          <p>A seguito delle tante esperienze in studio di registrazione, inizia presto a farsi strada in lui la figura dell'Arrangiatore Musicale e si tuffa a capofitto nello studio del Tecnico del Suonoing con specializzazione in MIXING e MASTERING e, conseguentemente, della Music Production.</p>
-          <p>Si iscrive alla Facoltà di Ingegneria Informatica e Automatica dell'Università della Calabria e frequenta corsi di specializzazione a Roma e Milano. Fonda la <strong>Orange Records Music Label</strong> e dà vita al <strong>Studio 1976</strong>, dove segue composizione, arrangiamento, registrazione e produzione di artisti di ogni genere musicale.</p>
+          <p>Nato a Crotone, Classe '76, scopre fin da subito nella chitarra il suo strumento preferito, quello con cui riesce ad esprimere al meglio tutto il suo potenziale creativo e la sua grande passione per il suono e per l'arte delle note.</p>
+          <p>Grazie alle tante esperienze vissute in studio di registrazione, prende forma anche la figura dell'arrangiatore musicale, che lo porta ad approfondire sempre di più lo studio della music production e, successivamente, a specializzarsi nel mixing e mastering audio.</p>
+          <p>Fonda la <strong>Orange Records Music Label</strong> e dà vita a <strong>Studio 1976</strong>, dove realizza produzioni per tanti artisti di diversi generi musicali, con una particolare predilezione per il rock e il pop, sempre circondato e ispirato dalla musica contemporanea.</p>
+          <p>Lavora anche come chitarrista live e in studio, partecipando a produzioni conto terzi.</p>
         </div>
         <div class="bio-tags">
           <span class="bio-tag">Chitarrista</span>
@@ -521,44 +525,53 @@
           <div class="showcase-grid" role="list" aria-label="Produzioni e Collaborazioni">
 
           <!-- 1 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=8jsnpZsoI50" target="_blank" rel="noopener" role="listitem" aria-label="Selezione Produzioni">
-            <img src="newassets/landscape-placeholder.svg" alt="Selezione Produzioni" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=jpIV0VHIkEI" target="_blank" rel="noopener" role="listitem" aria-label="NO MORE TEARS (Ozzy Osbourne) by MAX MUNGARI">
+            <img src="newassets/no-more-tears-ozzy.jpg" alt="NO MORE TEARS (Ozzy Osbourne) by MAX MUNGARI" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
-
           <!-- 2 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=yyMRm4nAxy4" target="_blank" rel="noopener" role="listitem" aria-label="Produzione">
-            <img src="newassets/landscape-placeholder.svg" alt="Produzione" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=9BqErDt4IJY" target="_blank" rel="noopener" role="listitem" aria-label="INHERTZ - PHOTOGRAPH">
+            <img src="newassets/inhertz-photograph.jpg" alt="INHERTZ - PHOTOGRAPH" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 3 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=yWKcTVf3nfY" target="_blank" rel="noopener" role="listitem" aria-label="Produzione">
-            <img src="newassets/landscape-placeholder.svg" alt="Produzione" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=zy1Qo1So9Aw" target="_blank" rel="noopener" role="listitem" aria-label="Måneskin THE LONELIEST - Guitar Cover by Max Mungari">
+            <img src="newassets/maneskin-the-loneliest.jpg" alt="Måneskin THE LONELIEST - Guitar Cover by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 4 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=uNdZiJw3j9E" target="_blank" rel="noopener" role="listitem" aria-label="Collaborazione">
-            <img src="newassets/landscape-placeholder.svg" alt="Collaborazione" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=qSOYPv_XN4Q" target="_blank" rel="noopener" role="listitem" aria-label="U2 SUNDAY BLOODY SUNDAY - Line 6 Helix by MAX MUNGARI">
+            <img src="newassets/u2-sunday-bloody-sunday.jpg" alt="U2 SUNDAY BLOODY SUNDAY - Line 6 Helix by MAX MUNGARI" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 5 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=SVQ-4omOqS4" target="_blank" rel="noopener" role="listitem" aria-label="Collaborazione">
-            <img src="newassets/landscape-placeholder.svg" alt="Collaborazione" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=0Z49mBKntNA" target="_blank" rel="noopener" role="listitem" aria-label="COLDPLAY IN MY PLACE - Line 6 Helix by Max Mungari">
+            <img src="newassets/coldplay-in-my-place.jpg" alt="COLDPLAY IN MY PLACE - Line 6 Helix by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 6 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=8hIOjgWNCes" target="_blank" rel="noopener" role="listitem" aria-label="Collaborazione">
-            <img src="newassets/landscape-placeholder.svg" alt="Collaborazione" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=MXcnFs2BTt8" target="_blank" rel="noopener" role="listitem" aria-label="Lewis Capaldi BEFORE YOU GO - Line 6 Helix by Max Mungari">
+            <img src="newassets/lewis-capaldi-before-you-go.jpg" alt="Lewis Capaldi BEFORE YOU GO - Line 6 Helix by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 7 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=-85x6_Kyb78" target="_blank" rel="noopener" role="listitem" aria-label="Collaborazione">
-            <img src="newassets/landscape-placeholder.svg" alt="Collaborazione" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=yvHxUir2zv0" target="_blank" rel="noopener" role="listitem" aria-label="Hoobastank The Reason - Line 6 Helix by MAX MUNGARI">
+            <img src="newassets/hoobastank-the-reason.jpg" alt="Hoobastank The Reason - Line 6 Helix by MAX MUNGARI" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 8 -->
-          <a class="showcase-item" href="https://www.youtube.com/watch?v=jpIV0VHIkEI" target="_blank" rel="noopener" role="listitem" aria-label="Video">
-            <img src="newassets/landscape-placeholder.svg" alt="Video" loading="lazy" />
+          <a class="showcase-item" href="https://www.youtube.com/watch?v=yWKcTVf3nfY" target="_blank" rel="noopener" role="listitem" aria-label="INHERTZ - Ancora Ancora Ancora">
+            <img src="newassets/inhertz-ancora.jpg" alt="INHERTZ - Ancora Ancora Ancora" loading="lazy" />
+            <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
+          </a>
+          <!-- 9 -->
+          <a class="showcase-item" href="https://youtu.be/56cIkMv5N6E" target="_blank" rel="noopener" role="listitem" aria-label="THE TEMPER TRAP - SWEET DISPOSITION by Max Mungari">
+            <img src="newassets/temper-trap-sweet-disposition.jpg" alt="THE TEMPER TRAP - SWEET DISPOSITION by Max Mungari" loading="lazy" />
+            <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
+          </a>
+          <!-- 10 -->
+          <a class="showcase-item" href="https://youtu.be/e-noCTG0k3M" target="_blank" rel="noopener" role="listitem" aria-label="INHERTZ - THINKING OUT LOUD">
+            <img src="newassets/inhertz-thinking-out-loud.jpg" alt="INHERTZ - THINKING OUT LOUD" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
 
@@ -676,12 +689,12 @@
           </div>
           <div class="svc-qa">
             <p class="svc-q">Cosa include questo servizio?</p>
-            <p class="svc-a">Composizione, arrangiamento, registrazione professionale presso Studio 1976, editing, sound design e mixing — dalla prima nota al prodotto finito pronto per la distribuzione. Disponibile in studio a Crotone o interamente online.</p>
+            <p class="svc-a">Composizione, arrangiamento, registrazione professionale presso Studio 1976, editing, sound design, mixing e mastering — dalla prima nota al prodotto finito pronto per la distribuzione. Disponibile in studio a Crotone o interamente online.</p>
           </div>
         </div>
       </div>
       <div class="svc-player" id="svcPlayer3">
-        <p class="svc-player-label">Ascolta la differenza <em>PRIMA</em> e <em>DOPO</em> l'arrangiamento e la produzione completa di questi brani</p>
+        <p class="svc-player-label">Ascolta la differenza <em>DAL PROVINO</em> alla <em>PRODUZIONE COMPLETA</em></p>
         <div class="abc-card" id="abcCard3">
           <div class="abc-comparator">
             <div class="abc-empty" id="abcEmpty3">Seleziona un brano</div>
@@ -863,7 +876,7 @@
         <p class="footer-meta">
           <span class="footer-credit">Webdesign | <a href="https://francescoriolo.com" target="_blank" rel="noopener">francescoriolo.com</a></span>
           <span class="footer-sep" aria-hidden="true">&mdash;</span>
-          <span class="footer-copy">&copy; 2025 Max Mungari Studio</span>
+          <span class="footer-copy">&copy; 2026 Max Mungari Studio</span>
           <span class="footer-sep" aria-hidden="true">&mdash;</span>
           <a href="privacy.html" class="footer-privacy">Privacy Policy</a>
         </p>
@@ -876,28 +889,26 @@
   <script>
   /* ── Google Maps consent gate ── */
   (function() {
+    function injectMap(wrap) {
+      var src  = wrap.getAttribute('data-map-src');
+      var link = wrap.getAttribute('data-map-link');
+      wrap.innerHTML =
+        '<a href="' + link + '" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;" aria-label="Apri in Google Maps">' +
+          '<iframe src="' + src + '" class="contatti-map-frame" loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" title="Posizione Studio 1976 — Via Lina Merlin 1, Crotone" style="border:0"></iframe>' +
+          '<div class="contatti-map-overlay"><span>Apri in Maps &#8599;</span></div>' +
+        '</a>';
+    }
+    window.loadMap = function() {
+      localStorage.setItem('mapConsent', '1');
+      var wrap = document.getElementById('mapConsentWrap');
+      if (wrap) injectMap(wrap);
+    };
     var wrap = document.getElementById('mapConsentWrap');
     if (!wrap) return;
     if (localStorage.getItem('mapConsent') === '1') {
       injectMap(wrap);
     }
   })();
-
-  function loadMap() {
-    localStorage.setItem('mapConsent', '1');
-    var wrap = document.getElementById('mapConsentWrap');
-    if (wrap) injectMap(wrap);
-  }
-
-  function injectMap(wrap) {
-    var src  = wrap.getAttribute('data-map-src');
-    var link = wrap.getAttribute('data-map-link');
-    wrap.innerHTML =
-      '<a href="' + link + '" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;" aria-label="Apri in Google Maps">' +
-        '<iframe src="' + src + '" class="contatti-map-frame" loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" title="Posizione Studio 1976 — Via Lina Merlin 1, Crotone" frameborder="0"></iframe>' +
-        '<div class="contatti-map-overlay"><span>Apri in Maps &#8599;</span></div>' +
-      '</a>';
-  }
   </script>
 
 
@@ -905,515 +916,10 @@
   <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   <span id="wa-btn-label">Scrivimi su WhatsApp</span>
 </a>
+<script src="abc-player.js"></script>
 <script>
-/* ── Card AB2 ── */
-(function() {
-  const TRACKS2 = { current: [] };
-  const $ = id => document.getElementById(id);
-
-  /* ── B: cache AudioBuffer per URL — mai ri-scaricati nella sessione ── */
-  const audioBufferCache = new Map(); /* url → AudioBuffer */
-
-  function fetchAudio(url) {
-    return new Promise(function(resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.responseType = 'arraybuffer';
-      xhr.onload = function() { if (xhr.status >= 200 && xhr.status < 300) resolve(xhr.response); else reject(new Error('HTTP ' + xhr.status)); };
-      xhr.onerror = reject;
-      xhr.send();
-    });
-  }
-
-  async function getBuffer(url) {
-    if (audioBufferCache.has(url)) return audioBufferCache.get(url);
-    initCtx();
-    const raw = await fetchAudio(url);
-    const buf = await actx.decodeAudioData(raw);
-    audioBufferCache.set(url, buf);
-    return buf;
-  }
-
-  const empty      = $('abcEmpty2');
-  const player     = $('abcPlayer2');
-  const npTitle    = $('abcNpTitle2');
-  const npArtist   = $('abcNpArtist2');
-  const btnA       = $('abcBtnA2');
-  const btnB       = $('abcBtnB2');
-  const wave       = $('abcWave2');
-  const waveBody   = wave ? wave.querySelector('.abc-wave-body') : null;
-  const badge      = $('abcBadge2');
-  const timeEl     = $('abcTime2');
-  const cvA        = $('abcCvA2');
-  const cvB        = $('abcCvB2');
-  const phProg     = $('abcPhProg2');
-  const phLine     = $('abcPhLine2');
-  const btnPlay    = $('abcPlay2');
-  const iconPlay   = $('abcIconPlay2');
-  const iconPause  = $('abcIconPause2');
-  const volSlider  = $('abcVol2');
-  const loader     = $('abcLoader2');
-  const loaderFill = $('abcLoaderFill2');
-  const rowsEl     = $('abcRows2');
-
-  if (!empty || !player || !waveBody) return;
-
-  let actx = null;
-  let bufA = null, bufB = null;
-  let srcA = null, srcB = null;
-  let gA = null, gB = null, gate = null;
-  let playing = false;
-  let t0 = 0, offset = 0, dur = 0;
-  let raf = null;
-  let track = 'A';
-  let curIdx = -1;
-
-  function initCtx() {
-    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-
-  function analyze(buf, n) {
-    const d = buf.getChannelData(0), bs = Math.floor(d.length / n);
-    const pk = new Float32Array(n), rms = new Float32Array(n);
-    for (let i = 0; i < n; i++) {
-      let max = 0, sum = 0, s = i * bs;
-      for (let j = 0; j < bs; j++) {
-        const v = Math.abs(d[s + j]);
-        if (v > max) max = v;
-        sum += d[s + j] * d[s + j];
-      }
-      pk[i]  = max;
-      rms[i] = Math.sqrt(sum / bs);
-    }
-    return { pk, rms };
-  }
-
-  function drawCv(cv, buf, color) {
-    cv.width  = waveBody.offsetWidth;
-    cv.height = waveBody.offsetHeight;
-    const c = cv.getContext('2d');
-    c.clearRect(0, 0, cv.width, cv.height);
-    if (!buf) return;
-    const w = cv.width, h = cv.height, mid = h / 2;
-    const N = 400;
-    const { pk } = analyze(buf, N);
-    const gap = 1;
-    const barW = Math.max(1, (w / N) - gap);
-    for (let i = 0; i < N; i++) {
-      const x = (i / N) * w;
-      const a = pk[i] * mid * 0.88;
-      c.fillStyle = color + '50';
-      c.fillRect(x, mid - a, barW, a);
-      c.fillStyle = color + '30';
-      c.fillRect(x, mid, barW, a);
-      c.fillStyle = color;
-      c.fillRect(x, mid - a, barW, 1.5);
-    }
-  }
-
-  /* Waveform fake — random smooth, più trasparente */
-  function drawFakeCv(cv) {
-    cv.width  = waveBody.offsetWidth  || 300;
-    cv.height = waveBody.offsetHeight || 90;
-    const c = cv.getContext('2d');
-    c.clearRect(0, 0, cv.width, cv.height);
-
-    const w = cv.width, h = cv.height, mid = h / 2;
-    const N = 400, gap = 1;
-    const barW = Math.max(1, (w / N) - gap);
-    let val = 0.25 + Math.random() * 0.3;
-    for (let i = 0; i < N; i++) {
-      val += (Math.random() - 0.5) * 0.12;
-      val = Math.max(0.04, Math.min(0.85, val));
-      const x = (i / N) * w;
-      const a = val * mid * 0.88;
-      c.fillStyle = 'rgba(160,160,160,0.18)';
-      c.fillRect(x, mid - a, barW, a);
-      c.fillStyle = 'rgba(160,160,160,0.10)';
-      c.fillRect(x, mid, barW, a);
-      c.fillStyle = 'rgba(160,160,160,0.35)';
-      c.fillRect(x, mid - a, barW, 1.5);
-    }
-
-  }
-
-  function showFakeWaveform() {
-    requestAnimationFrame(function() {
-      drawFakeCv(cvA);
-      drawFakeCv(cvB);
-    });
-  }
-
-  function redraw() {
-    requestAnimationFrame(function(){
-      if (waveBody.offsetWidth > 0) {
-        drawCv(cvA, bufA, '#5b8abf');
-        drawCv(cvB, bufB, '#ffad4d');
-      } else {
-        requestAnimationFrame(function(){
-          drawCv(cvA, bufA, '#5b8abf');
-          drawCv(cvB, bufB, '#ffad4d');
-        });
-      }
-    });
-  }
-
-  function buildGraph(off) {
-    srcA = actx.createBufferSource(); srcB = actx.createBufferSource();
-    srcA.buffer = bufA; srcB.buffer = bufB;
-    gA = actx.createGain(); gB = actx.createGain(); gate = actx.createGain();
-    gA.gain.value = track === 'A' ? 1 : 0;
-    gB.gain.value = track === 'B' ? 1 : 0;
-    gate.gain.value = volSlider.value / 100;
-    srcA.connect(gA).connect(gate);
-    srcB.connect(gB).connect(gate);
-    gate.connect(actx.destination);
-    srcA.start(actx.currentTime, off);
-    srcB.start(actx.currentTime, off);
-    t0 = actx.currentTime - off;
-    srcA.onended = () => { if (playing) onEnd(); };
-  }
-
-  function teardown() {
-    try { srcA && srcA.stop(); } catch(e) {}
-    try { srcB && srcB.stop(); } catch(e) {}
-    srcA = srcB = gA = gB = gate = null;
-  }
-
-  function onEnd() {
-    playing = false; offset = 0;
-    cancelAnimationFrame(raf);
-    updatePlayUI(); setProgress(0);
-    timeEl.textContent = fmt(0) + ' / ' + fmt(dur);
-    updateRows();
-  }
-
-  function updatePlayUI() {
-    iconPlay.style.display  = playing ? 'none' : 'block';
-    iconPause.style.display = playing ? 'block' : 'none';
-    waveBody.classList.toggle('is-playing', playing);
-  }
-
-  function setProgress(r) {
-    const p = (r * 100).toFixed(2) + '%';
-    phProg.style.width = p; phLine.style.left = p;
-  }
-
-  function tick() {
-    if (!playing) return;
-    const el = Math.min(actx.currentTime - t0, dur);
-    setProgress(el / dur);
-    timeEl.textContent = fmt(el) + ' / ' + fmt(dur);
-    raf = requestAnimationFrame(tick);
-  }
-
-  function fmt(s) { return Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0'); }
-
-  function setTrack(t) {
-    track = t;
-    btnA.className = 'abc-btn' + (t === 'A' ? ' on-a' : '');
-    btnB.className = 'abc-btn' + (t === 'B' ? ' on-b' : '');
-    wave.className = 'abc-wave' + (t === 'B' ? ' on-b' : '');
-    cvA.classList.toggle('hidden', t !== 'A');
-    cvB.classList.toggle('hidden', t !== 'B');
-    badge.className = 'abc-badge ' + (t === 'A' ? 'a' : 'b');
-    badge.textContent = t;
-    if (gA && gB) {
-      gA.gain.setTargetAtTime(t === 'A' ? 1 : 0, actx.currentTime, 0.005);
-      gB.gain.setTargetAtTime(t === 'B' ? 1 : 0, actx.currentTime, 0.005);
-    }
-    updateRows();
-  }
-
-  btnA.addEventListener('click', () => { if (track !== 'A') setTrack('A'); });
-  btnB.addEventListener('click', () => { if (track !== 'B') setTrack('B'); });
-
-  btnPlay.addEventListener('click', async e => {
-    e.stopPropagation();
-    /* C: se buffer non pronti, carica ora (poi parte) */
-    if (!bufA || !bufB) {
-      await loadTrack(curIdx >= 0 ? curIdx : 0);
-      if (!bufA || !bufB) return;
-      initCtx();
-      await actx.resume();
-      buildGraph(offset); playing = true; tick();
-      updatePlayUI(); updateRows();
-      return;
-    }
-    await actx.resume();
-    if (playing) {
-      offset = actx.currentTime - t0;
-      teardown(); playing = false; cancelAnimationFrame(raf);
-    } else {
-      buildGraph(offset); playing = true; tick();
-    }
-    updatePlayUI(); updateRows();
-  });
-
-  volSlider.addEventListener('input', () => {
-    if (gate) gate.gain.setTargetAtTime(volSlider.value / 100, actx.currentTime, 0.01);
-  });
-
-  /* Mostra UI + fake waveform — nessun download */
-  function showTrack(idx) {
-    const tracks = TRACKS2.current;
-    if (!tracks.length) return;
-    curIdx = idx; bufA = null; bufB = null; offset = 0;
-    setProgress(0);
-    const tr = tracks[idx];
-    npTitle.textContent  = tr.title;
-    npArtist.textContent = tr.artist;
-    empty.style.display  = 'none';
-    player.classList.add('visible');
-    btnA.disabled = btnB.disabled = false;
-    btnPlay.disabled = false;
-    phLine.style.display = 'none';
-    timeEl.textContent = '0:00 / ' + tr.dur;
-    updateRows();
-    showFakeWaveform();
-  }
-
-  /* Carica audio reale (con cache B) e ridisegna waveform vera */
-  async function loadTrack(idx) {
-    const tracks = TRACKS2.current;
-    if (!tracks.length) return;
-    initCtx();
-    if (playing) { teardown(); playing = false; cancelAnimationFrame(raf); updatePlayUI(); }
-    if (curIdx !== idx) showTrack(idx);
-    const tr = tracks[idx];
-    const cached = audioBufferCache.has(tr.a) && audioBufferCache.has(tr.b);
-    if (!cached) {
-      btnPlay.classList.add('loading');
-      btnPlay.disabled = false; /* mantieni cliccabile visivamente ma spinner blocca */
-    }
-    try {
-      const [bA, bB] = await Promise.all([getBuffer(tr.a), getBuffer(tr.b)]);
-      bufA = bA; bufB = bB;
-      dur = Math.min(bA.duration, bB.duration);
-      timeEl.textContent = fmt(0) + ' / ' + fmt(dur);
-      phLine.style.display = 'block';
-      btnPlay.classList.remove('loading');
-      redraw(); /* waveform reale sovrascrive fake */
-    } catch(err) {
-      btnPlay.classList.remove('loading');
-    }
-    updateRows();
-  }
-
-  function updateRows() {
-    rowsEl.querySelectorAll('.abc-row').forEach((r, i) => {
-      r.classList.toggle('active', i === curIdx);
-      r.classList.toggle('on-b', i === curIdx && track === 'B');
-      r.classList.toggle('is-playing', i === curIdx && playing);
-    });
-  }
-
-  function buildRows(tracks) {
-    if (!rowsEl) return;
-    rowsEl.innerHTML = '';
-    tracks.forEach((tr, i) => {
-      const row = document.createElement('div');
-      row.className = 'abc-row';
-      row.innerHTML = `
-        <div class="abc-rn">
-          <span class="n">${i+1}</span>
-          <span class="p"><svg viewBox="0 0 16 16"><path d="M4 2.5l9 5.5-9 5.5V2.5z"/></svg></span>
-          <span class="eq"><span></span><span></span><span></span></span>
-        </div>
-        <div class="abc-ri">
-          <div class="abc-ri-t">${tr.title}<span class="abc-preview-tag">Anteprima</span></div>
-          <div class="abc-ri-a">${tr.artist}</div>
-        </div>
-        <div class="abc-rd">${tr.dur}</div>
-      `;
-      row.addEventListener('click', () => loadTrack(i));
-      rowsEl.appendChild(row);
-    });
-  }
-
-  window.addEventListener('resize', () => { if (bufA || bufB) redraw(); });
-
-  /* Init — carica tracks mixing+mastering direttamente */
-  const initTracks2 = (window.ABC_TRACKS_MIXING || []).concat(window.ABC_TRACKS_MASTERING || []);
-  TRACKS2.current = initTracks2;
-  buildRows(initTracks2);
-  if (initTracks2.length) requestAnimationFrame(function() { showTrack(0); });
-})();
-
-/* ── ABC Player 3 — Produzioni Musicali ── */
-(function(){
-  const TRACKS3 = { current: [] };
-  const $ = id => document.getElementById(id);
-  const audioBufferCache3 = new Map();
-
-  function fetchAudio(url) {
-    return new Promise(function(resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.responseType = 'arraybuffer';
-      xhr.onload = function() { if (xhr.status >= 200 && xhr.status < 300) resolve(xhr.response); else reject(new Error('HTTP ' + xhr.status)); };
-      xhr.onerror = reject;
-      xhr.send();
-    });
-  }
-
-  async function getBuffer(url) {
-    if (audioBufferCache3.has(url)) return audioBufferCache3.get(url);
-    initCtx();
-    const raw = await fetchAudio(url);
-    const buf = await actx.decodeAudioData(raw);
-    audioBufferCache3.set(url, buf);
-    return buf;
-  }
-
-  const empty      = $('abcEmpty3');
-  const player     = $('abcPlayer3');
-  const npTitle    = $('abcNpTitle3');
-  const npArtist   = $('abcNpArtist3');
-  const btnA       = $('abcBtnA3');
-  const btnB       = $('abcBtnB3');
-  const wave       = $('abcWave3');
-  const waveBody   = wave ? wave.querySelector('.abc-wave-body') : null;
-  const badge      = $('abcBadge3');
-  const timeEl     = $('abcTime3');
-  const cvA        = $('abcCvA3');
-  const cvB        = $('abcCvB3');
-  const phProg     = $('abcPhProg3');
-  const phLine     = $('abcPhLine3');
-  const btnPlay    = $('abcPlay3');
-  const iconPlay   = $('abcIconPlay3');
-  const iconPause  = $('abcIconPause3');
-  const volSlider  = $('abcVol3');
-  const loader     = $('abcLoader3');
-  const loaderFill = $('abcLoaderFill3');
-  const rowsEl     = $('abcRows3');
-
-  if (!empty || !player || !waveBody) return;
-
-  let actx = null;
-  let bufA = null, bufB = null;
-  let srcA = null, srcB = null;
-  let gA = null, gB = null, gate = null;
-  let playing = false;
-  let t0 = 0, offset = 0, dur = 0;
-  let raf = null;
-  let track = 'A';
-  let curIdx = -1;
-
-  function initCtx() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); }
-
-  function analyze(buf, n) {
-    const d = buf.getChannelData(0), bs = Math.floor(d.length / n);
-    const pk = new Float32Array(n), rms = new Float32Array(n);
-    for (let i = 0; i < n; i++) {
-      let max = 0, sum = 0, s = i * bs;
-      for (let j = 0; j < bs; j++) { const v = Math.abs(d[s+j]); if (v > max) max = v; sum += d[s+j]*d[s+j]; }
-      pk[i] = max; rms[i] = Math.sqrt(sum/bs);
-    }
-    return { pk, rms };
-  }
-
-  function drawCv(cv, buf, color) {
-    cv.width = waveBody.offsetWidth; cv.height = waveBody.offsetHeight;
-    const c = cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height);
-    if (!buf) return;
-    const w = cv.width, h = cv.height, mid = h/2, N = 400, { pk } = analyze(buf, N), gap = 1, barW = Math.max(1,(w/N)-gap);
-    for (let i = 0; i < N; i++) { const x=(i/N)*w, a=pk[i]*mid*0.88; c.fillStyle=color+'50'; c.fillRect(x,mid-a,barW,a); c.fillStyle=color+'30'; c.fillRect(x,mid,barW,a); c.fillStyle=color; c.fillRect(x,mid-a,barW,1.5); }
-  }
-
-  function drawFakeCv(cv) {
-    cv.width=waveBody.offsetWidth||300; cv.height=waveBody.offsetHeight||90;
-    const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height);
-    const w=cv.width,h=cv.height,mid=h/2,N=400,gap=1,barW=Math.max(1,(w/N)-gap);
-    let val=0.25+Math.random()*0.3;
-    for(let i=0;i<N;i++){val+=(Math.random()-0.5)*0.12;val=Math.max(0.04,Math.min(0.85,val));const x=(i/N)*w,a=val*mid*0.88;c.fillStyle='rgba(160,160,160,0.18)';c.fillRect(x,mid-a,barW,a);c.fillStyle='rgba(160,160,160,0.10)';c.fillRect(x,mid,barW,a);c.fillStyle='rgba(160,160,160,0.35)';c.fillRect(x,mid-a,barW,1.5);}
-  }
-
-  function showFakeWaveform() { requestAnimationFrame(function(){ drawFakeCv(cvA); drawFakeCv(cvB); }); }
-
-  function redraw() {
-    requestAnimationFrame(function(){
-      if(waveBody.offsetWidth>0){drawCv(cvA,bufA,'#5b8abf');drawCv(cvB,bufB,'#ffad4d');}
-      else requestAnimationFrame(function(){drawCv(cvA,bufA,'#5b8abf');drawCv(cvB,bufB,'#ffad4d');});
-    });
-  }
-
-  function buildGraph(off) {
-    srcA=actx.createBufferSource();srcB=actx.createBufferSource();srcA.buffer=bufA;srcB.buffer=bufB;
-    gA=actx.createGain();gB=actx.createGain();gate=actx.createGain();
-    gA.gain.value=track==='A'?1:0;gB.gain.value=track==='B'?1:0;gate.gain.value=volSlider.value/100;
-    srcA.connect(gA).connect(gate);srcB.connect(gB).connect(gate);gate.connect(actx.destination);
-    srcA.start(actx.currentTime,off);srcB.start(actx.currentTime,off);t0=actx.currentTime-off;
-    srcA.onended=()=>{if(playing)onEnd();};
-  }
-
-  function teardown(){try{srcA&&srcA.stop();}catch(e){}try{srcB&&srcB.stop();}catch(e){}srcA=srcB=gA=gB=gate=null;}
-  function onEnd(){playing=false;offset=0;cancelAnimationFrame(raf);updatePlayUI();setProgress(0);timeEl.textContent=fmt(0)+' / '+fmt(dur);updateRows();}
-  function updatePlayUI(){iconPlay.style.display=playing?'none':'block';iconPause.style.display=playing?'block':'none';waveBody.classList.toggle('is-playing',playing);}
-  function setProgress(r){const p=(r*100).toFixed(2)+'%';phProg.style.width=p;phLine.style.left=p;}
-  function tick(){if(!playing)return;const el=Math.min(actx.currentTime-t0,dur);setProgress(el/dur);timeEl.textContent=fmt(el)+' / '+fmt(dur);raf=requestAnimationFrame(tick);}
-  function fmt(s){return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');}
-
-  function setTrack(t){
-    track=t;btnA.className='abc-btn'+(t==='A'?' on-a':'');btnB.className='abc-btn'+(t==='B'?' on-b':'');
-    wave.className='abc-wave'+(t==='B'?' on-b':'');cvA.classList.toggle('hidden',t!=='A');cvB.classList.toggle('hidden',t!=='B');
-    badge.className='abc-badge '+(t==='A'?'a':'b');badge.textContent=t;
-    if(gA&&gB){gA.gain.setTargetAtTime(t==='A'?1:0,actx.currentTime,0.005);gB.gain.setTargetAtTime(t==='B'?1:0,actx.currentTime,0.005);}
-    updateRows();
-  }
-
-  btnA.addEventListener('click',()=>{if(track!=='A')setTrack('A');});
-  btnB.addEventListener('click',()=>{if(track!=='B')setTrack('B');});
-
-  btnPlay.addEventListener('click',async e=>{
-    e.stopPropagation();
-    if(!bufA||!bufB){await loadTrack(curIdx>=0?curIdx:0);if(!bufA||!bufB)return;initCtx();await actx.resume();buildGraph(offset);playing=true;tick();updatePlayUI();updateRows();return;}
-    await actx.resume();
-    if(playing){offset=actx.currentTime-t0;teardown();playing=false;cancelAnimationFrame(raf);}
-    else{buildGraph(offset);playing=true;tick();}
-    updatePlayUI();updateRows();
-  });
-
-  volSlider.addEventListener('input',()=>{if(gate)gate.gain.setTargetAtTime(volSlider.value/100,actx.currentTime,0.01);});
-
-  function showTrack(idx){
-    const tracks=TRACKS3.current;if(!tracks.length)return;
-    curIdx=idx;bufA=null;bufB=null;offset=0;setProgress(0);
-    const tr=tracks[idx];npTitle.textContent=tr.title;npArtist.textContent=tr.artist;
-    empty.style.display='none';player.classList.add('visible');btnA.disabled=btnB.disabled=false;btnPlay.disabled=false;
-    phLine.style.display='none';timeEl.textContent='0:00 / '+tr.dur;updateRows();showFakeWaveform();
-  }
-
-  async function loadTrack(idx){
-    const tracks=TRACKS3.current;if(!tracks.length)return;
-    initCtx();if(playing){teardown();playing=false;cancelAnimationFrame(raf);updatePlayUI();}
-    if(curIdx!==idx)showTrack(idx);
-    const tr=tracks[idx];const cached=audioBufferCache3.has(tr.a)&&audioBufferCache3.has(tr.b);
-    if(!cached){btnPlay.classList.add('loading');btnPlay.disabled=false;}
-    try{const[bA,bB]=await Promise.all([getBuffer(tr.a),getBuffer(tr.b)]);bufA=bA;bufB=bB;dur=Math.min(bA.duration,bB.duration);timeEl.textContent=fmt(0)+' / '+fmt(dur);phLine.style.display='block';btnPlay.classList.remove('loading');redraw();}
-    catch(err){btnPlay.classList.remove('loading');}
-    updateRows();
-  }
-
-  function updateRows(){rowsEl.querySelectorAll('.abc-row').forEach((r,i)=>{r.classList.toggle('active',i===curIdx);r.classList.toggle('on-b',i===curIdx&&track==='B');r.classList.toggle('is-playing',i===curIdx&&playing);});}
-
-  function buildRows(tracks){
-    if(!rowsEl)return;rowsEl.innerHTML='';
-    tracks.forEach((tr,i)=>{
-      const row=document.createElement('div');row.className='abc-row';
-      row.innerHTML=`<div class="abc-rn"><span class="n">${i+1}</span><span class="p"><svg viewBox="0 0 16 16"><path d="M4 2.5l9 5.5-9 5.5V2.5z"/></svg></span><span class="eq"><span></span><span></span><span></span></span></div><div class="abc-ri"><div class="abc-ri-t">${tr.title}<span class="abc-preview-tag">Anteprima</span></div><div class="abc-ri-a">${tr.artist}</div></div><div class="abc-rd">${tr.dur}</div>`;
-      row.addEventListener('click',()=>loadTrack(i));rowsEl.appendChild(row);
-    });
-  }
-
-  window.addEventListener('resize',()=>{if(bufA||bufB)redraw();});
-
-  /* Init — tracks produzione */
-  const initTracks3 = window.ABC_TRACKS_PRODUCTION || [];
-  TRACKS3.current = initTracks3;
-  buildRows(initTracks3);
-  if (initTracks3.length) requestAnimationFrame(function() { showTrack(0); });
-})();
+createABCPlayer({ n: '2', previewLabel: 'Anteprima', tracks: (window.ABC_TRACKS_MIXING||[]).concat(window.ABC_TRACKS_MASTERING||[]) });
+createABCPlayer({ n: '3', previewLabel: 'Anteprima', tracks: window.ABC_TRACKS_PRODUCTION||[] });
 
 (function(){
   var btn = document.getElementById('wa-btn');

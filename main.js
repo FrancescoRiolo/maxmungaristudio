@@ -191,82 +191,6 @@ if ('IntersectionObserver' in window) {
 
 })();
 
-/* ── Intro: dispersione logo + particelle ── */
-function launchParticles(logoEl) {
-  var canvas = document.createElement('canvas');
-  canvas.id = 'intro-particles';
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  document.body.appendChild(canvas);
-  var ctx = canvas.getContext('2d');
-
-  /* Centro del logo */
-  var rect = logoEl.getBoundingClientRect();
-  var cx = rect.left + rect.width  / 2;
-  var cy = rect.top  + rect.height / 2;
-
-  /* Colori dal design system */
-  var COLORS = ['#e8871a', '#ffffff', '#c4a882', '#d4956a', '#f5f0ea'];
-
-  /* Genera particelle */
-  var COUNT = 80;
-  var particles = [];
-  for (var i = 0; i < COUNT; i++) {
-    var angle  = Math.random() * Math.PI * 2;
-    var speed  = 1.5 + Math.random() * 5.5;
-    var size   = 2 + Math.random() * 6;
-    var life   = 0.6 + Math.random() * 0.4; /* durata relativa 0–1 */
-    particles.push({
-      x: cx, y: cy,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - (Math.random() * 1.5), /* leggero drift in su */
-      size: size,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      alpha: 1,
-      life: life,
-      decay: 0.012 + Math.random() * 0.018
-    });
-  }
-
-  var startTime = null;
-  var DURATION  = 1400; /* ms totali animazione particelle */
-
-  function step(ts) {
-    if (!startTime) startTime = ts;
-    var elapsed = ts - startTime;
-    var progress = Math.min(elapsed / DURATION, 1);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(function(p) {
-      if (p.alpha <= 0) return;
-
-      p.x  += p.vx;
-      p.y  += p.vy;
-      p.vy += 0.06; /* gravità leggera */
-      p.vx *= 0.98; /* attrito aria */
-      p.alpha -= p.decay;
-
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.fillStyle   = p.color;
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur  = 6;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * (1 - progress * 0.4), 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    });
-
-    if (progress < 1) {
-      requestAnimationFrame(step);
-    } else {
-      canvas.remove();
-    }
-  }
-
-  requestAnimationFrame(step);
-}
 
 (function() {
   var screen = document.getElementById('intro-screen');
@@ -285,20 +209,6 @@ function launchParticles(logoEl) {
   document.body.classList.add('intro-visible');
   document.body.style.overflow = 'hidden';
 
-  /* Rileva dispositivi touch / mobile-tablet (< 1024px o touchscreen) */
-  var isTouchDevice = (window.innerWidth < 1024) ||
-    ('ontouchstart' in window) ||
-    (navigator.maxTouchPoints > 0);
-
-  /*
-    DESKTOP: zoom + flip in simultanea — 5.5 secondi fade
-    MOBILE/TABLET: nessuna animazione — semplice fade rapido (600ms)
-  */
-  var T_LOGO    = 1600; /* durata animazione logo: flip + zoom */
-  var T_BGDELAY =  600; /* il fade schermo parte subito dopo il flip */
-  var T_BGFADE  = 5500; /* fade schermo desktop: 5.5 secondi */
-  var T_MOBILE_FADE = 600; /* fade rapido su mobile: 0.6s */
-
   function startTransition() {
     var hint = document.querySelector('.intro-hint');
     [btn, hint].forEach(function(el) {
@@ -310,34 +220,15 @@ function launchParticles(logoEl) {
     });
     btn.disabled = true;
 
-    if (isTouchDevice) {
-      /* ── Mobile/Tablet: nessun flip, nessuno zoom — fade diretto ── */
-      screen.style.transition = 'opacity ' + T_MOBILE_FADE + 'ms ease';
-      screen.style.opacity = '0';
-      screen.style.pointerEvents = 'none';
-      setTimeout(function() {
-        screen.remove();
-        document.documentElement.classList.remove('intro-visible');
-        document.body.classList.remove('intro-visible');
-        document.body.style.overflow = '';
-        sessionStorage.setItem('introPlayed', '1');
-        if (window.__startSocialHover) window.__startSocialHover();
-      }, T_MOBILE_FADE + 50);
+    {
+      /* ── OPZIONE 2 "SIGNAL" ── */
+      var T_DISPERSE = 1200; /* durata animazione logo */
+      var T_BGFADE2  =  900; /* fade schermo dopo */
 
-    } else {
-      /* ── Desktop: dispersione + particelle ── */
-      var T_DISPERSE = 900;  /* durata animazione logo */
-      var T_BGFADE2  = 1200; /* fade schermo dopo dispersione */
-
-      /* 1. Lancia le particelle dal logo */
-      // launchParticles(inner);
-
-      /* 2. Anima il logo: scala + blur + fade */
       inner.style.transition = 'none';
       inner.offsetHeight;
-      inner.style.animation = 'introDisperse ' + T_DISPERSE + 'ms cubic-bezier(0.2,0,0.8,1) forwards';
+      inner.style.animation = 'introSignal ' + T_DISPERSE + 'ms linear forwards';
 
-      /* 3. Fade schermo */
       setTimeout(function() {
         screen.style.transition = 'opacity ' + T_BGFADE2 + 'ms ease';
         screen.style.opacity = '0';
@@ -345,13 +236,10 @@ function launchParticles(logoEl) {
         document.documentElement.classList.remove('intro-visible');
         document.body.classList.remove('intro-visible');
         document.body.style.overflow = '';
-
-        /* Riavvia il video Vimeo dall'inizio quando l'intro scompare */
         var p0 = window.__heroVimeoPlayer && window.__heroVimeoPlayer();
         if (p0) { p0.setCurrentTime(0).then(function() { p0.play(); }); }
-      }, T_DISPERSE * 0.4);
+      }, T_DISPERSE);
 
-      /* 4. Rimozione DOM */
       setTimeout(function() {
         screen.remove();
         sessionStorage.setItem('introPlayed', '1');
@@ -390,7 +278,7 @@ function launchParticles(logoEl) {
     /* Mostra tutti gli item in colonna, quadrati */
     items.forEach(function(item) {
       item.style.display = 'block';
-      item.style.aspectRatio = '1/1';
+      item.style.aspectRatio = '16/9';
       item.style.width = '100%';
     });
     grid.style.display = 'flex';
@@ -430,9 +318,22 @@ function launchParticles(logoEl) {
   });
 
   function goTo(page) {
-    curPage = ((page % totalPages) + totalPages) % totalPages;
+    var newPage = ((page % totalPages) + totalPages) % totalPages;
+    var wrapping = (page >= totalPages || page < 0);
+    if (wrapping) {
+      grid.style.transition = 'none';
+      void grid.offsetWidth; /* force reflow */
+    }
+    curPage = newPage;
     var offset = curPage * (100 / totalPages);
     grid.style.transform = 'translateX(-' + offset + '%)';
+    if (wrapping) {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          grid.style.transition = '';
+        });
+      });
+    }
     btnPrev.disabled = false;
     btnNext.disabled = false;
   }
@@ -488,20 +389,27 @@ function launchParticles(logoEl) {
   var acusticaN = acusticaSlides.length;
   var vanguardN = vanguardSlides.length;
   var cur = 0;
+  var timer = null;
 
-  setInterval(function() {
+  function tick() {
     if (avidN)     allAvid.forEach(function(slides) { slides[cur % avidN].classList.remove('active'); });
     if (ekoN)      ekoSlides[cur % ekoN].classList.remove('active');
     if (acusticaN) acusticaSlides[cur % acusticaN].classList.remove('active');
     if (vanguardN) vanguardSlides[cur % vanguardN].classList.remove('active');
-
     cur++;
-
     if (avidN)     allAvid.forEach(function(slides) { slides[cur % avidN].classList.add('active'); });
     if (ekoN)      ekoSlides[cur % ekoN].classList.add('active');
     if (acusticaN) acusticaSlides[cur % acusticaN].classList.add('active');
     if (vanguardN) vanguardSlides[cur % vanguardN].classList.add('active');
-  }, 2500);
+  }
+
+  function start() { if (!timer) timer = setInterval(tick, 2500); }
+  function stop()  { clearInterval(timer); timer = null; }
+
+  document.addEventListener('visibilitychange', function() {
+    document.hidden ? stop() : start();
+  });
+  start();
 })();
 
 /* ── Hero social strip coin-flip ── */
@@ -649,7 +557,8 @@ window.addEventListener('load', function() {
       (function(idx) {
         var dot = document.createElement('button');
         dot.className = 'vcarousel-dot' + (idx === activePage ? ' active' : '');
-        dot.setAttribute('aria-label', 'Pagina ' + (idx + 1));
+        var pageWord = document.documentElement.lang === 'en' ? 'Page' : 'Pagina';
+        dot.setAttribute('aria-label', pageWord + ' ' + (idx + 1));
         dot.addEventListener('click', function() {
           current = idx * perPage;
           render();
@@ -704,6 +613,18 @@ window.addEventListener('load', function() {
   startAuto();
 })();
 
+/* ── Scroll to #lavori — centrato su UHD ── */
+function scrollToChitarrista() {
+  var el = document.getElementById('lavori');
+  if (!el) return;
+  var sTop = el.getBoundingClientRect().top + window.scrollY;
+  var top  = sTop;
+  if (window.innerWidth >= 1920) {
+    top = sTop - Math.max(0, (window.innerHeight - el.offsetHeight) / 2);
+  }
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
 /* ── Smooth scroll con offset navbar ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
@@ -737,14 +658,57 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   update();
 })();
 
-/* ── Studio carousel — crossfade ogni 10s ── */
+/* ── Studio carousel — crossfade ogni 5s, solo quando visibile ── */
 (function() {
-  const slides = document.querySelectorAll('.studio-fullimg > img.studio-slide');
+  var slides = document.querySelectorAll('.studio-fullimg > img.studio-slide');
   if (slides.length < 2) return;
-  let current = 0;
-  setInterval(function() {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }, 5000);
+  var wrap = document.querySelector('.studio-fullimg');
+  if (!wrap) return;
+  var current = 0;
+  var timer = null;
+  function start() {
+    if (timer) return;
+    timer = setInterval(function() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+  }
+  function stop() { clearInterval(timer); timer = null; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      entries[0].isIntersecting ? start() : stop();
+    }, { threshold: 0.1 }).observe(wrap);
+  } else {
+    start();
+  }
+})();
+
+/* ── Bio: crossfade immagine ogni 7s (solo desktop, solo quando visibile) ── */
+(function() {
+  if (window.innerWidth < 768) {
+    var altImg = document.querySelector('.bio-img-alt');
+    if (altImg) altImg.remove();
+    return;
+  }
+  var bioWrap = document.querySelector('.bio-fullimg');
+  if (!bioWrap) return;
+  var timer = null;
+  function start() {
+    if (timer) return;
+    timer = setInterval(function() {
+      bioWrap.classList.toggle('show-alt');
+    }, 7000);
+  }
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      entries[0].isIntersecting ? start() : stop();
+    }, { threshold: 0.1 }).observe(bioWrap);
+  } else {
+    start(); /* fallback browser datati */
+  }
 })();
