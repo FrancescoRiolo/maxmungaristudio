@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /newassets/notused/
 
 Sitemap: https://maxmungaristudio.com/sitemap.xml

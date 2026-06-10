@@ -1924,6 +1924,10 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     filter: none;
     transform: none;
   }
+  #mix-mastering .svc-fullimg::after,
+  #produzioni    .svc-fullimg::after {
+    display: none;
+  }
 }
 #mix-mastering .svc-fullimg::after,
 #produzioni    .svc-fullimg::after {
@@ -2170,6 +2174,20 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 
 /* Mobile */
 @media (max-width: 767px) {
+  #lavori { padding-bottom: 6rem; }
+  #lavori::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('newassets/filigranaMobilebg.png');
+    background-repeat: repeat;
+    background-position: center center;
+    background-size: 40%;
+    opacity: 0.04;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 0;
+  }
   .lavori-fullimg { min-height: unset; display: flex; flex-direction: column; }
   .lavori-fullimg > img { position: relative; inset: unset; width: 100%; height: 220px; filter: none; }
   .lavori-overlay-panel {
@@ -2469,15 +2487,11 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 
 
 @media (max-width: 767px) {
-  #bio::before,
-  #lavori::before {
+  #bio::before {
     background-image: url('newassets/filigranaMobilebg.png');
   }
   #studio::after {
     background-image: url('newassets/filigranaMobilebg.png');
-  }
-  #lavori::before {
-    opacity: 0.03;
   }
   #contatti::before {
     background-image: url('newassets/filigranaMobilebg.png');
