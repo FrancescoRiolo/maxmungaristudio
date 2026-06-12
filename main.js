@@ -712,3 +712,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     start(); /* fallback browser datati */
   }
 })();
+
+/* ── Mobile svc-img-carousel crossfade (Produzioni) ── */
+(function() {
+  if (window.innerWidth >= 768) return;
+  var carousel = document.querySelector('.svc-img-carousel');
+  if (!carousel) return;
+  var timer = null;
+  function start() {
+    if (timer) return;
+    timer = setInterval(function() { carousel.classList.toggle('show-alt'); }, 4000);
+  }
+  function stop() { clearInterval(timer); timer = null; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      entries[0].isIntersecting ? start() : stop();
+    }, { threshold: 0.1 }).observe(carousel);
+  } else {
+    start();
+  }
+})();

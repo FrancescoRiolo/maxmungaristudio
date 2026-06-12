@@ -1822,6 +1822,24 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   object-position: center;
   display: block;
 }
+.svc-img-carousel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.svc-img-carousel > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: opacity 1.2s ease;
+}
+.svc-prd-alt { opacity: 0; }
 .svc-overlay {
   position: absolute;
   top: 0;
@@ -2062,6 +2080,19 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     flex-shrink: 0;
     order: 0;
   }
+  /* Hide M&M standalone img on mobile (shown in carousel in Produzioni) */
+  #mix-mastering .svc-fullimg > img { display: none; }
+  /* Mobile: carousel container becomes a block row */
+  .svc-img-carousel {
+    position: relative;
+    inset: unset;
+    height: 56vw;
+    flex-shrink: 0;
+    order: 0;
+  }
+  .svc-prd-alt { opacity: 0; }
+  .svc-img-carousel.show-alt .svc-prd-main { opacity: 0; }
+  .svc-img-carousel.show-alt .svc-prd-alt  { opacity: 1; }
 
   #mix-mastering .svc-overlay {
     background-image: url('newassets/studio-bg2.jpg');
@@ -2174,20 +2205,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 
 /* Mobile */
 @media (max-width: 767px) {
-  #lavori { padding-bottom: 6rem; }
-  #lavori::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('newassets/filigranaMobilebg.png');
-    background-repeat: repeat;
-    background-position: center center;
-    background-size: 40%;
-    opacity: 0.04;
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 0;
-  }
+  #lavori::before { display: none; }
   .lavori-fullimg { min-height: unset; display: flex; flex-direction: column; }
   .lavori-fullimg > img { position: relative; inset: unset; width: 100%; height: 220px; filter: none; }
   .lavori-overlay-panel {
@@ -2217,6 +2235,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     background-image: url('newassets/chitarrista-bg.png');
     background-size: cover;
     background-position: center;
+    padding-bottom: clamp(3rem, 2vw, 2rem);
   }
   .lavori-fullwrap::before {
     content: '';
