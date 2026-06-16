@@ -113,7 +113,7 @@
         "jobTitle": "Chitarrista, Music Producer e Tecnico del Suono",
         "description": "Chitarrista, Producer e Tecnico del Suono nato a Crotone nel 1976. Specializzato in Mixing & Mastering professionale. Fondatore di Orange Records Music Label e Studio 1976.",
         "url": "https://maxmungaristudio.com/",
-        "image": "https://maxmungaristudio.com/newassets/about2.webp",
+        "image": "https://maxmungaristudio.com/newassets/about-new.webp",
         "sameAs": [
           "https://www.instagram.com/maxmungaristudio",
           "https://www.facebook.com/MaxMungari/",
@@ -161,8 +161,11 @@
   <link rel="dns-prefetch" href="https://vod-progressive.akamaized.net" />
   <link rel="dns-prefetch" href="https://skyfire.vimeocdn.com" />
   <link rel="dns-prefetch" href="https://vod.vimeocdn.com" />
+  <!-- Audio ABC player (Mixing/Mastering/Produzioni) -->
+  <link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin />
+  <link rel="dns-prefetch" href="https://dl.dropboxusercontent.com" />
 
-  <link rel="stylesheet" href="style.css?v=20260612" />
+  <link rel="stylesheet" href="style.css?v=20260615" />
 
   <script>
   /* ── Brani A/B per sezione ── */
@@ -209,7 +212,7 @@
   <div id="intro-screen" role="dialog" aria-modal="true" aria-label="Benvenuto in Max Mungari Studio">
     <div class="intro-logo-wrap">
       <div class="intro-logo-inner" id="introLogoInner">
-        <img src="newassets/LogoMax.webp" alt="Max Mungari Studio" class="intro-logo-svg" width="906" height="984" />
+        <img src="newassets/logonuovo.webp" alt="Max Mungari Studio" class="intro-logo-svg" width="906" height="984" />
       </div>
     </div>
     <button id="intro-enter-btn" type="button">Entra nel sito</button>
@@ -384,9 +387,11 @@
       <img src="newassets/about-new.webp"
            alt="Max Mungari — Chitarrista, Producer e Tecnico del Suono"
            class="bio-img-main" loading="lazy" decoding="async" />
-      <img src="newassets/chitarrista-bg.png"
+      <!-- SECONDA IMMAGINE BIO — commentata temporaneamente; riattivare insieme ai bottoni sotto
+      <img src="newassets/chitarrista-bg.jpeg"
            alt="Max Mungari — Chitarrista"
            class="bio-img-alt" loading="lazy" decoding="async" />
+      -->
 
       <!-- Pannello nero opaco con testo -->
       <div class="bio-overlay-panel reveal-left">
@@ -410,6 +415,14 @@
           <span class="bio-tag">Music Label</span>
         </div>
       </div>
+      <!-- CONTROLLI CAROUSEL BIO — commentati temporaneamente; riattivare insieme alla seconda immagine sopra
+      <button class="bio-carousel-prev" aria-label="Immagine precedente">
+        <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="bio-carousel-next" aria-label="Immagine successiva">
+        <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      -->
     </div>
 
 
@@ -459,8 +472,12 @@
   ============================== -->
   <section id="studio" aria-labelledby="studio-title">
     <div class="studio-fullimg">
-      <img src="newassets/studio-main.webp" alt="Studio 1976 Crotone — sala principale di registrazione" decoding="async" class="studio-slide active" />
-      <img src="newassets/studio-bg3.png" alt="Studio 1976 Crotone — sala di registrazione" loading="lazy" decoding="async" class="studio-slide" />
+      <div class="studio-img-carousel">
+        <img src="newassets/studio2.webp" alt="Studio 1976 Crotone — regia" decoding="async" class="studio-slide active" />
+        <img src="newassets/studio1.webp" alt="Studio 1976 Crotone — console" loading="lazy" decoding="async" class="studio-slide" />
+        <img src="newassets/studio3.webp" alt="Studio 1976 Crotone — microfono" loading="lazy" decoding="async" class="studio-slide" />
+        <img src="newassets/studio4.webp" alt="Studio 1976 Crotone — sala live" loading="lazy" decoding="async" class="studio-slide" />
+      </div>
 
       <!-- Pannello nero opaco — sinistra -->
       <div class="studio-overlay-panel reveal-left">
@@ -473,6 +490,12 @@
         </p>
         <a href="#contatti" class="studio-cta">Inizia il tuo progetto</a>
       </div>
+      <button class="studio-carousel-prev" aria-label="Immagine precedente">
+        <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="studio-carousel-next" aria-label="Immagine successiva">
+        <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </section>
 
@@ -485,7 +508,7 @@
         <blockquote class="quote-strip-text">
           &ldquo;La sua tenacia, la sua perseveranza e, ovviamente, il suo istinto musicale lo hanno portato alla ribalta, facendolo apprezzare non solo per il suo lavoro come musicista, ma anche come sound engineer ed endorser.&rdquo;
         </blockquote>
-        <img src="newassets/AudioFaderLogoHD.png" alt="Audiofader" class="quote-strip-logo" loading="lazy" />
+        <img src="newassets/AudioFaderLogoHD.webp" alt="Audiofader" class="quote-strip-logo" loading="lazy" />
         <figcaption class="quote-strip-author">
           Intervista a cura di Luca Pilla di Audiofader.it
         </figcaption>
@@ -503,7 +526,18 @@
   <section id="lavori" aria-labelledby="lavori-title">
 
     <div class="lavori-fullimg">
-      <img src="newassets/chitarrista-bg.png" alt="Studio 1976 — Music Production" loading="lazy" decoding="async" />
+      <div class="lavori-img-carousel">
+        <img src="newassets/guit1.webp" alt="Max Mungari — Chitarrista in studio" loading="lazy" decoding="async" class="active" />
+        <img src="newassets/guit2.webp" alt="Max Mungari — Chitarre" loading="lazy" decoding="async" />
+        <img src="newassets/guit3.webp" alt="Max Mungari — Pedalboard" loading="lazy" decoding="async" />
+        <img src="newassets/guit4.webp" alt="Max Mungari — Setup Live" loading="lazy" decoding="async" />
+        <button class="lavori-carousel-prev" aria-label="Immagine precedente">
+          <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="lavori-carousel-next" aria-label="Immagine successiva">
+          <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
 
       <!-- Pannello overlay destra -->
       <div class="lavori-overlay-panel reveal-right">
@@ -511,6 +545,7 @@
         <h2 id="lavori-title" class="section-title">CHITAR<em>RISTA.</em></h2>
         <div class="divider"></div>
         <p class="lavori-desc">Composizione, arrangiamento, esecuzione. Le chitarre di Max attraversano ogni strato della produzione, trasformando ogni collaborazione in una firma unica e riconoscibile.</p>
+        <h3 class="lavori-cta-label">Esplora i video di questa sezione e ascolta alcuni dei lavori di Max Mungari</h3>
       </div>
 
       <!-- Griglia sovrapposta a sinistra -->
@@ -526,52 +561,52 @@
 
           <!-- 1 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=jpIV0VHIkEI" target="_blank" rel="noopener" role="listitem" aria-label="NO MORE TEARS (Ozzy Osbourne) by MAX MUNGARI">
-            <img src="newassets/no-more-tears-ozzy.jpg" alt="NO MORE TEARS (Ozzy Osbourne) by MAX MUNGARI" loading="lazy" />
+            <img src="newassets/no-more-tears-ozzy.webp" alt="NO MORE TEARS (Ozzy Osbourne) by MAX MUNGARI" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 2 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=9BqErDt4IJY" target="_blank" rel="noopener" role="listitem" aria-label="INHERTZ - PHOTOGRAPH">
-            <img src="newassets/inhertz-photograph.jpg" alt="INHERTZ - PHOTOGRAPH" loading="lazy" />
+            <img src="newassets/inhertz-photograph.webp" alt="INHERTZ - PHOTOGRAPH" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 3 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=zy1Qo1So9Aw" target="_blank" rel="noopener" role="listitem" aria-label="Måneskin THE LONELIEST - Guitar Cover by Max Mungari">
-            <img src="newassets/maneskin-the-loneliest.jpg" alt="Måneskin THE LONELIEST - Guitar Cover by Max Mungari" loading="lazy" />
+            <img src="newassets/maneskin-the-loneliest.webp" alt="Måneskin THE LONELIEST - Guitar Cover by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 4 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=qSOYPv_XN4Q" target="_blank" rel="noopener" role="listitem" aria-label="U2 SUNDAY BLOODY SUNDAY - Line 6 Helix by MAX MUNGARI">
-            <img src="newassets/u2-sunday-bloody-sunday.jpg" alt="U2 SUNDAY BLOODY SUNDAY - Line 6 Helix by MAX MUNGARI" loading="lazy" />
+            <img src="newassets/u2-sunday-bloody-sunday.webp" alt="U2 SUNDAY BLOODY SUNDAY - Line 6 Helix by MAX MUNGARI" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 5 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=0Z49mBKntNA" target="_blank" rel="noopener" role="listitem" aria-label="COLDPLAY IN MY PLACE - Line 6 Helix by Max Mungari">
-            <img src="newassets/coldplay-in-my-place.jpg" alt="COLDPLAY IN MY PLACE - Line 6 Helix by Max Mungari" loading="lazy" />
+            <img src="newassets/coldplay-in-my-place.webp" alt="COLDPLAY IN MY PLACE - Line 6 Helix by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 6 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=MXcnFs2BTt8" target="_blank" rel="noopener" role="listitem" aria-label="Lewis Capaldi BEFORE YOU GO - Line 6 Helix by Max Mungari">
-            <img src="newassets/lewis-capaldi-before-you-go.jpg" alt="Lewis Capaldi BEFORE YOU GO - Line 6 Helix by Max Mungari" loading="lazy" />
+            <img src="newassets/lewis-capaldi-before-you-go.webp" alt="Lewis Capaldi BEFORE YOU GO - Line 6 Helix by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 7 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=yvHxUir2zv0" target="_blank" rel="noopener" role="listitem" aria-label="Hoobastank The Reason - Line 6 Helix by MAX MUNGARI">
-            <img src="newassets/hoobastank-the-reason.jpg" alt="Hoobastank The Reason - Line 6 Helix by MAX MUNGARI" loading="lazy" />
+            <img src="newassets/hoobastank-the-reason.webp" alt="Hoobastank The Reason - Line 6 Helix by MAX MUNGARI" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 8 -->
           <a class="showcase-item" href="https://www.youtube.com/watch?v=yWKcTVf3nfY" target="_blank" rel="noopener" role="listitem" aria-label="INHERTZ - Ancora Ancora Ancora">
-            <img src="newassets/inhertz-ancora.jpg" alt="INHERTZ - Ancora Ancora Ancora" loading="lazy" />
+            <img src="newassets/inhertz-ancora.webp" alt="INHERTZ - Ancora Ancora Ancora" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 9 -->
           <a class="showcase-item" href="https://youtu.be/56cIkMv5N6E" target="_blank" rel="noopener" role="listitem" aria-label="THE TEMPER TRAP - SWEET DISPOSITION by Max Mungari">
-            <img src="newassets/temper-trap-sweet-disposition.jpg" alt="THE TEMPER TRAP - SWEET DISPOSITION by Max Mungari" loading="lazy" />
+            <img src="newassets/temper-trap-sweet-disposition.webp" alt="THE TEMPER TRAP - SWEET DISPOSITION by Max Mungari" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
           <!-- 10 -->
           <a class="showcase-item" href="https://youtu.be/8g-ds9ZcIEE?is=ZWh7_wSX--IyoQHX" target="_blank" rel="noopener" role="listitem" aria-label="INHERTZ - TOO MUCH LOVE WILL KILL YOU">
-            <img src="newassets/inhertz-too-much-love-will-kill-you.jpg" alt="INHERTZ - TOO MUCH LOVE WILL KILL YOU" loading="lazy" />
+            <img src="newassets/inhertz-too-much-love-will-kill-you.webp" alt="INHERTZ - TOO MUCH LOVE WILL KILL YOU" loading="lazy" />
             <div class="showcase-overlay"><svg width="20" height="20" viewBox="0 0 22 22" fill="white"><polygon points="7,4 19,11 7,18"/></svg></div>
           </a>
 
@@ -597,7 +632,7 @@
   ============================== -->
   <section id="mix-mastering" aria-labelledby="mixmastering-title">
     <div class="svc-fullimg">
-      <img src="newassets/studio-bg2.jpg" alt="Mix &amp; Mastering — Max Mungari Studio" loading="lazy" decoding="async" />
+      <img src="newassets/studio-bg2.webp" alt="Mix &amp; Mastering — Max Mungari Studio" loading="lazy" decoding="async" />
       <div class="svc-overlay svc-overlay-left reveal-left">
         <span class="bio-badge">Mixing &amp; Mastering</span>
         <h2 id="mixmastering-title" class="section-title">MIXING &amp;<br /><em>MASTERING.</em></h2>
@@ -618,8 +653,8 @@
         </div>
       </div>
       <div class="svc-player" id="svcPlayer2">
-        <p class="svc-player-label">Ascolta la differenza<br class="mobile-only" /> <em>PRIMA</em> e&nbsp;<em>DOPO</em><br />il mixing e il mastering di questi brani</p>
         <div class="abc-card" id="abcCard2">
+          <p class="svc-player-label">Ascolta la differenza<br class="mobile-only" /> <em>PRIMA</em> e&nbsp;<em>DOPO</em><br />il mixing e il mastering di questi brani</p>
           <div class="abc-comparator">
             <div class="abc-empty" id="abcEmpty2">Seleziona un brano</div>
             <div class="abc-player" id="abcPlayer2">
@@ -678,8 +713,16 @@
   <section id="produzioni" aria-labelledby="produzioni-title">
     <div class="svc-fullimg">
       <div class="svc-img-carousel">
-        <img src="newassets/studio-bg4.png" alt="Produzioni Musicali — Max Mungari Studio" loading="lazy" decoding="async" class="svc-prd-main" />
-        <img src="newassets/studio-bg2.jpg" alt="Studio — Max Mungari Studio" loading="lazy" decoding="async" class="svc-prd-alt" />
+        <img src="newassets/pro0.webp" alt="Produzioni Musicali — Studio 1976" loading="lazy" decoding="async" class="active" />
+        <img src="newassets/pro1.webp" alt="Produzioni Musicali — Monitor" loading="lazy" decoding="async" />
+        <img src="newassets/pro2.webp" alt="Produzioni Musicali — Herchild Compressor" loading="lazy" decoding="async" />
+        <img src="newassets/pro3.webp" alt="Produzioni Musicali — RME" loading="lazy" decoding="async" />
+        <button class="svc-carousel-prev" aria-label="Immagine precedente">
+          <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="svc-carousel-next" aria-label="Immagine successiva">
+          <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
       <div class="svc-overlay svc-overlay-right reveal-right">
         <span class="bio-badge">Produzioni Musicali</span>
@@ -697,8 +740,8 @@
         </div>
       </div>
       <div class="svc-player" id="svcPlayer3">
-        <p class="svc-player-label">Ascolta la differenza <em>DAL PROVINO</em> alla <em>PRODUZIONE COMPLETA</em></p>
         <div class="abc-card" id="abcCard3">
+          <p class="svc-player-label">Ascolta la differenza <em>DAL PROVINO</em> alla <em>PRODUZIONE COMPLETA</em></p>
           <div class="abc-comparator">
             <div class="abc-empty" id="abcEmpty3">Seleziona un brano</div>
             <div class="abc-player" id="abcPlayer3">
@@ -748,6 +791,12 @@
         </div>
       </div>
       <a href="#contatti" class="studio-cta svc-cta-prod">Richiedi un preventivo</a>
+      <div class="carousel-dots svc-carousel-dots" aria-hidden="true">
+        <button class="carousel-dot active"></button>
+        <button class="carousel-dot"></button>
+        <button class="carousel-dot"></button>
+        <button class="carousel-dot"></button>
+      </div>
     </div>
   </section>
 
@@ -919,10 +968,12 @@
   <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   <span id="wa-btn-label">Scrivimi su WhatsApp</span>
 </a>
-<script src="abc-player.js"></script>
+<script src="abc-player.js" defer></script>
 <script>
-createABCPlayer({ n: '2', previewLabel: 'Anteprima', tracks: (window.ABC_TRACKS_MIXING||[]).concat(window.ABC_TRACKS_MASTERING||[]) });
-createABCPlayer({ n: '3', previewLabel: 'Anteprima', tracks: window.ABC_TRACKS_PRODUCTION||[] });
+document.addEventListener('DOMContentLoaded', function() {
+  createABCPlayer({ n: '2', previewLabel: 'Anteprima', tracks: (window.ABC_TRACKS_MIXING||[]).concat(window.ABC_TRACKS_MASTERING||[]) });
+  createABCPlayer({ n: '3', previewLabel: 'Anteprima', tracks: window.ABC_TRACKS_PRODUCTION||[] });
+});
 
 (function(){
   var btn = document.getElementById('wa-btn');

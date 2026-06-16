@@ -228,8 +228,12 @@ if ('IntersectionObserver' in window) {
       inner.style.transition = 'none';
       inner.offsetHeight;
       inner.style.animation = 'introSignal ' + T_DISPERSE + 'ms linear forwards';
+      screen.style.animation = 'introScreenGlitch ' + T_DISPERSE + 'ms steps(1,end) forwards';
 
       setTimeout(function() {
+        screen.style.animation = 'none';
+        screen.style.filter = 'none';
+        screen.style.transform = 'none';
         screen.style.transition = 'opacity ' + T_BGFADE2 + 'ms ease';
         screen.style.opacity = '0';
         screen.style.pointerEvents = 'none';
@@ -660,21 +664,32 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 /* ── Studio carousel — crossfade ogni 5s, solo quando visibile ── */
 (function() {
-  var slides = document.querySelectorAll('.studio-fullimg > img.studio-slide');
+  var slides = document.querySelectorAll('.studio-slide');
   if (slides.length < 2) return;
   var wrap = document.querySelector('.studio-fullimg');
   if (!wrap) return;
   var current = 0;
   var timer = null;
+  function advance() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }
   function start() {
     if (timer) return;
-    timer = setInterval(function() {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, 5000);
+    timer = setInterval(advance, 5000);
   }
   function stop() { clearInterval(timer); timer = null; }
+  ['.studio-carousel-prev', '.studio-carousel-next'].forEach(function(sel) {
+    var btn = wrap.querySelector(sel);
+    if (btn) {
+      btn.addEventListener('click', function() {
+        stop();
+        advance();
+        start();
+      });
+    }
+  });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function(entries) {
       entries[0].isIntersecting ? start() : stop();
@@ -684,50 +699,110 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 })();
 
-/* ── Bio: crossfade immagine ogni 7s (solo desktop, solo quando visibile) ── */
+/* ── Bio: crossfade immagine — DISABILITATO (seconda immagine commentata nell'HTML; riattivare insieme) ── */
+/*
 (function() {
-  if (window.innerWidth < 768) {
-    var altImg = document.querySelector('.bio-img-alt');
-    if (altImg) altImg.remove();
-    return;
-  }
   var bioWrap = document.querySelector('.bio-fullimg');
   if (!bioWrap) return;
+  var dots = bioWrap.querySelectorAll('.carousel-dot');
   var timer = null;
-  function start() {
-    if (timer) return;
-    timer = setInterval(function() {
-      bioWrap.classList.toggle('show-alt');
-    }, 7000);
+  function setDots(showAlt) {
+    dots.forEach(function(d, i) { d.classList.toggle('active', showAlt ? i === 1 : i === 0); });
   }
-  function stop() {
-    clearInterval(timer);
-    timer = null;
+  function toggle() {
+    bioWrap.classList.toggle('show-alt');
+    setDots(bioWrap.classList.contains('show-alt'));
   }
+  function start() { if (timer) return; timer = setInterval(toggle, 7000); }
+  function stop() { clearInterval(timer); timer = null; }
+  dots.forEach(function(d, i) {
+    d.addEventListener('click', function() {
+      stop();
+      var goAlt = i === 1;
+      bioWrap.classList.toggle('show-alt', goAlt);
+      setDots(goAlt);
+      start();
+    });
+  });
+  ['.bio-carousel-prev', '.bio-carousel-next'].forEach(function(sel) {
+    var btn = bioWrap.querySelector(sel);
+    if (btn) {
+      btn.addEventListener('click', function() {
+        stop();
+        bioWrap.classList.toggle('show-alt');
+        setDots(bioWrap.classList.contains('show-alt'));
+        start();
+      });
+    }
+  });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function(entries) {
       entries[0].isIntersecting ? start() : stop();
     }, { threshold: 0.1 }).observe(bioWrap);
   } else {
-    start(); /* fallback browser datati */
+    start();
   }
 })();
+*/
 
-/* ── Mobile svc-img-carousel crossfade (Produzioni) ── */
+/* ── svc-img-carousel crossfade (Produzioni) ── */
 (function() {
-  if (window.innerWidth >= 768) return;
   var carousel = document.querySelector('.svc-img-carousel');
   if (!carousel) return;
+  var slides = Array.prototype.slice.call(carousel.querySelectorAll('img'));
+  var dots   = Array.prototype.slice.call(document.querySelectorAll('.svc-carousel-dots .carousel-dot'));
+  var current = 0;
   var timer = null;
-  function start() {
-    if (timer) return;
-    timer = setInterval(function() { carousel.classList.toggle('show-alt'); }, 4000);
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots.length && dots[current] && dots[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots.length && dots[current] && dots[current].classList.add('active');
   }
-  function stop() { clearInterval(timer); timer = null; }
+  function advance() { goTo(current + 1); }
+  function start() { if (timer) return; timer = setInterval(advance, 4000); }
+  function stop()  { clearInterval(timer); timer = null; }
+  dots.forEach(function(d, i) {
+    d.addEventListener('click', function() { stop(); goTo(i); start(); });
+  });
+  var prevBtn = carousel.querySelector('.svc-carousel-prev');
+  var nextBtn = carousel.querySelector('.svc-carousel-next');
+  if (prevBtn) prevBtn.addEventListener('click', function() { stop(); goTo(current - 1); start(); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { stop(); goTo(current + 1); start(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function(entries) {
       entries[0].isIntersecting ? start() : stop();
     }, { threshold: 0.1 }).observe(carousel);
+  } else {
+    start();
+  }
+})();
+
+/* ── Lavori img carousel — crossfade ogni 5s, solo quando visibile ── */
+(function() {
+  var wrap = document.querySelector('.lavori-img-carousel');
+  if (!wrap) return;
+  var slides = Array.prototype.slice.call(wrap.querySelectorAll('img'));
+  if (slides.length < 2) return;
+  var current = 0;
+  var timer = null;
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+  }
+  function advance() { goTo(current + 1); }
+  function start() { if (timer) return; timer = setInterval(advance, 5000); }
+  function stop()  { clearInterval(timer); timer = null; }
+  var prevBtn = wrap.querySelector('.lavori-carousel-prev');
+  var nextBtn = wrap.querySelector('.lavori-carousel-next');
+  if (prevBtn) prevBtn.addEventListener('click', function() { stop(); goTo(current - 1); start(); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { stop(); goTo(current + 1); start(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      entries[0].isIntersecting ? start() : stop();
+    }, { threshold: 0.1 }).observe(wrap);
   } else {
     start();
   }
