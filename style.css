@@ -2039,6 +2039,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 }
 @media (max-width: 767px) {
   .svc-player-label { font-size: clamp(0.72rem, 3.8vw, 0.88rem); }
+  .svc-player .abc-card { width: 100%; max-width: 486px; }
 }
 .svc-player-label em {
   color: var(--orange);
