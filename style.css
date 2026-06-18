@@ -479,11 +479,27 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 @media (max-width: 767px) {
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
+
+  /* Menu mobile aperto: nascondi navbar, tieni solo hamburger sopra overlay */
+  #navbar.menu-open {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+  #navbar.menu-open .nav-logo {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #navbar.menu-open .nav-hamburger {
+    position: relative;
+    z-index: 1001;
+  }
 }
 
 .nav-mobile a {
   font-family: var(--font-display);
   font-size: clamp(2rem, 7vw, 3rem);
+  text-transform: uppercase;
   font-weight: 400;
   color: var(--white);
   transition: color var(--dur-fast);
@@ -530,18 +546,18 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   justify-content: center;
 }
 .intro-logo-inner {
-  width: clamp(130px, 20.2vw, 202px);
+  width: clamp(162.5px, 25.25vw, 252.5px);
   will-change: filter, transform, opacity;
 }
 @media (max-width: 767px) {
   .intro-logo-inner {
-    width: clamp(218px, 33.9vw, 339px);
+    width: clamp(272.5px, 42.375vw, 423.75px);
   }
 }
 /* UHD (≥2560px) */
 @media (min-width: 2560px) {
   .intro-logo-inner {
-    width: clamp(202px, 13vw, 323px);
+    width: clamp(252.5px, 16.25vw, 403.75px);
   }
 }
 .intro-logo-inner svg,
@@ -1974,7 +1990,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 .svc-overlay {
   position: absolute;
   top: 0;
-  width: clamp(323px, 44%, 612px);
+  width: clamp(380px, 52%, 720px);
   height: 100%;
   background: rgba(0,0,0,0.82);
   padding: clamp(2rem, 3.5vw, 3.5rem) clamp(1.5rem, 3vw, 3rem);
@@ -2004,6 +2020,36 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   z-index: 2;
 }
 .svc-player .svc-player-label { padding: 0 1rem; }
+/* Label dentro/fuori card — visibilità per breakpoint */
+@media (min-width: 768px) {
+  .svc-label-mob  { display: none; }
+  .svc-overlay .svc-label-desk { font-size: 0.7rem; white-space: nowrap; text-wrap: nowrap; max-width: none; margin-bottom: 0; }
+  #mixmastering-title br { display: none; }
+  .svc-overlay .abc-list-head { display: none; }
+  .svc-overlay .abc-ri-a { display: none; }
+  .svc-overlay .abc-rd { display: none; }
+}
+@media (max-width: 767px) { .svc-label-desk { display: none; } }
+/* Player e CTA dentro overlay — reset da absolute a flow */
+.svc-overlay .svc-player {
+  position: static;
+  width: 100%;
+  height: auto;
+  z-index: auto;
+  padding: 0;
+  display: block;
+}
+.svc-overlay .svc-cta-mix,
+.svc-overlay .svc-cta-prod {
+  position: static;
+  bottom: unset;
+  left: unset;
+  right: unset;
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin-top: 0.5rem;
+}
 @media (min-width: 1920px) {
   .svc-overlay-left ~ .svc-player {
     left: 40%;
@@ -2053,7 +2099,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   text-align: center;
 }
 @media (min-width: 768px) {
-  .svc-player-label { font-size: 1.012rem; }
+  .svc-player-label { font-size: 0.70rem; }
 }
 
 /* ── Prova: label dentro abc-card, sopra PRIMA/DOPO (solo desktop) ── */
@@ -2189,7 +2235,13 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   .svc-a { font-size: 1.035rem; line-height: 1.78; }
   .svc-player .abc-card { max-width: 680px; zoom: 1.38; }
   #svcPlayer2 .abc-card { width: 509.8px; max-width: none; zoom: 1.38; }
-  #svcPlayer3 .abc-card { width: 509.8px; height: 308.2px; max-width: none; zoom: 1.38;}
+  #svcPlayer3 .abc-card { width: 509.8px; height: auto; max-width: none; zoom: 1.38;}
+  #svcPlayer3 .svc-player-label { max-width: none; }
+  .svc-overlay { width: clamp(475px, 65%, 900px) !important; }
+}
+@media (min-width: 2560px) {
+  #svcPlayer2 .abc-card,
+  #svcPlayer3 .abc-card { width: 100%; max-width: none; zoom: 1; height: auto; }
   #svcPlayer3 .svc-player-label { max-width: none; }
   .svc-overlay { width: clamp(475px, 65%, 900px) !important; }
 }
@@ -2209,8 +2261,6 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     flex-shrink: 0;
     order: 0;
   }
-  /* Hide M&M standalone img on mobile (shown in carousel in Produzioni) */
-  #mix-mastering .svc-fullimg > img { display: none; }
   /* Mobile: carousel container becomes a block row */
   .svc-img-carousel {
     position: relative;
@@ -2220,6 +2270,8 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
     flex-shrink: 0;
     order: 0;
   }
+  /* Mix&Mastering: carousel solo desktop, su mobile resta il bg statico del pannello */
+  #mix-mastering .svc-img-carousel { display: none; }
 
   #mix-mastering .svc-overlay {
     background-image: url('newassets/studio-bg2.webp');
@@ -2323,6 +2375,9 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 @media (max-width: 767px) {
   .lavori-cta-label { text-align: center; }
 }
+@media (min-width: 768px) {
+  .lavori-cta-label { display: none; }
+}
 
 /* Griglia — sinistra */
 .lavori-fullwrap {
@@ -2349,6 +2404,42 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 
 @media (min-width: 2560px) {
   .lavori-fullwrap { margin-left: 225px; }
+}
+
+/* ── Showcase strip dedicata tra #lavori e #mix-mastering (solo desktop) ── */
+.lavori-showcase-strip { display: none; }
+@media (min-width: 768px) {
+  .lavori-showcase-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--studio-black);
+    padding: clamp(1.5rem, 3vw, 3rem) 1rem;
+  }
+  .lavori-strip-caption {
+    color: var(--orange);
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    max-width: 1100px;
+  }
+  .lavori-showcase-strip .showcase-wrap {
+    width: 100%;
+    max-width: 1100px;
+  }
+  /* .lavori-fullwrap resta vuoto da desktop (contenuto spostato nella strip) */
+  .lavori-fullwrap { display: none; }
+}
+@media (min-width: 1920px) {
+  .lavori-showcase-strip .showcase-wrap { max-width: 1900px; }
+}
+@media (min-width: 2560px) {
+  .lavori-showcase-strip .showcase-wrap { max-width: 2480px; }
 }
 
 /* Mobile */
@@ -3512,7 +3603,7 @@ footer.footer-light {
 .abc-lh-d { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--abc-text-3); }
 .abc-row { display: flex; align-items: center; padding: 0.35rem 1rem; cursor: pointer; transition: background 0.1s; }
 .abc-row:hover { background: var(--abc-surface); }
-.abc-row:last-child { border-radius: 0 0 var(--abc-radius) var(--abc-radius); }
+.abc-row:last-child { border-radius: 0; }
 .abc-row.active { background: var(--abc-surface-2); }
 .abc-rn { width: 2rem; text-align: center; flex-shrink: 0; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--abc-text-3); position: relative; }
 .abc-row.active .abc-rn { color: var(--abc-a); }
@@ -3544,10 +3635,83 @@ footer.footer-light {
 .abc-ri-t { font-size: 0.85rem; font-weight: 500; color: var(--abc-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
 .abc-row.active .abc-ri-t { color: var(--abc-a); }
 .abc-row.active.on-b .abc-ri-t { color: var(--abc-b); }
-.abc-preview-tag { font-family: 'DM Mono', monospace; font-size: 0.5rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; background: var(--abc-surface-2); color: var(--abc-text-3); border: 1px solid var(--abc-border-str); flex-shrink: 0; }
+.abc-preview-tag { display: none; }
 .abc-ri-a { font-size: 0.72rem; color: var(--abc-text-2); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .abc-rd { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--abc-text-3); flex-shrink: 0; padding-left: 1rem; }
 
 
 br.mobile-only { display: none; }
 @media (max-width: 767px) { br.mobile-only { display: block; } }
+
+/* ── ABC Player — layout orizzontale desktop only ── */
+@media (min-width: 768px) {
+  /* Card diventa griglia: label full-width | comparator + list affiancati */
+  .svc-player .abc-card {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    grid-template-rows: auto 1fr;
+    width: 82%;
+    max-width: 640px;
+    zoom: 0.75;
+  }
+  .svc-player .abc-card > .svc-player-label {
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  .svc-player .abc-comparator {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .svc-player .abc-list {
+    grid-column: 2;
+    grid-row: 2;
+    border-top: none;
+    border-left: 1px solid var(--abc-border);
+  }
+  /* abc-empty riempie colonna centrale quando nessun brano è selezionato */
+  .svc-player .abc-empty {
+    flex: 1;
+    height: auto;
+    min-height: 110px;
+  }
+  /* abc-player: switch (sinistra) | wave (centro) */
+  .svc-player .abc-player.visible {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+  .svc-player .abc-switch {
+    flex-direction: column;
+    gap: 0;
+    width: 68px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    border-right: 1px solid var(--abc-border);
+    align-self: stretch;
+  }
+  .svc-player .abc-btn {
+    flex: 1;
+    border: none;
+    border-radius: 0;
+  }
+  .svc-player .abc-btn:first-child {
+    border-bottom: 1px solid var(--abc-border);
+  }
+  .svc-player .abc-wave {
+    flex: 1;
+    border: none;
+    border-radius: 0;
+  }
+  .svc-player .abc-wave-body {
+    min-height: 130px;
+  }
+  /* Card dentro overlay: full width, scalata al 75% */
+  .svc-overlay .svc-player .abc-card {
+    width: 100%;
+    max-width: none;
+    zoom: 0.75;
+  }
+}
+

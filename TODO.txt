@@ -1,0 +1,1 @@
+il menu modale non deve essere scrollabile e non deve avere navbar, problema riscontrato su samsung s25

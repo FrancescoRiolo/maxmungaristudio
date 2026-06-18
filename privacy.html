@@ -279,13 +279,31 @@
     const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     let menuOpen = false;
+    let _lockScrollY = 0;
+
+    function lockScroll() {
+      _lockScrollY = window.scrollY;
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = '-' + _lockScrollY + 'px';
+      document.body.style.width = '100%';
+    }
+    function unlockScroll() {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, _lockScrollY);
+    }
+
     hamburger.addEventListener('click', () => {
       menuOpen = !menuOpen;
       hamburger.classList.toggle('open', menuOpen);
       hamburger.setAttribute('aria-expanded', menuOpen);
       mobileMenu.classList.toggle('open', menuOpen);
       mobileMenu.setAttribute('aria-hidden', !menuOpen);
-      document.body.style.overflow = menuOpen ? 'hidden' : '';
+      navbar.classList.toggle('menu-open', menuOpen);
+      if (menuOpen) lockScroll(); else unlockScroll();
     });
     function closeMobile() {
       menuOpen = false;
@@ -293,7 +311,8 @@
       hamburger.setAttribute('aria-expanded', false);
       mobileMenu.classList.remove('open');
       mobileMenu.setAttribute('aria-hidden', true);
-      document.body.style.overflow = '';
+      navbar.classList.remove('menu-open');
+      unlockScroll();
     }
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMobile(); });
   </script>

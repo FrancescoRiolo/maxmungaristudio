@@ -4,17 +4,46 @@ const tickNav = () => navbar.classList.toggle('scrolled', window.scrollY > 40);
 window.addEventListener('scroll', tickNav, { passive: true });
 tickNav();
 
+/* ── Logo → torna all'intro ── */
+(function() {
+  var logo = document.querySelector('.nav-logo');
+  if (!logo) return;
+  logo.addEventListener('click', function(e) {
+    e.preventDefault();
+    sessionStorage.removeItem('introPlayed');
+    window.location.href = window.location.pathname;
+  });
+})();
+
 /* ── Hamburger ── */
 const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 let menuOpen = false;
+let _lockScrollY = 0;
+
+function lockScroll() {
+  _lockScrollY = window.scrollY;
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = '-' + _lockScrollY + 'px';
+  document.body.style.width = '100%';
+}
+function unlockScroll() {
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, _lockScrollY);
+}
+
 hamburger.addEventListener('click', () => {
   menuOpen = !menuOpen;
   hamburger.classList.toggle('open', menuOpen);
   hamburger.setAttribute('aria-expanded', menuOpen);
   mobileMenu.classList.toggle('open', menuOpen);
   mobileMenu.setAttribute('aria-hidden', !menuOpen);
-  document.body.style.overflow = menuOpen ? 'hidden' : '';
+  navbar.classList.toggle('menu-open', menuOpen);
+  if (menuOpen) lockScroll(); else unlockScroll();
 });
 function closeMobile() {
   menuOpen = false;
@@ -22,7 +51,8 @@ function closeMobile() {
   hamburger.setAttribute('aria-expanded', false);
   mobileMenu.classList.remove('open');
   mobileMenu.setAttribute('aria-hidden', true);
-  document.body.style.overflow = '';
+  navbar.classList.remove('menu-open');
+  unlockScroll();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMobile(); });
 
@@ -265,6 +295,22 @@ if ('IntersectionObserver' in window) {
   });
 })();
 
+/* ── Showcase strip: sposta il carosello thumbnail tra #lavori e la strip dedicata (solo desktop) ── */
+(function() {
+  var strip    = document.getElementById('lavoriShowcaseStrip');
+  var fullwrap = document.querySelector('.lavori-fullwrap');
+  var showcase = document.querySelector('.showcase-wrap');
+  if (!strip || !fullwrap || !showcase) return;
+  var mq = window.matchMedia('(min-width: 768px)');
+  function place() {
+    var target = mq.matches ? strip : fullwrap;
+    if (showcase.parentElement !== target) target.appendChild(showcase);
+  }
+  place();
+  if (mq.addEventListener) mq.addEventListener('change', place);
+  else if (mq.addListener) mq.addListener(place);
+})();
+
 /* ── Showcase paginato ── */
 (function() {
   var wrap     = document.querySelector('.showcase-wrap');
@@ -294,77 +340,184 @@ if ('IntersectionObserver' in window) {
     return;
   }
 
-  var COLS = W >= 1920 ? 2 : 1;
+  var COLS = W >= 1920 ? 3 : 2;
   var ROWS = 1;
 
   var items      = Array.prototype.slice.call(grid.querySelectorAll('.showcase-item'));
   var perPage    = COLS * ROWS;
   var totalPages = Math.ceil(items.length / perPage);
-  var curPage    = 0;
 
-  /* Layout: griglia larga totalPages pagine affiancate, ROWS righe fisse */
-  grid.style.gridTemplateColumns = 'repeat(' + (COLS * totalPages) + ', 1fr)';
+  /* ── Wrap modulare: se l'ultima pagina non è piena, la completiamo con clone
+     degli item iniziali (modulo N). Così la griglia cicla sempre su pagine piene:
+     es. 10 item × COLS=3 → pagina 4 = [item9, item0*, item1*].
+     I clone sono aria-hidden e tabindex=-1 (non interagibili). ── */
+  var virtualTotal = totalPages * perPage;
+  var N = items.length;
+  for (var v = N; v < virtualTotal; v++) {
+    var wrapClone = items[v % N].cloneNode(true);
+    wrapClone.setAttribute('aria-hidden', 'true');
+    wrapClone.setAttribute('tabindex', '-1');
+    grid.appendChild(wrapClone);
+    items.push(wrapClone);
+  }
+
+  /* ── Infinite loop: aggiungiamo una pagina-clone della prima pagina alla fine
+     e una pagina-clone dell'ultima pagina all'inizio. Lo slider lavora quindi su
+     totalPages + 2 "slot" (0 = clone ultima pagina, 1..totalPages = pagine reali,
+     totalPages+1 = clone prima pagina). Quando si raggiunge uno slot clone, dopo
+     la transizione si effettua uno snap istantaneo (senza animazione) sullo slot
+     reale gemello: essendo il contenuto identico, il salto è invisibile. ── */
+  var firstPageItems = items.slice(0, perPage);
+  var lastPageItems  = items.slice((totalPages - 1) * perPage, totalPages * perPage);
+
+  var loopStartClones = lastPageItems.map(function(item) {
+    var clone = item.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('tabindex', '-1');
+    return clone;
+  });
+  var loopEndClones = firstPageItems.map(function(item) {
+    var clone = item.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('tabindex', '-1');
+    return clone;
+  });
+
+  loopStartClones.forEach(function(clone) { grid.insertBefore(clone, grid.firstChild); });
+  loopEndClones.forEach(function(clone) { grid.appendChild(clone); });
+
+  var allItems   = Array.prototype.slice.call(grid.querySelectorAll('.showcase-item'));
+  var totalSlots = totalPages + 2; /* slot 0 e slot totalPages+1 sono i clone di loop */
+
+  /* Layout: griglia larga totalSlots pagine affiancate, ROWS righe fisse */
+  grid.style.gridTemplateColumns = 'repeat(' + (COLS * totalSlots) + ', 1fr)';
   grid.style.gridTemplateRows = 'repeat(' + ROWS + ', 1fr)';
-  grid.style.width = (totalPages * 100) + '%';
+  grid.style.width = (totalSlots * 100) + '%';
 
   /* Ogni item occupa 1 colonna della griglia espansa */
-  /* Raggruppa items in pagine: riordina per colonna-pagina */
-  /* La griglia CSS naturalmente dispone left-to-right, dobbiamo
-     assicurarci che dopo COLS item per riga si vada alla riga successiva
-     DENTRO la stessa pagina. Usiamo CSS grid-column per forzare. */
-  items.forEach(function(item, i) {
-    var page    = Math.floor(i / perPage);
+  allItems.forEach(function(item, i) {
+    var slot      = Math.floor(i / perPage);
     var posInPage = i % perPage;
-    var col     = page * COLS + (posInPage % COLS) + 1;
-    var row     = Math.floor(posInPage / COLS) + 1;
+    var col       = slot * COLS + (posInPage % COLS) + 1;
+    var row       = Math.floor(posInPage / COLS) + 1;
     item.style.gridColumn = col;
     item.style.gridRow    = row;
   });
 
-  function goTo(page) {
-    var newPage = ((page % totalPages) + totalPages) % totalPages;
-    var wrapping = (page >= totalPages || page < 0);
-    if (wrapping) {
-      grid.style.transition = 'none';
-      void grid.offsetWidth; /* force reflow */
-    }
-    curPage = newPage;
-    var offset = curPage * (100 / totalPages);
+  /* curSlot: 1..totalPages sono le pagine reali, 0 e totalPages+1 sono i clone di loop */
+  var curSlot = 1;
+
+  function setPosition(slot, animate) {
+    if (!animate) grid.style.transition = 'none';
+    var offset = slot * (100 / totalSlots);
     grid.style.transform = 'translateX(-' + offset + '%)';
-    if (wrapping) {
+    if (!animate) {
+      void grid.offsetWidth; /* force reflow */
       requestAnimationFrame(function() {
         requestAnimationFrame(function() {
           grid.style.transition = '';
         });
       });
     }
+  }
+
+  var snapTimer = null;
+  var animTimer = null;
+  var isAnimating = false;
+
+  function goTo(slot) {
+    /* Ignora richieste di movimento mentre è già in corso una transizione/snap:
+       evita che click/swipe/autoplay si accumulino e causino salti multipli */
+    if (isAnimating) return;
+    isAnimating = true;
+
+    curSlot = slot;
+    setPosition(curSlot, true);
+
+    /* Se siamo finiti su uno slot clone, dopo la transizione saltiamo
+       istantaneamente sullo slot reale gemello (contenuto identico → invisibile) */
+    if (curSlot === 0 || curSlot === totalSlots - 1) {
+      var realSlot = curSlot === 0 ? totalPages : 1;
+      var settled = false;
+      function finishWrap() {
+        if (settled) return;
+        settled = true;
+        grid.removeEventListener('transitionend', onEnd);
+        clearTimeout(snapTimer);
+        curSlot = realSlot;
+        setPosition(curSlot, false);
+        isAnimating = false;
+      }
+      function onEnd(e) {
+        if (e.propertyName !== 'transform') return;
+        finishWrap();
+      }
+      grid.addEventListener('transitionend', onEnd);
+      /* Safety net: se transitionend non scatta (tab in background, cambio
+         rapido, browser inconsistente) sblocchiamo comunque dopo poco più
+         della durata della transizione (0.5s in CSS) */
+      snapTimer = setTimeout(finishWrap, 600);
+    } else {
+      /* Anche per slot normali teniamo il lock fino a fine transizione CSS (0.5s),
+         così click/swipe/autoplay rapidi non si sovrappongono mid-animation */
+      clearTimeout(animTimer);
+      function onTransEnd(e) {
+        if (e.propertyName !== 'transform') return;
+        grid.removeEventListener('transitionend', onTransEnd);
+        clearTimeout(animTimer);
+        isAnimating = false;
+      }
+      grid.addEventListener('transitionend', onTransEnd);
+      animTimer = setTimeout(function() {
+        grid.removeEventListener('transitionend', onTransEnd);
+        isAnimating = false;
+      }, 600);
+    }
+
     btnPrev.disabled = false;
     btnNext.disabled = false;
   }
 
-  btnPrev.addEventListener('click', function() { stopAuto(); goTo(curPage - 1); setTimeout(startAuto, 4000); });
-  btnNext.addEventListener('click', function() { stopAuto(); goTo(curPage + 1); setTimeout(startAuto, 4000); });
+  /* Autoscroll desktop */
+  var autoTimer = null;
+  var autoResumeTimer = null;
+
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(function() {
+      goTo(curSlot + 1);
+    }, 7000);
+  }
+  function stopAuto() { clearInterval(autoTimer); autoTimer = null; }
+
+  /* Cancella qualsiasi resume pendente e ne schedula uno nuovo:
+     evita che click multipli accumulino più setTimeout(startAuto) concorrenti */
+  function scheduleResumeAuto() {
+    clearTimeout(autoResumeTimer);
+    autoResumeTimer = setTimeout(startAuto, 4000);
+  }
+
+  wrap.addEventListener('mouseenter', function() {
+    stopAuto();
+    clearTimeout(autoResumeTimer);
+  });
+  wrap.addEventListener('mouseleave', function() {
+    clearTimeout(autoResumeTimer);
+    startAuto();
+  });
+
+  btnPrev.addEventListener('click', function() { stopAuto(); goTo(curSlot - 1); scheduleResumeAuto(); });
+  btnNext.addEventListener('click', function() { stopAuto(); goTo(curSlot + 1); scheduleResumeAuto(); });
 
   /* Swipe touch */
   var touchStartX = 0;
   viewport.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
   viewport.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) { stopAuto(); goTo(dx < 0 ? curPage + 1 : curPage - 1); setTimeout(startAuto, 4000); }
+    if (Math.abs(dx) > 50) { stopAuto(); goTo(dx < 0 ? curSlot + 1 : curSlot - 1); scheduleResumeAuto(); }
   }, { passive: true });
 
-  /* Autoscroll desktop */
-  var autoTimer = null;
-  function startAuto() {
-    autoTimer = setInterval(function() {
-      goTo(curPage < totalPages - 1 ? curPage + 1 : 0);
-    }, 7000);
-  }
-  function stopAuto() { clearInterval(autoTimer); }
-  wrap.addEventListener('mouseenter', stopAuto);
-  wrap.addEventListener('mouseleave', startAuto);
-
-  goTo(0);
+  setPosition(curSlot, false);
   startAuto();
 })();
 
@@ -745,38 +898,45 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 */
 
-/* ── svc-img-carousel crossfade (Produzioni) ── */
+/* ── svc-img-carousel crossfade (Produzioni + Mixing&Mastering, istanze multiple) ── */
 (function() {
-  var carousel = document.querySelector('.svc-img-carousel');
-  if (!carousel) return;
-  var slides = Array.prototype.slice.call(carousel.querySelectorAll('img'));
-  var dots   = Array.prototype.slice.call(document.querySelectorAll('.svc-carousel-dots .carousel-dot'));
-  var current = 0;
-  var timer = null;
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots.length && dots[current] && dots[current].classList.remove('active');
-    current = (idx + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots.length && dots[current] && dots[current].classList.add('active');
-  }
-  function advance() { goTo(current + 1); }
-  function start() { if (timer) return; timer = setInterval(advance, 4000); }
-  function stop()  { clearInterval(timer); timer = null; }
-  dots.forEach(function(d, i) {
-    d.addEventListener('click', function() { stop(); goTo(i); start(); });
+  var carousels = Array.prototype.slice.call(document.querySelectorAll('.svc-img-carousel'));
+  carousels.forEach(function(carousel) {
+    var slides = Array.prototype.slice.call(carousel.querySelectorAll('img'));
+    if (slides.length < 2) return;
+    var section = carousel.closest('.svc-fullimg') || document;
+    var dots = Array.prototype.slice.call(section.querySelectorAll('.svc-carousel-dots .carousel-dot'));
+    var reverse = carousel.classList.contains('reverse');
+    var current = 0;
+    for (var i = 0; i < slides.length; i++) {
+      if (slides[i].classList.contains('active')) { current = i; break; }
+    }
+    var timer = null;
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      dots.length && dots[current] && dots[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots.length && dots[current] && dots[current].classList.add('active');
+    }
+    function advance() { goTo(current + (reverse ? -1 : 1)); }
+    function start() { if (timer) return; timer = setInterval(advance, 4000); }
+    function stop()  { clearInterval(timer); timer = null; }
+    dots.forEach(function(d, i) {
+      d.addEventListener('click', function() { stop(); goTo(i); start(); });
+    });
+    var prevBtn = carousel.querySelector('.svc-carousel-prev');
+    var nextBtn = carousel.querySelector('.svc-carousel-next');
+    if (prevBtn) prevBtn.addEventListener('click', function() { stop(); goTo(current - 1); start(); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { stop(); goTo(current + 1); start(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        entries[0].isIntersecting ? start() : stop();
+      }, { threshold: 0.1 }).observe(carousel);
+    } else {
+      start();
+    }
   });
-  var prevBtn = carousel.querySelector('.svc-carousel-prev');
-  var nextBtn = carousel.querySelector('.svc-carousel-next');
-  if (prevBtn) prevBtn.addEventListener('click', function() { stop(); goTo(current - 1); start(); });
-  if (nextBtn) nextBtn.addEventListener('click', function() { stop(); goTo(current + 1); start(); });
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function(entries) {
-      entries[0].isIntersecting ? start() : stop();
-    }, { threshold: 0.1 }).observe(carousel);
-  } else {
-    start();
-  }
 })();
 
 /* ── Lavori img carousel — crossfade ogni 5s, solo quando visibile ── */
@@ -787,18 +947,21 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   if (slides.length < 2) return;
   var current = 0;
   var timer = null;
+  var prevBtn = wrap.querySelector('.lavori-carousel-prev');
+  var nextBtn = wrap.querySelector('.lavori-carousel-next');
+
   function goTo(idx) {
     slides[current].classList.remove('active');
     current = (idx + slides.length) % slides.length;
     slides[current].classList.add('active');
   }
   function advance() { goTo(current + 1); }
-  function start() { if (timer) return; timer = setInterval(advance, 5000); }
+  function start() { if (!timer) timer = setInterval(advance, 5000); }
   function stop()  { clearInterval(timer); timer = null; }
-  var prevBtn = wrap.querySelector('.lavori-carousel-prev');
-  var nextBtn = wrap.querySelector('.lavori-carousel-next');
+
   if (prevBtn) prevBtn.addEventListener('click', function() { stop(); goTo(current - 1); start(); });
   if (nextBtn) nextBtn.addEventListener('click', function() { stop(); goTo(current + 1); start(); });
+
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function(entries) {
       entries[0].isIntersecting ? start() : stop();
