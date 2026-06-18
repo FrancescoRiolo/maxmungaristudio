@@ -189,7 +189,7 @@
   ];
   window.ABC_TRACKS_PRODUCTION = [
     {
-      title:  'Music Production Showcase',
+      title:  'ROCK 1',
       artist: 'Max Mungari Studio',
       dur:    '--:--',
       a: 'https://dl.dropboxusercontent.com/scl/fi/1278flbihe9b1ma8bpfp2/MusicProductionA.m4a?rlkey=ucccuctyn8vlxol63t918llrr',
@@ -533,6 +533,7 @@
         <img src="../newassets/guit2.webp" alt="Max Mungari — Guitars" loading="lazy" decoding="async" />
         <img src="../newassets/guit3.webp" alt="Max Mungari — Pedalboard" loading="lazy" decoding="async" />
         <img src="../newassets/guit4.webp" alt="Max Mungari — Live setup" loading="lazy" decoding="async" />
+        <img src="../newassets/guit5.webp" alt="Max Mungari — Guitarist" loading="lazy" decoding="async" />
         <button class="lavori-carousel-prev" aria-label="Previous image">
           <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -623,6 +624,12 @@
 
   </section>
 
+  <!-- ==============================
+       SHOWCASE STRIP (desktop) — .showcase-wrap is moved here via JS
+  ============================== -->
+  <div class="lavori-showcase-strip" id="lavoriShowcaseStrip">
+    <p class="lavori-strip-caption">Explore the videos in this section and listen to some of Max Mungari's work</p>
+  </div>
 
   <!-- ==============================
        SERVIZI INTERATTIVI
@@ -632,10 +639,22 @@
   ============================== -->
   <section id="mix-mastering" aria-labelledby="mixmastering-title">
     <div class="svc-fullimg">
-      <img src="../newassets/studio-bg2.webp" alt="Mix &amp; Mastering — Max Mungari Studio" loading="lazy" decoding="async" />
+      <div class="svc-img-carousel reverse">
+        <img src="../newassets/pro0.webp" alt="Mixing &amp; Mastering — Studio 1976" loading="lazy" decoding="async" />
+        <img src="../newassets/pro1.webp" alt="Mixing &amp; Mastering — Monitors" loading="lazy" decoding="async" />
+        <img src="../newassets/pro2.webp" alt="Mixing &amp; Mastering — Compressor" loading="lazy" decoding="async" />
+        <img src="../newassets/pro3.webp" alt="Mixing &amp; Mastering — RME" loading="lazy" decoding="async" />
+        <img src="../newassets/pro4.webp" alt="Mixing &amp; Mastering — Outboard" loading="lazy" decoding="async" class="active" />
+        <button class="svc-carousel-prev" aria-label="Previous image">
+          <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="svc-carousel-next" aria-label="Next image">
+          <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
       <div class="svc-overlay svc-overlay-left reveal-left">
         <span class="bio-badge">Mixing &amp; Mastering</span>
-        <h2 id="mixmastering-title" class="section-title">MIXING &amp;<br /><em>MASTERING.</em></h2>
+        <h2 id="mixmastering-title" class="section-title">MIXING &amp; <br /><em>MASTERING.</em></h2>
         <div class="divider"></div>
         <div class="svc-qa-list">
           <div class="svc-qa">
@@ -651,10 +670,10 @@
             <p class="svc-a">Mixing Standard, Stem Mixing, Advanced Stem Mixing, Mastering Standard, Stem Mastering and Advanced Stem Mastering — every level of processing to meet any production need.</p>
           </div>
         </div>
-      </div>
+      <p class="svc-player-label svc-label-desk">Hear the difference <em>BEFORE</em> and&nbsp;<em>AFTER</em> mixing and mastering</p>
       <div class="svc-player" id="svcPlayer2">
         <div class="abc-card" id="abcCard2">
-          <p class="svc-player-label">Hear the difference<br class="mobile-only" /> <em>BEFORE</em> and&nbsp;<em>AFTER</em><br />mixing and mastering</p>
+          <p class="svc-player-label svc-label-mob">Hear the difference<br class="mobile-only" /> <em>BEFORE</em> and&nbsp;<em>AFTER</em><br />mixing and mastering</p>
           <div class="abc-comparator">
             <div class="abc-empty" id="abcEmpty2">Select a track</div>
             <div class="abc-player" id="abcPlayer2">
@@ -704,6 +723,7 @@
         </div>
       </div>
       <a href="#contatti" class="studio-cta svc-cta-mix">Request a quote</a>
+      </div>
     </div>
   </section>
 
@@ -717,6 +737,7 @@
         <img src="../newassets/pro1.webp" alt="Music Production — Monitors" loading="lazy" decoding="async" />
         <img src="../newassets/pro2.webp" alt="Music Production — Herchild Compressor" loading="lazy" decoding="async" />
         <img src="../newassets/pro3.webp" alt="Music Production — RME" loading="lazy" decoding="async" />
+        <img src="../newassets/pro4.webp" alt="Music Production — Outboard" loading="lazy" decoding="async" />
         <button class="svc-carousel-prev" aria-label="Previous image">
           <svg width="30" height="30" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -738,10 +759,10 @@
             <p class="svc-a">Composition, arrangement, professional recording at Studio 1976, editing, sound design, mixing and mastering — from the first note to the finished product ready for distribution. Available in studio in Crotone or entirely online.</p>
           </div>
         </div>
-      </div>
+      <p class="svc-player-label svc-label-desk">Hear the difference <em>FROM THE DEMO</em> to the <em>FULL PRODUCTION</em></p>
       <div class="svc-player" id="svcPlayer3">
         <div class="abc-card" id="abcCard3">
-          <p class="svc-player-label">Hear the difference <em>FROM THE DEMO</em> to the <em>FULL PRODUCTION</em></p>
+          <p class="svc-player-label svc-label-mob">Hear the difference <em>FROM THE DEMO</em> to the <em>FULL PRODUCTION</em></p>
           <div class="abc-comparator">
             <div class="abc-empty" id="abcEmpty3">Select a track</div>
             <div class="abc-player" id="abcPlayer3">
@@ -791,8 +812,10 @@
         </div>
       </div>
       <a href="#contatti" class="studio-cta svc-cta-prod">Request a quote</a>
+      </div>
       <div class="carousel-dots svc-carousel-dots" aria-hidden="true">
         <button class="carousel-dot active"></button>
+        <button class="carousel-dot"></button>
         <button class="carousel-dot"></button>
         <button class="carousel-dot"></button>
         <button class="carousel-dot"></button>
