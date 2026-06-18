@@ -505,6 +505,16 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
   transition: color var(--dur-fast);
 }
 .nav-mobile a:hover { color: var(--orange); }
+@media (max-width: 767px) and (max-height: 700px) {
+  .nav-mobile {
+    gap: clamp(0.5rem, 2vh, 1.5rem);
+    padding: 2rem 0;
+    overflow-y: auto;
+  }
+  .nav-mobile a {
+    font-size: clamp(1.1rem, 4.5vh, 2rem);
+  }
+}
 
 /* ============================================================
    INTRO SCREEN
@@ -1062,8 +1072,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--orange) var(--studio-black)
 .svc-carousel-dots { display: none; }
 @media (max-width: 767px) {
   .bio-fullimg .carousel-dots { display: none; }
-  /* Mobile produzioni: centered */
-  .svc-carousel-dots { display: flex; left: 50%; right: auto; transform: translateX(-50%); }
+  .svc-carousel-dots { display: none; }
 }
 
 /* ── Barre laterali caroselli bio/studio/produzioni/lavori ── */
